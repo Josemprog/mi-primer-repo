@@ -23,7 +23,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/admin', 'UsersController@index')->name('admin')->middleware('verified', CheckAdmin::class);
 
-Route::get('/edit/{id}', 'UsersController@edit')->name('edit')->middleware('verified');
+Route::get('/edit/{id}', 'UsersController@edit')->name('edit')->middleware('verified', CheckAdmin::class);
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
