@@ -28,8 +28,33 @@ class UsersController extends Controller
         ]);
     }
 
-    public function change(User $user)
+    public function update(Request $request, $id)
     {
-        return $user;
+        $user = User::find($id);
+
+        $user->update([
+            'name' => $request->name,
+        ]);
+
+        if ($request->select == 1) {
+            $user->update([
+                'isEnabled' => true,
+            ]);
+        } else {
+            $user->update([
+                'isEnabled' => false,
+            ]);
+        }
+
+        return redirect()->route('admin', $user);
+    }
+
+    public function destroy($id)
+    {
+        $user = User::find($id);
+
+        $user->delete();
+
+        return redirect()->route('admin', $user);
     }
 }
