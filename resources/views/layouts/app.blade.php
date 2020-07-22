@@ -55,14 +55,16 @@
                         @else
                         {{-- Links añadidos --}}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('inicio') }}">{{ __('Home') }}</a>
+                            <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
+
+                        @auth
+                        @if (Auth::user()->isAdmin)
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin') }}">{{ __('Admin') }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Productos') }}</a>
-                        </li>
+                        @endif
+                        @endauth
                         {{-- Fin Links añadidos Fin --}}
 
                         <li class="nav-item dropdown">

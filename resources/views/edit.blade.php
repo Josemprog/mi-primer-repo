@@ -10,18 +10,19 @@
   }
 
   input {
-    border: none;
+    /* border: none; */
+    width: 160px;
   }
 </style>
 
 @section('content')
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-md-9">
+    <div class="col-md-8">
       <div class="card">
-        <div class="card-header">User accounts</div>
+        <div class="card-header h4">Editing user account {{ $user->name }}</div>
         <div class="card-body">
-          <form method="POST" action=" {{ route('change', $user) }}">
+          <form method="POST" action="{{ route('update', $user) }}">
             @method('PATCH')
             @csrf
             <table>
@@ -29,24 +30,23 @@
                 <tr>
                   <th>Id</th>
                   <th>Name</th>
-                  <th>Email</th>
+                  <th>E-mail</th>
                   <th>State</th>
                   <th>Set up</th>
-                  <th style="color: red;">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>{{ $user->id }}</td>
-                  <td><input name="name" id="name" value="{{ $user->name }}"></td>
+                  <td><input name="name" id="name" value="{{ $user->name }}" required></td>
                   <td>{{ $user->email }}</td>
-                  @if ($user->isEnabled)
-                  <td><span style="color: green;">Enabled</span></td>
-                  @else
-                  <td><span style="color :rgba(124, 117, 117, 0.741);">Disabled</span></td>
-                  @endif
-                  <td><button type="submit" class="btn btn-primary">Save</button></td>
-                  <td>Remove</td>
+                  <td>
+                    <select name="select" id="select">
+                      <option value=1>Enabled</option>
+                      <option value=0>Disabled</option>
+                    </select>
+                  </td>
+                  <td><button class="btn btn-primary">Save</button></td>
                 </tr>
               </tbody>
             </table>

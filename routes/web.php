@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,12 +21,12 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
-Route::get('/admin', 'UsersController@index')->name('admin')->middleware('verified');
+Route::get('/admin', 'UsersController@index')->name('admin')->middleware('verified', CheckAdmin::class);
 
-Route::get('/edit/{id}', 'UsersController@edit')->name('edit')->middleware('verified');
+Route::get('/edit/{id}', 'UsersController@edit')->name('edit')->middleware('verified', CheckAdmin::class);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
-Route::view('/inicio', 'inicio')->name('inicio');
+Route::patch('/edit/{id}', 'UsersController@update')->name('update')->middleware('verified');
 
-Route::patch('/change', 'UsersController@change')->name('change');
+Route::delete('/edit/{id}', 'UsersController@destroy')->name('delete')->middleware('verified');
