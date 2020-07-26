@@ -15,18 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('welcome');
+
+
 
 Auth::routes(['verify' => true]);
+Route::view('/', 'welcome')->name('welcome');
 
-Route::get('/admin', 'UsersController@index')->name('admin')->middleware('verified', CheckAdmin::class);
-
-Route::get('/edit/{id}', 'UsersController@edit')->name('edit')->middleware('verified', CheckAdmin::class);
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
-Route::patch('/edit/{id}', 'UsersController@update')->name('update')->middleware('verified');
-
-Route::delete('/edit/{id}', 'UsersController@destroy')->name('delete')->middleware('verified');
+// Admin routes
+Route::resource('users', 'UsersController')->middleware('verified', AdminVerify::class);

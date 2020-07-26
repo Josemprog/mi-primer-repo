@@ -59,9 +59,9 @@
                         </li>
 
                         @auth
-                        @if (Auth::user()->isAdmin)
+                        @if (Auth::user()->admin or Auth::user()->main_admin)
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin') }}">{{ __('Admin') }}</a>
+                            <a class="nav-link" href="{{ route('users.index') }}">{{ __('Admin') }}</a>
                         </li>
                         @endif
                         @endauth

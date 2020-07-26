@@ -17,11 +17,11 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->boolean('mainAdmin')->default(false);
-            $table->boolean('isAdmin')->default(false);
-            $table->boolean('isEnabled')->default(true);
+            $table->boolean('main_admin')->default(false);
+            $table->boolean('admin')->default(false);
+            $table->boolean('enabled')->default(true);
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
