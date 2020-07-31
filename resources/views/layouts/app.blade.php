@@ -19,6 +19,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/21070acbea.js" crossorigin="anonymous" defer></script>
 </head>
 
 <body>
@@ -26,7 +27,8 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{-- {{ config('app.name', 'Laravel') }} --}}
+                    Pandemic shoes store
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -37,7 +39,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        @auth
+                        @if (Auth::user()->admin or Auth::user()->main_admin)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('users.index') }}">{{ __('Admin') }}</a>
+                        </li>
+                        @endif
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -53,18 +61,15 @@
                         </li>
                         @endif
                         @else
+
                         {{-- Links añadidos --}}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
 
-                        @auth
-                        @if (Auth::user()->admin or Auth::user()->main_admin)
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('users.index') }}">{{ __('Admin') }}</a>
+                            <a class="nav-link" href="{{ route('products.index') }}">{{ __('Products') }}</a>
                         </li>
-                        @endif
-                        @endauth
                         {{-- Fin Links añadidos Fin --}}
 
                         <li class="nav-item dropdown">

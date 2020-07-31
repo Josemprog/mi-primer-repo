@@ -29,3 +29,6 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('verified'
 
 // Admin routes
 Route::resource('users', 'Admin\UserController')->middleware('verified', AdminVerify::class);
+
+Route::get('admin/products/panel', 'Admin\ProductController@panel')->name('products.panel');
+Route::resource('products', 'Admin\ProductController')->middleware('verified');

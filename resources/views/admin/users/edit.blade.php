@@ -5,7 +5,7 @@
 
   <div class="col-2">
     <div class="btn-group-vertical">
-      <a class="btn btn-secondary" href="{{ route('users.index') }}">Back to accounts</a>
+      <a class="btn btn-primary" href="{{ route('users.index') }}">Back to accounts</a>
     </div>
   </div>
 
@@ -15,19 +15,19 @@
     <div class="container">
       <div class=" justify-content-center">
         <div class="col-md-10">
-          <h1>Editing User <span style="color: rgb(26, 123, 149)">{{ $user->name }}</span></h1>
+          <h1 class="text-primary">Editing User <span style="color:rgb(39, 86, 161)">{{ $user->name }}</span></h1>
           <form method="POST" action="{{ route('users.update', $user) }}" class="form-group">
             @csrf
             @method('PATCH')
 
-            <label for="id">Id</label>
+            <label class="text-info" for="id">Id</label>
             <p name="id" class="form-control" style="background: none">{{ $user->id }}</p>
 
-            <label for="name">Name</label>
+            <label class="text-info" for="name">Name</label>
             <input style="border: rgba(122, 122, 122, 0.591) solid 1px" type="text" name="name" id="name"
               class="form-control" value="{{ $user->name }}">
 
-            <label for="email">Email</label>
+            <label class="text-info" for="email">Email</label>
             <p name="email" class="form-control" style="background: none">{{ $user->email }}</p>
 
             <br>

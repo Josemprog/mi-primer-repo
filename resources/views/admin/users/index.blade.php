@@ -5,7 +5,8 @@
 
   <div class="col-2">
     <div class="btn-group-vertical">
-      <a class="btn btn-secondary" href="{{ route('users.create') }}">Create a new account</a>
+      <a class="btn btn-primary" href="{{ route('users.create') }}">Create a new account</a>
+      <a class="btn btn-primary" href="{{ route('products.index') }}">Manage products</a>
     </div>
   </div>
 
@@ -14,9 +15,10 @@
     <div class="container">
       <div class=" justify-content-center">
         <div class="col-md-10">
+          <h1 class="text-primary d-flex justify-content-center mb-4">Accounts Users</h1>
           <table class="table table-striped">
             <thead>
-              <tr>
+              <tr class="text-primary">
                 <th>Id</th>
                 <th>Name</th>
                 <th>Email</th>
