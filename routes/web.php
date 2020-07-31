@@ -28,4 +28,4 @@ Route::view('/', 'welcome')->name('welcome');
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
 // Admin routes
-Route::resource('users', 'UsersController')->middleware('verified', AdminVerify::class);
+Route::resource('users', 'Admin\UserController')->middleware('verified', AdminVerify::class);

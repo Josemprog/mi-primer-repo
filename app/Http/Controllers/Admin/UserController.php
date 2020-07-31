@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -38,13 +38,12 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        User::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
-            'email_verified_at' => now(),
-        ]);
-
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->email_verified_at = now();
+        $user->save();
         return redirect()->route('users.index');
     }
 
@@ -65,13 +64,11 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($UserId)
+    public function edit($id)
     {
-        $user = User::find($UserId);
+        $user = User::find($id);
 
-        return view('admin.users.edit', [
-            'user' => $user
-        ]);
+        return view('admin.users.edit')->with('user', $user);
     }
 
     /**
@@ -81,13 +78,13 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $UserId)
+    public function update(Request $request, $id)
     {
-        $user = User::find($UserId);
+        $user = User::find($id);
 
         $user->update([
             'name' => $request->name,
-            'enabled' => $request->select
+            'enabled' => $request->select,
         ]);
 
         return redirect()->route('users.index', $user);
@@ -99,9 +96,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($UserId)
+    public function destroy($id)
     {
-        $user = User::find($UserId);
+        $user = User::find($id);
 
         $user->delete();
 
