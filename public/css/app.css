@@ -1,4 +1,15 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap);@charset "UTF-8";
+
+.imagen-card {
+  height: 200px;
+}
+
+.imagen-card img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
 
 /*!
  * Bootstrap v4.5.0 (https://getbootstrap.com/)
@@ -34,7 +45,7 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: "Nunito", sans-serif;
+  --font-family-sans-serif: "Caveat", cursive;
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -66,7 +77,7 @@ section {
 
 body {
   margin: 0;
-  font-family: "Nunito", sans-serif;
+  font-family: "Caveat", cursive;
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
@@ -6400,7 +6411,7 @@ a.close.disabled {
   z-index: 1070;
   display: block;
   margin: 0;
-  font-family: "Nunito", sans-serif;
+  font-family: "Caveat", cursive;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;
@@ -6525,7 +6536,7 @@ a.close.disabled {
   z-index: 1060;
   display: block;
   max-width: 276px;
-  font-family: "Nunito", sans-serif;
+  font-family: "Caveat", cursive;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;

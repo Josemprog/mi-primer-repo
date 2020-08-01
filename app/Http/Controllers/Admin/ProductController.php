@@ -105,7 +105,7 @@ class ProductController extends Controller
             'image' => $request->file('image')->store('images', 'public'),
         ]);
 
-        return redirect()->route('products.index', $product);
+        return redirect()->route('products.index');
     }
 
     /**
@@ -120,6 +120,6 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return redirect()->route('products.index', $product);
+        return redirect()->route('products.index');
     }
 }
