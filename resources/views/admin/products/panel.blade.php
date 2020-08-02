@@ -18,8 +18,8 @@
       @endauth
 
       {{-- Filter form --}}
-      <form class="form-group mt-3" method="GET" action="{{route('products.panel')}}">
-        <h1>Filter</h1>
+      <form class="form-group mt-3 p-edit" method="GET" action="{{route('products.panel')}}">
+        <h1 class="text-primary">Filter</h1>
         <small class="form-text text-muted">Search by Brand</small>
         <input type="text" class="form border" name="brand" placeholder="Brand ...">
 
@@ -44,62 +44,59 @@
   <div class="col-10">
 
     <div class="container">
-      <div class=" justify-content-center">
-        <div class="col-md-10">
-          <table class="table table-striped">
-            <thead>
-              <tr class="text-info">
-                <th>Id</th>
-                <th>Brand</th>
-                <th>Name</th>
-                <th>Unit price</th>
-                <th>Quantity</th>
-                <th>Creation date</th>
-                <th>Modification date</th>
-                <th>State</th>
-                <th>Set up</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($products as $product)
-              <tr scope="row">
-                <td>{{$product->id}}</td>
-                <td>{{$product->brand}}</td>
-                <td>{{$product->name}}</td>
-                <td class="text-success">${{$product->unit_price}}</td>
-                <td>{{$product->quantity}}</td>
-                <td>{{$product->created_at}}</td>
-                <td class="d-flex justify-content-center">...</td>
-                <td>
-                  <button
-                    class=" justify-content-center btn-sm @if($product->enabled) btn btn-outline-success @else btn btn-outline-secondary @endif "
-                    disabled>
-                    {{ $product->enabled ? 'Enabled' : 'Disabled' }}
+      <h1 class="text-primary d-flex justify-content-center h-big">Products</h1>
+      <table class="table table-striped p-edit-2">
+        <thead>
+          <tr class="text-info">
+            <th>Id</th>
+            <th>Brand</th>
+            <th>Name</th>
+            <th>Unit price</th>
+            <th>Quantity</th>
+            <th>Creation date</th>
+            <th>Modification date</th>
+            <th>State</th>
+            <th>Set up</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach ($products as $product)
+          <tr scope="row">
+            <td>{{$product->id}}</td>
+            <td>{{$product->brand}}</td>
+            <td>{{$product->name}}</td>
+            <td class="text-success">${{$product->unit_price}}</td>
+            <td>{{$product->quantity}}</td>
+            <td>{{$product->created_at}}</td>
+            <td class="d-flex justify-content-center">...</td>
+            <td>
+              <button
+                class=" justify-content-center btn-sm @if($product->enabled) btn btn-outline-success @else btn btn-outline-secondary @endif "
+                disabled>
+                {{ $product->enabled ? 'Enabled' : 'Disabled' }}
+              </button>
+            </td>
+            <td>
+              <div class="btn-group">
+                <button class="btn">
+                  <a href="{{ route('products.edit', $product) }}"><i class="fas fa-pencil-alt"></i></a>
+                </button>
+                <form method="POST" action="{{ route('products.destroy', $product) }}">
+                  @csrf
+                  @method('DELETE')
+                  <button class="btn">
+                    <i class=" fas fa-trash-alt text-danger"></i>
                   </button>
-                </td>
-                <td>
-                  <div class="btn-group">
-                    <button class="btn btn-outline-primary">
-                      <a href="{{ route('products.edit', $product) }}"><i class="fas fa-pencil-alt"></i></a>
-                    </button>
-                    <form method="POST" action="{{ route('products.destroy', $product) }}">
-                      @csrf
-                      @method('DELETE')
-                      <button class="btn btn-outline-danger">
-                        <i class="fas fa-trash-alt"></i>
-                      </button>
-                    </form>
-                  </div>
-                </td>
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
-          {{-- Pagination --}}
-          <div class=" d-flex justify-content-center">{{ $products->render()}}</div>
-        </div>
-      </div>
+                </form>
+              </div>
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+      {{-- Pagination --}}
+      <div class=" d-flex justify-content-center">{{ $products->render()}}</div>
     </div>
-
-    </>
-    @endsection
+  </div>
+</div>
+@endsection

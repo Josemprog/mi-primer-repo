@@ -25,7 +25,7 @@ class ProductController extends Controller
             ->name($name)
             ->email($email)
             ->unit_price($unit_price)
-            ->paginate(3);
+            ->paginate(9);
 
         return view('admin.products.index')->with('products', $products);
     }

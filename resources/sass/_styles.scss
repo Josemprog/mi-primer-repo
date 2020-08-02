@@ -6,3 +6,33 @@
         object-fit: cover;
     }
 }
+
+.h-big {
+    font-size: 40px;
+}
+
+body {
+    background: linear-gradient(rgb(255, 255, 255), rgb(202, 202, 202));
+}
+
+.p-card {
+    background-color: transparentize($color: #ffffff78, $amount: 0);
+    border: solid 0.5px rgba(67, 89, 116, 0.346);
+    border-radius: 2px;
+}
+
+.p-edit {
+    background-color: transparentize($color: #ffffff78, $amount: 0);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.p-edit-2 {
+    background-color: transparentize($color: #ffffffc4, $amount: 0);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.btn-big {
+    height: 70px;
+}

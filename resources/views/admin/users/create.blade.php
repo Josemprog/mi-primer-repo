@@ -19,7 +19,7 @@
 
     <div class="container">
       <div class=" justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-10 p-edit-2">
 
           <h1 class="text-primary">Creating Users</h1>
           <form method="POST" action=" {{ route('users.store')}} " class="form-group">

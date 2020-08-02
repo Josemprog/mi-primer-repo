@@ -14,8 +14,8 @@
         <a class="btn btn-primary btn-lg" href="{{ route('products.index') }}">Manage products</a>
       </div>
 
-      <div class="page-header mt-4">
-        <h1>Filter</h1>
+      <div class="page-header mt-4 p-edit">
+        <h1 class="text-primary">Filter</h1>
 
         <form class="form-group" method="GET" action="{{route('users.index')}}">
           @csrf
@@ -45,9 +45,9 @@
 
     <div class="container">
       <h1 class="text-primary d-flex justify-content-center">Accounts Users</h1>
-      <table class="table table-striped">
+      <table class="table table-striped p-edit-2">
         <thead>
-          <tr class="text-primary">
+          <tr class="text-primary h3">
             <th>Id</th>
             <th>Name</th>
             <th>Email</th>

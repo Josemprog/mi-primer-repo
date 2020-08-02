@@ -18,8 +18,8 @@
       @endauth
 
       {{-- Filter form --}}
-      <form class="form-group mt-3" method="GET" action="{{route('products.index')}}">
-        <h1>Filter</h1>
+      <form class="form-group mt-3 p-edit" method="GET" action="{{route('products.index')}}">
+        <h1 class="text-primary">Filter</h1>
         <small class="form-text text-muted">Search by Brand</small>
         <input type="text" class="form border" name="brand" placeholder="Brand ...">
 
@@ -44,7 +44,7 @@
     <div class="col mb-4">
 
       {{-- Card Products --}}
-      <div class="card">
+      <div class="p-card">
 
         {{-- Header --}}
         <div class="d-flex justify-content-between p-2">
@@ -55,17 +55,17 @@
             @auth
             @if (Auth::user()->admin or Auth::user()->main_admin)
             <p>
-              <button class="btn btn-outline-info border-0" type="submit">
+              <button class="btn border-0" type="submit">
                 <a href="{{ route('products.edit', $product)}}">
-                  <i class="fas fa-pencil-alt"></i>
+                  <i class="fas fa-pencil-alt text-primary"></i>
                 </a>
               </button>
             </p>
             <form method="POST" action="{{ route('products.destroy', $product) }}">
               @csrf
               @method('DELETE')
-              <button class="btn btn-outline-danger border-0">
-                <i class="fas fa-trash-alt"></i>
+              <button class="btn border-0">
+                <i class="fas fa-trash-alt text-danger"></i>
               </button>
             </form>
             @endif

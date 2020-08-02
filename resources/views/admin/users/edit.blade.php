@@ -18,7 +18,7 @@
 
     <div class="container">
       <div class=" justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-10 p-edit-2">
           <h1 class="text-primary">Editing User <span style="color:rgb(39, 86, 161)">{{ $user->name }}</span></h1>
           <form method="POST" action="{{ route('users.update', $user) }}" class="form-group">
             @csrf

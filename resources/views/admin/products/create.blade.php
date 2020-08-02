@@ -21,7 +21,7 @@
 
     <div class="container">
       <div class=" justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-10 p-edit-2">
 
           <h1 class="text-info">Creating Users</h1>
           <form method="POST" action=" {{ route('products.store')}} " class="form-group" enctype="multipart/form-data">

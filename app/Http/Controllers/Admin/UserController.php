@@ -23,7 +23,7 @@ class UserController extends Controller
             ->name($name)
             ->email($email)
             ->enabled($enabled)
-            ->paginate(7);
+            ->paginate(6);
 
         return view('admin.users.index')->with('users', $users);
     }
