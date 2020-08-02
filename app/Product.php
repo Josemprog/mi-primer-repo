@@ -14,4 +14,27 @@ class Product extends Model
     protected $fillable = [
         'brand', 'name', 'unit_price', 'quantity', 'description', 'image'
     ];
+
+    //Query scope
+
+    public function scopeBrand($query, $brand)
+    {
+        if ($brand) {
+            return $query->where('brand', 'LIKE', "%$brand%");
+        }
+    }
+
+    public function scopeName($query, $name)
+    {
+        if ($name) {
+            return $query->where('name', 'LIKE', "%$name%");
+        }
+    }
+
+    public function scopeEmail($query, $email)
+    {
+        if ($email) {
+            return $query->where('email', 'LIKE', "%$email%");
+        }
+    }
 }

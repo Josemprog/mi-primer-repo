@@ -13,9 +13,17 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::get();
+        $brand = $request->get('brand');
+        $name = $request->get('name');
+        $email = $request->get('email');
+
+        $products = Product::orderBy('id', 'ASC')
+            ->brand($brand)
+            ->name($name)
+            ->email($email)
+            ->paginate(3);
 
         return view('admin.products.index')->with('products', $products);
     }
@@ -25,9 +33,17 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function panel()
+    public function panel(Request $request)
     {
-        $products = Product::get();
+        $brand = $request->get('brand');
+        $name = $request->get('name');
+        $email = $request->get('email');
+
+        $products = Product::orderBy('id', 'ASC')
+            ->brand($brand)
+            ->name($name)
+            ->email($email)
+            ->paginate(4);
 
         return view('admin.products.panel')->with('products', $products);
     }
@@ -67,10 +83,8 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        $product = Product::find($id);
-
         return view('admin.products.show')->with('product', $product);
     }
 
@@ -80,10 +94,8 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        $product = Product::find($id);
-
         return view('admin.products.edit')->with('product', $product);
     }
 
@@ -94,10 +106,8 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Product $product, Request $request)
     {
-        $product = Product::find($id);
-
         $product->update([
             'brand' => $request->brand,
             'name' => $request->name,
@@ -116,10 +126,8 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        $product = Product::find($id);
-
         $product->delete();
 
         return redirect()->route('products.index');

@@ -20,20 +20,10 @@
         <form class="form-group" method="GET" action="{{route('users.index')}}">
           @csrf
           <small class="form-text text-muted">Search by name</small>
-          <input type="text" class="form border" name="name" placeholder="Name ..." value="{{ request('name')}}">
+          <input type="text" class="form border" name="name" placeholder="Name ...">
 
           <small class="form-text text-muted">Search byemail</small>
-          <input type="text" class="form border" name="email" placeholder="Email ..." value="{{ request('email')}}">
-
-          {{-- <label class="form-check-label ml-4 mt-2">
-            <input type="checkbox" class="form-check-input" name="admin">
-            Search admin users
-          </label>
-
-          <label class="form-check-label ml-4 mt-2">
-            <input type="checkbox" class="form-check-input" name="enabled">
-            Search only disabled users
-          </label> --}}
+          <input type="text" class="form border" name="email" placeholder="Email ...">
 
           <button type="submit" class="btn btn-primary btn btn-block mt-2">Search</button>
         </form>
@@ -44,7 +34,7 @@
     @endauth
   </div>
 
-  <div class="col-10 d-flex flex-column justify-content-center ">
+  <div class="col-10 d-flex flex-column justify-content-center">
 
     <div class="container">
       <h1 class="text-primary d-flex justify-content-center">Accounts Users</h1>
@@ -54,7 +44,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>Email</th>
-            <th>creation date</th>
+            <th>Creation date</th>
             <th>Modification date</th>
             <th>Type</th>
             <th>State</th>
@@ -68,7 +58,7 @@
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ $user->created_at }}</td>
-            <td> ...</td>
+            <td class="d-flex justify-content-center">...</td>
             <td>
               <button
                 class=" justify-content-center btn-sm @if($user->admin) btn btn-outline-success @else btn btn-outline-secondary @endif "
@@ -97,7 +87,7 @@
           @endforeach
         </tbody>
       </table>
-      {{ $users->render()}}
+      <div class="d-flex justify-content-center">{{ $users->render() }}</div>
     </div>
 
   </div>

@@ -18,7 +18,7 @@
       @endauth
 
       {{-- Filter form --}}
-      <form class="form-group mt-3">
+      <form class="form-group mt-3" method="GET" action="{{route('products.panel')}}">
         <h1>Filter</h1>
         <small class="form-text text-muted">Search by Brand</small>
         <input type="text" class="form border" name="brand" placeholder="Brand ...">
@@ -26,21 +26,8 @@
         <small class="form-text text-muted">Search by name</small>
         <input type="text" class="form border" name="name" placeholder="Name ...">
 
-        <small class="form-text text-muted">Search by size</small>
-        <input type="text" class="form border" name="size" placeholder="Size ...">
-
         <small class="form-text text-muted">Search by price</small>
         <input type="text" class="form border" name="unit_price" placeholder="Price ...">
-
-        <label class="form-check-label ml-4 mt-2">
-          <input type="checkbox" class="form-check-input" name="gender" value="checkedValue">
-          Search female shoes
-        </label>
-
-        <label class="form-check-label ml-4 mt-2">
-          <input type="checkbox" class="form-check-input" name="gender" value="checkedValue">
-          Search male shoes
-        </label>
 
         <button type="submit" class="btn btn-primary btn btn-block mt-2">Search</button>
       </form>
@@ -60,8 +47,8 @@
                 <th>Name</th>
                 <th>Unit price</th>
                 <th>Quantity</th>
-                {{-- <th>image</th> --}}
-                {{-- <th>State</th> --}}
+                <th>Creation date</th>
+                <th>Modification date</th>
                 <th>Set up</th>
               </tr>
             </thead>
@@ -71,10 +58,10 @@
                 <td>{{$product->id}}</td>
                 <td>{{$product->brand}}</td>
                 <td>{{$product->name}}</td>
-                <td>{{$product->unit_price}}</td>
+                <td class="text-success">${{$product->unit_price}}</td>
                 <td>{{$product->quantity}}</td>
-                {{-- <td>{{$product->image}}</td> --}}
-                {{-- <td>{{$product->enabled}}</td> --}}
+                <td>{{$product->created_at}}</td>
+                <td class="d-flex justify-content-center">...</td>
                 <td>
                   <div class="btn-group">
                     <p><button class="btn btn-outline-primary">
@@ -93,6 +80,8 @@
               @endforeach
             </tbody>
           </table>
+          {{-- Pagination --}}
+          <div class=" d-flex justify-content-center">{{ $products->render()}}</div>
         </div>
       </div>
     </div>

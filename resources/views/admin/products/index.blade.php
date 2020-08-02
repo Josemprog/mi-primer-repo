@@ -18,7 +18,7 @@
       @endauth
 
       {{-- Filter form --}}
-      <form class="form-group mt-3">
+      <form class="form-group mt-3" method="GET" action="{{route('products.index')}}">
         <h1>Filter</h1>
         <small class="form-text text-muted">Search by Brand</small>
         <input type="text" class="form border" name="brand" placeholder="Brand ...">
@@ -26,21 +26,8 @@
         <small class="form-text text-muted">Search by name</small>
         <input type="text" class="form border" name="name" placeholder="Name ...">
 
-        <small class="form-text text-muted">Search by size</small>
-        <input type="text" class="form border" name="size" placeholder="Size ...">
-
         <small class="form-text text-muted">Search by price</small>
         <input type="text" class="form border" name="unit_price" placeholder="Price ...">
-
-        <label class="form-check-label ml-4 mt-2">
-          <input type="checkbox" class="form-check-input" name="gender" value="checkedValue">
-          Search female shoes
-        </label>
-
-        <label class="form-check-label ml-4 mt-2">
-          <input type="checkbox" class="form-check-input" name="gender" value="checkedValue">
-          Search male shoes
-        </label>
 
         <button type="submit" class="btn btn-primary btn btn-block mt-2">Search</button>
       </form>
@@ -94,10 +81,11 @@
         <div class="card-body p-2">
           <h5 class="text-info">{{ $product->name}}</h5>
           <span class="text-success">${{ $product->unit_price}}</span>
+          <hr>
         </div>
 
         {{-- Footer --}}
-        <div class="card-footer d-flex justify-content-around">
+        <div class="d-flex justify-content-around pb-3">
           <a href="{{ route('products.show', $product) }}" class="btn btn-info text-white">See</a>
           {{-- Footer Buttons --}}
           <div class="btn-group">
@@ -114,7 +102,8 @@
     @empty
     <h1>No hay productos ...</h1>
     @endforelse
-
+    {{-- Pagination --}}
+    <div class=" d-flex justify-content-center">{{ $products->render()}}</div>
   </div>
 
 </div>
