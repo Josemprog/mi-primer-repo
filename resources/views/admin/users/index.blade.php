@@ -25,6 +25,13 @@
           <small class="form-text text-muted">Search byemail</small>
           <input type="text" class="form border" name="email" placeholder="Email ...">
 
+          <div class="form-check pt-2">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" name="enabled" value="checkedValue">
+              Search for disabled users
+            </label>
+          </div>
+
           <button type="submit" class="btn btn-primary btn btn-block mt-2">Search</button>
         </form>
       </div>

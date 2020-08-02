@@ -40,13 +40,14 @@
 
     {{-- Products container --}}
     @forelse ($products as $product)
+    @if ($product->enabled == 1)
     <div class="col mb-4">
 
       {{-- Card Products --}}
       <div class="card">
 
         {{-- Header --}}
-        <div class="card-header d-flex justify-content-between">
+        <div class="d-flex justify-content-between p-2">
           <h2 class="text-primary">{{ $product->brand}}</h2>
 
           {{-- Header Buttons --}}
@@ -99,12 +100,13 @@
 
       {{-- End Card Products --}}
     </div>
+    @endif
     @empty
     <h1>No hay productos ...</h1>
     @endforelse
     {{-- Pagination --}}
-    <div class=" d-flex justify-content-center">{{ $products->render()}}</div>
   </div>
 
 </div>
+<div class=" d-flex justify-content-center">{{ $products->render()}}</div>
 @endsection

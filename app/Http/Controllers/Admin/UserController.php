@@ -17,10 +17,12 @@ class UserController extends Controller
     {
         $name = $request->get('name');
         $email = $request->get('email');
+        $enabled = $request->get('enabled');
 
         $users = User::orderBy('id', 'ASC')
             ->name($name)
             ->email($email)
+            ->enabled($enabled)
             ->paginate(7);
 
         return view('admin.users.index')->with('users', $users);

@@ -52,4 +52,11 @@ class User extends Authenticatable implements MustVerifyEmail
             return $query->where('email', 'LIKE', "%$email%");
         }
     }
+
+    public function scopeEnabled($query, $enabled)
+    {
+        if ($enabled) {
+            return $query->where('enabled', false);
+        }
+    }
 }

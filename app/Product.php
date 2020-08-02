@@ -12,7 +12,7 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'brand', 'name', 'unit_price', 'quantity', 'description', 'image'
+        'brand', 'name', 'unit_price', 'quantity', 'description', 'image', 'enabled'
     ];
 
     //Query scope
@@ -35,6 +35,13 @@ class Product extends Model
     {
         if ($email) {
             return $query->where('email', 'LIKE', "%$email%");
+        }
+    }
+
+    public function scopeEnabled($query, $enabled)
+    {
+        if ($enabled) {
+            return $query->where('enabled', false);
         }
     }
 }

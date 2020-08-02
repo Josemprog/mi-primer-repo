@@ -38,11 +38,13 @@ class ProductController extends Controller
         $brand = $request->get('brand');
         $name = $request->get('name');
         $email = $request->get('email');
+        $enabled = $request->get('enabled');
 
         $products = Product::orderBy('id', 'ASC')
             ->brand($brand)
             ->name($name)
             ->email($email)
+            ->enabled($enabled)
             ->paginate(4);
 
         return view('admin.products.panel')->with('products', $products);
@@ -114,6 +116,7 @@ class ProductController extends Controller
             'unit_price' => $request->unit_price,
             'quantity' => $request->quantity,
             'description' => $request->description,
+            'enabled' => $request->select,
             'image' => $request->file('image')->store('images', 'public'),
         ]);
 

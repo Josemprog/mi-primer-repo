@@ -29,6 +29,13 @@
         <small class="form-text text-muted">Search by price</small>
         <input type="text" class="form border" name="unit_price" placeholder="Price ...">
 
+        <div class="form-check pt-2">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" name="enabled" value="checkedValue">
+            Search for disabled products
+          </label>
+        </div>
+
         <button type="submit" class="btn btn-primary btn btn-block mt-2">Search</button>
       </form>
     </div>
@@ -49,6 +56,7 @@
                 <th>Quantity</th>
                 <th>Creation date</th>
                 <th>Modification date</th>
+                <th>State</th>
                 <th>Set up</th>
               </tr>
             </thead>
@@ -63,10 +71,17 @@
                 <td>{{$product->created_at}}</td>
                 <td class="d-flex justify-content-center">...</td>
                 <td>
+                  <button
+                    class=" justify-content-center btn-sm @if($product->enabled) btn btn-outline-success @else btn btn-outline-secondary @endif "
+                    disabled>
+                    {{ $product->enabled ? 'Enabled' : 'Disabled' }}
+                  </button>
+                </td>
+                <td>
                   <div class="btn-group">
-                    <p><button class="btn btn-outline-primary">
-                        <a href="{{ route('products.edit', $product) }}"><i class="fas fa-pencil-alt"></i></a>
-                      </button></p>
+                    <button class="btn btn-outline-primary">
+                      <a href="{{ route('products.edit', $product) }}"><i class="fas fa-pencil-alt"></i></a>
+                    </button>
                     <form method="POST" action="{{ route('products.destroy', $product) }}">
                       @csrf
                       @method('DELETE')
