@@ -26,13 +26,13 @@
             @csrf
 
             <label class="text-info" for="name">Name</label>
-            <input name="name" id="name" class="form-control" placeholder="Name ...">
+            <input name="name" id="name" class="form-control" placeholder="Name ..." required>
 
             <label class="text-info" for="email">Email</label>
-            <input type="text" name="email" class="form-control" placeholder="Email ...">
+            <input type="text" name="email" class="form-control" placeholder="Email ..." required>
 
             <label class="text-info" for="password">Password</label>
-            <input type="password" name="password" class="form-control" placeholder="password ...">
+            <input type="password" name="password" class="form-control" placeholder="password ..." required>
 
             <br>
 

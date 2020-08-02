@@ -30,27 +30,27 @@
             <div class="row" style="padding: 10px">
               <div class="col-6">
                 <label class="text-info" for="brand">Brand</label>
-                <input name="brand" id="brand" class="form-control" placeholder="Brand ...">
+                <input name="brand" id="brand" class="form-control" placeholder="Brand ..." required>
 
                 <label class="text-info" for="name">Name</label>
-                <input name="name" id="name" class="form-control" placeholder="Name ...">
+                <input name="name" id="name" class="form-control" placeholder="Name ..." required>
 
                 <label class="text-info" for="unit_price">Unit Price</label>
-                <input name="unit_price" id="unit_price" class="form-control" placeholder="Unit price ...">
+                <input name="unit_price" id="unit_price" class="form-control" placeholder="Unit price ..." required>
 
                 <label class="text-info" for="quantity">Quantity</label>
-                <input name="quantity" id="quantity" class="form-control" placeholder="Quantity ...">
+                <input name="quantity" id="quantity" class="form-control" placeholder="Quantity ..." required>
 
                 <label class="text-info" for="description">Description</label>
                 <textarea class="form-control" name="description" id="description" cols="30" rows="5"
-                  placeholder="Description ..."></textarea>
+                  placeholder="Description ..." required></textarea>
               </div>
 
               <div class="col-6 d-flex flex-column justify-content-between">
                 <h3 class="text-info"> Image</h3>
                 <img id="imagen" src="..." class="img-fluid wrapper" alt="Image">
                 <div class="custom-file">
-                  <input name="image" type="file" class="custom-file-input" id="customFile">
+                  <input name="image" type="file" class="custom-file-input" id="customFile" required>
                   <label class="custom-file-label" for="customFile">Choose file</label>
                 </div>
               </div>

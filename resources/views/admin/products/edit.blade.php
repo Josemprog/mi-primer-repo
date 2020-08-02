@@ -32,27 +32,28 @@
             <div class="row" style="padding: 10px">
               <div class="col-6">
                 <label class="text-info" for="brand">Brand</label>
-                <input name="brand" id="brand" class="form-control" value="{{ $product->brand}}">
+                <input name="brand" id="brand" class="form-control" value="{{ $product->brand}}" required>
 
                 <label class="text-info" for="name">Name</label>
-                <input name="name" id="name" class="form-control" value="{{ $product->name}}">
+                <input name="name" id="name" class="form-control" value="{{ $product->name}}" required>
 
                 <label class="text-info" for="unit_price">Unit Price</label>
-                <input name="unit_price" id="unit_price" class="form-control" value="{{ $product->unit_price}}">
+                <input name="unit_price" id="unit_price" class="form-control" value="{{ $product->unit_price}}"
+                  required>
 
                 <label class="text-info" for="quantity">Quantity</label>
-                <input name="quantity" id="quantity" class="form-control" value="{{ $product->quantity}}">
+                <input name="quantity" id="quantity" class="form-control" value="{{ $product->quantity}}" required>
 
                 <label class="text-info" for="description">Description</label>
-                <textarea class="form-control" name="description" id="description" cols="30"
-                  rows="5">{{ $product->description}}</textarea>
+                <textarea class="form-control" name="description" id="description" cols="30" rows="5"
+                  required>{{ $product->description}}</textarea>
               </div>
 
               <div class="col-6 d-flex flex-column justify-content-between">
                 <h3 class="text-info"> Image</h3>
                 <img id="imagen" src="/storage/{{$product->image}}" class="img-fluid wrapper" alt="Image">
                 <div class="custom-file">
-                  <input name="image" type="file" class="custom-file-input" id="customFile">
+                  <input name="image" type="file" class="custom-file-input" id="customFile" required>
                   <label class="custom-file-label" for="customFile">{{$product->image}}</label>
                 </div>
               </div>

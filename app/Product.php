@@ -38,6 +38,13 @@ class Product extends Model
         }
     }
 
+    public function scopeUnit_price($query, $unit_price)
+    {
+        if ($unit_price) {
+            return $query->where('unit_price', 'LIKE', "%$unit_price%");
+        }
+    }
+
     public function scopeEnabled($query, $enabled)
     {
         if ($enabled) {

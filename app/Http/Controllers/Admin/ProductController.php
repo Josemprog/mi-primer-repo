@@ -18,11 +18,13 @@ class ProductController extends Controller
         $brand = $request->get('brand');
         $name = $request->get('name');
         $email = $request->get('email');
+        $unit_price = $request->get('unit_price');
 
         $products = Product::orderBy('id', 'ASC')
             ->brand($brand)
             ->name($name)
             ->email($email)
+            ->unit_price($unit_price)
             ->paginate(3);
 
         return view('admin.products.index')->with('products', $products);
@@ -38,12 +40,14 @@ class ProductController extends Controller
         $brand = $request->get('brand');
         $name = $request->get('name');
         $email = $request->get('email');
+        $unit_price = $request->get('unit_price');
         $enabled = $request->get('enabled');
 
         $products = Product::orderBy('id', 'ASC')
             ->brand($brand)
             ->name($name)
             ->email($email)
+            ->unit_price($unit_price)
             ->enabled($enabled)
             ->paginate(4);
 

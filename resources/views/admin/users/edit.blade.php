@@ -29,7 +29,7 @@
 
             <label class="text-info" for="name">Name</label>
             <input style="border: rgba(122, 122, 122, 0.591) solid 1px" type="text" name="name" id="name"
-              class="form-control" value="{{ $user->name }}">
+              class="form-control" value="{{ $user->name }}" required>
 
             <label class="text-info" for="email">Email</label>
             <p name="email" class="form-control" style="background: none">{{ $user->email }}</p>
