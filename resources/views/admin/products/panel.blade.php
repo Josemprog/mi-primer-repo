@@ -1,17 +1,49 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row" style="padding: 10px">
+<div class="row">
 
   <div class="col-2">
-    <div class="btn-group-vertical">
+    <div class="container">
+      {{-- Administrator menu --}}
       @auth
       @if (Auth::user()->admin or Auth::user()->main_admin)
-      <a class="btn btn-primary" href="{{ route('products.create') }}">Create a new Product</a>
-      <a class="btn btn-primary" href="{{ route('products.index') }}">view products as user</a>
-      <a class="btn btn-primary" href="{{ route('users.index') }}">Manage Users</a>
+      {{-- buttons --}}
+      <div class="btn-group-vertical">
+        <a class="btn btn-primary btn-lg" href="{{ route('products.create') }}">Create a new Product</a>
+        <a class="btn btn-primary btn-lg" href="{{ route('products.index') }}">View products as user</a>
+        <a class="btn btn-primary btn-lg" href="{{ route('users.index') }}">Manage Users</a>
+      </div>
       @endif
       @endauth
+
+      {{-- Filter form --}}
+      <form class="form-group mt-3">
+        <h1>Filter</h1>
+        <small class="form-text text-muted">Search by Brand</small>
+        <input type="text" class="form border" name="brand" placeholder="Brand ...">
+
+        <small class="form-text text-muted">Search by name</small>
+        <input type="text" class="form border" name="name" placeholder="Name ...">
+
+        <small class="form-text text-muted">Search by size</small>
+        <input type="text" class="form border" name="size" placeholder="Size ...">
+
+        <small class="form-text text-muted">Search by price</small>
+        <input type="text" class="form border" name="unit_price" placeholder="Price ...">
+
+        <label class="form-check-label ml-4 mt-2">
+          <input type="checkbox" class="form-check-input" name="gender" value="checkedValue">
+          Search female shoes
+        </label>
+
+        <label class="form-check-label ml-4 mt-2">
+          <input type="checkbox" class="form-check-input" name="gender" value="checkedValue">
+          Search male shoes
+        </label>
+
+        <button type="submit" class="btn btn-primary btn btn-block mt-2">Search</button>
+      </form>
     </div>
   </div>
 
@@ -65,5 +97,5 @@
       </div>
     </div>
 
-  </div>
-  @endsection
+    </>
+    @endsection

@@ -1,23 +1,19 @@
 @extends('layouts.app')
 
-<style>
-  .contenedor {
-    jus
-  }
-</style>
-
 @section('content')
 <div class="row" style="padding: 10px">
 
+  {{-- Administrator menu --}}
   <div class="col-2">
+    @auth
+    @if (Auth::user()->admin or Auth::user()->main_admin)
+    {{-- Admi buttons --}}
     <div class="btn-group-vertical">
-      @auth
-      @if (Auth::user()->admin or Auth::user()->main_admin)
-      <a class="btn btn-primary" href="{{ route('products.index') }}">Back to Products</a>
-      <a class="btn btn-primary" href="{{ route('users.index') }}">Manage Users</a>
-      @endif
-      @endauth
+      <a class="btn btn-primary btn-lg" href="{{ route('products.index') }}">Back to Products</a>
+      <a class="btn btn-primary btn-lg" href="{{ route('users.index') }}">Manage Users</a>
     </div>
+    @endif
+    @endauth
   </div>
 
   <div class="col-10">

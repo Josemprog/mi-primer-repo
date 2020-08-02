@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
@@ -13,9 +13,15 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::get();
+        $name = $request->get('name');
+        $email = $request->get('email');
+
+        $users = User::orderBy('id', 'ASC')
+            ->name($name)
+            ->email($email)
+            ->paginate(7);
 
         return view('admin.users.index')->with('users', $users);
     }
@@ -64,10 +70,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::find($id);
-
         return view('admin.users.edit')->with('user', $user);
     }
 
@@ -78,10 +82,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(User $user, Request $request)
     {
-        $user = User::find($id);
-
         $user->update([
             'name' => $request->name,
             'enabled' => $request->select,
@@ -96,10 +98,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::find($id);
-
         $user->delete();
 
         return redirect()->route('users.index', $user);

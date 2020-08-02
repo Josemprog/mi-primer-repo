@@ -1,24 +1,19 @@
 @extends('layouts.app')
 
-<style>
-  .contenedor {
-    jus
-  }
-</style>
-
 @section('content')
 <div class="row" style="padding: 10px">
 
+  {{-- Administrator menu --}}
   <div class="col-2">
+    @auth
+    @if (Auth::user()->admin or Auth::user()->main_admin)
+    {{-- Admi buttons --}}
     <div class="btn-group-vertical">
-      @auth
-      @if (Auth::user()->admin or Auth::user()->main_admin)
-      <a class="btn btn-primary" href="{{ route('products.index') }}">Back to Products</a>
-      <a class="btn btn-primary" href="{{ route('products.panel') }}">Back to admin panel</a>
-      <a class="btn btn-primary" href="{{ route('users.index') }}">Manage Users</a>
-      @endif
-      @endauth
+      <a class="btn btn-primary btn-lg" href="{{ route('products.index') }}">Back to Products</a>
+      <a class="btn btn-primary btn-lg" href="{{ route('products.panel') }}">Back to admin panel</a>
     </div>
+    @endif
+    @endauth
   </div>
 
   <div class="col-10">
@@ -58,7 +53,7 @@
                 <img id="imagen" src="/storage/{{$product->image}}" class="img-fluid wrapper" alt="Image">
                 <div class="custom-file">
                   <input name="image" type="file" class="custom-file-input" id="customFile">
-                  <label class="custom-file-label" for="customFile">Choose file</label>
+                  <label class="custom-file-label" for="customFile">{{$product->image}}</label>
                 </div>
               </div>
             </div>

@@ -69,7 +69,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::find($id);
+
+        return view('admin.products.show')->with('product', $product);
     }
 
     /**

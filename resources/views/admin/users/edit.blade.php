@@ -4,9 +4,13 @@
 <div class="row" style="padding: 10px">
 
   <div class="col-2">
+    @auth
+    @if (Auth::user()->admin or Auth::user()->main_admin)
     <div class="btn-group-vertical">
       <a class="btn btn-primary" href="{{ route('users.index') }}">Back to accounts</a>
     </div>
+    @endif
+    @endauth
   </div>
 
   <div class="col-10">

@@ -16,7 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'enabled'
+        'name', 'email', 'password', 'enabled', 'admin'
     ];
 
     /**
@@ -36,4 +36,20 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //Query scope
+
+    public function scopeName($query, $name)
+    {
+        if ($name) {
+            return $query->where('name', 'LIKE', "%$name%");
+        }
+    }
+
+    public function scopeEmail($query, $email)
+    {
+        if ($email) {
+            return $query->where('email', 'LIKE', "%$email%");
+        }
+    }
 }
