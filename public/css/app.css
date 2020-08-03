@@ -17,6 +17,7 @@
 
 body {
   background: linear-gradient(white, #cacaca);
+  background: no-repeat;
 }
 
 .p-card {
