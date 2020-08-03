@@ -11,9 +11,9 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\View\View
     {
         $name = $request->get('name');
         $email = $request->get('email');
@@ -31,9 +31,9 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         return view('admin.users.create');
     }
@@ -42,14 +42,15 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password;
+        $user = User::create(request()->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ]));
         $user->email_verified_at = now();
         $user->save();
         return redirect()->route('users.index');
@@ -70,9 +71,9 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function edit(User $user)
+    public function edit(User $user): \Illuminate\View\View
     {
         return view('admin.users.edit')->with('user', $user);
     }
@@ -82,14 +83,13 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(User $user, Request $request)
+    public function update(User $user, Request $request): \Illuminate\Http\RedirectResponse
     {
-        $user->update([
-            'name' => $request->name,
-            'enabled' => $request->select,
-        ]);
+        $user->update(request()->validate([
+            'name' => 'required|string',
+        ]));
 
         return redirect()->route('users.index', $user);
     }
@@ -98,9 +98,9 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(User $user)
+    public function destroy(User $user): \Illuminate\Http\RedirectResponse
     {
         $user->delete();
 

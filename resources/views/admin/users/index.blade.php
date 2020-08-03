@@ -47,7 +47,7 @@
       <h1 class="text-primary d-flex justify-content-center">Accounts Users</h1>
       <table class="table table-striped p-edit-2">
         <thead>
-          <tr class="text-primary h3">
+          <tr class="text-primary h5">
             <th>Id</th>
             <th>Name</th>
             <th>Email</th>

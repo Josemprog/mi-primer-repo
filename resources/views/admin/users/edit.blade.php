@@ -25,14 +25,15 @@
             @method('PATCH')
 
             <label class="text-info" for="id">Id</label>
-            <p name="id" class="form-control" style="background: none">{{ $user->id }}</p>
+            <input name="id" class="form-control" value="{{ $user->id }}" disabled>
 
             <label class="text-info" for="name">Name</label>
             <input style="border: rgba(122, 122, 122, 0.591) solid 1px" type="text" name="name" id="name"
-              class="form-control" value="{{ $user->name }}" required>
+              class="form-control" value="{{ $user->name }}">
+            {!! $errors->first('name', '<small class="alert alert-danger">:message</small><br>') !!}
 
             <label class="text-info" for="email">Email</label>
-            <p name="email" class="form-control" style="background: none">{{ $user->email }}</p>
+            <input name="email" class="form-control" value="{{ $user->email }}" disabled>
 
             <br>
 

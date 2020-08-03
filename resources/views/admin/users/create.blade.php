@@ -26,13 +26,16 @@
             @csrf
 
             <label class="text-info" for="name">Name</label>
-            <input name="name" id="name" class="form-control" placeholder="Name ..." required>
+            <input name="name" id="name" class="form-control" placeholder="Name ...">
+            {!! $errors->first('name', '<small class="alert alert-danger">:message</small><br>') !!}
 
             <label class="text-info" for="email">Email</label>
-            <input type="text" name="email" class="form-control" placeholder="Email ..." required>
+            <input type="text" name="email" class="form-control" placeholder="Email ...">
+            {!! $errors->first('email', '<small class="alert alert-danger">:message</small><br>') !!}
 
             <label class="text-info" for="password">Password</label>
-            <input type="password" name="password" class="form-control" placeholder="password ..." required>
+            <input type="password" name="password" class="form-control" placeholder="password ...">
+            {!! $errors->first('password', '<small class="alert alert-danger">:message</small><br>') !!}
 
             <br>
 
