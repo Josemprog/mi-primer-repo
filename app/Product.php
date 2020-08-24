@@ -12,11 +12,24 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'brand', 'name', 'unit_price', 'quantity', 'description', 'image', 'enabled'
+        'brand',
+        'name',
+        'unit_price',
+        'quantity',
+        'description',
+        'image',
+        'enabled'
     ];
 
     //Query scope
 
+    /**
+     * Query builder by brand
+     *
+     * @param [type] $query
+     * @param [type] $brand
+     * @return builder $query
+     */
     public function scopeBrand($query, $brand)
     {
         if ($brand) {
@@ -24,6 +37,13 @@ class Product extends Model
         }
     }
 
+    /**
+     * query builder by name
+     *
+     * @param [type] $query
+     * @param [type] $name
+     * @return builder $query
+     */
     public function scopeName($query, $name)
     {
         if ($name) {
@@ -31,6 +51,13 @@ class Product extends Model
         }
     }
 
+    /**
+     * query builder by email
+     *
+     * @param [type] $query
+     * @param [type] $email
+     * @return builder $query
+     */
     public function scopeEmail($query, $email)
     {
         if ($email) {
@@ -38,6 +65,13 @@ class Product extends Model
         }
     }
 
+    /**
+     * query builder by price
+     *
+     * @param [type] $query
+     * @param [type] $unit_price
+     * @return builder $query
+     */
     public function scopeUnit_price($query, $unit_price)
     {
         if ($unit_price) {
@@ -45,6 +79,13 @@ class Product extends Model
         }
     }
 
+    /**
+     * query builder by state
+     *
+     * @param [type] $query
+     * @param [type] $enabled
+     * @return builder $query
+     */
     public function scopeEnabled($query, $enabled)
     {
         if ($enabled) {

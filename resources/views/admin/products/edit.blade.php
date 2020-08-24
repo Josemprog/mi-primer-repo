@@ -66,18 +66,16 @@
 
             <br>
 
-            <select class="btn btn-warning btn-lg btn-block dropdown-toggle" name="select" id="select">
+            <select class="btn btn-warning btn-lg btn-block dropdown-toggle" name="enabled">
 
               @if ($product->enabled)
-              <option value=1 selected>Enabled</option>
+              <option value=1>Enabled</option>
               <option value=0>Disabled</option>
               @else
               <option value=1>Enabled</option>
               <option value=0 selected>Disabled</option>
               @endif
             </select>
-
-
 
             <br>
 

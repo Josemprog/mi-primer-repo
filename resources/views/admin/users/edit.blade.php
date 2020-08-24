@@ -37,7 +37,7 @@
 
             <br>
 
-            <select class="btn btn-warning btn-lg btn-block dropdown-toggle" name="select" id="select">
+            <select class="btn btn-warning btn-lg btn-block dropdown-toggle" name="enabled">
 
               @if ($user->enabled)
               <option value=1 selected>Enabled</option>
