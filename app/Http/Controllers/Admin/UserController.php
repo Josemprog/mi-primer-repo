@@ -49,7 +49,7 @@ class UserController extends Controller
         $user = new User($request->validated());
         $user->email_verified_at = now();
         $user->save();
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('message', 'User Created');
     }
 
     /**
@@ -83,11 +83,10 @@ class UserController extends Controller
      */
     public function update(User $user, SaveUsers $request)
     {
-        // return $request;
 
         $user->update($request->validated());
 
-        return redirect()->route('users.index', $user);
+        return redirect()->route('users.index', $user)->with('message', 'Edited User');
     }
 
     /**
@@ -100,6 +99,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('users.index', $user);
+        return redirect()->route('users.index', $user)->with('message', 'User Removed');
     }
 }

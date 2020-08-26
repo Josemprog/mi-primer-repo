@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Product;
 use Illuminate\Http\Request;
-use App\Http\Requests\SaveProducts;
+use Intervention\Image\Facades\Image;
+use App\Http\Requests\ProductsRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -22,9 +24,8 @@ class ProductController extends Controller
         $products = Product::orderBy('id', 'ASC')
             ->brand($products->brand)
             ->name($products->name)
-            ->email($products->email)
             ->unit_price($products->unit_price)
-            ->paginate(9);
+            ->paginate(10);
 
         return view('admin.products.index')->with('products', $products);
     }
@@ -42,10 +43,9 @@ class ProductController extends Controller
         $products = Product::orderBy('id', 'ASC')
             ->brand($products->brand)
             ->name($products->name)
-            ->email($products->email)
             ->unit_price($products->unit_price)
             ->enabled($products->enabled)
-            ->paginate(4);
+            ->paginate(20);
 
         return view('admin.products.panel')->with('products', $products);
     }
@@ -63,15 +63,22 @@ class ProductController extends Controller
     /**
      * Store a newly created product in storage.
      *
-     * @param SaveProducts $request
+     * @param ProductsRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(SaveProducts $request): \Illuminate\Http\RedirectResponse
+    public function store(ProductsRequest $request): \Illuminate\Http\RedirectResponse
     {
         $product = new Product($request->validated());
         $product->image = $request->file('image')->store('images', 'public');
         $product->save();
-        return redirect()->route('products.index');
+
+        // Optimizing the image
+
+        $image = Image::make(storage_path('app/public/' . $product->image));
+        $image->widen(600)->limitColors(255, '#ff9900')->encode();
+        Storage::put($product->image, (string) $image);
+
+        return redirect()->route('products.index')->with('message', 'Product Created');
     }
 
     /**
@@ -100,22 +107,31 @@ class ProductController extends Controller
      * Update the specified product in storage.
      *
      * @param Product $product
-     * @param SaveProducts $request
+     * @param ProductsRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Product $product, SaveProducts $request): \Illuminate\Http\RedirectResponse
+    public function update(Product $product, ProductsRequest $request): \Illuminate\Http\RedirectResponse
     {
-
         if ($request->hasFile('image')) {
+
+            Storage::disk('public')->delete($product->image);
+            Storage::delete($product->image);
+
             $product->fill($request->validated());
             $product->image = $request->file('image')->store('images', 'public');
+            $product->save();
         } else {
+
             $product->update($request->validated());
         }
 
-        $product->save();
+        // Optimizing the image
 
-        return redirect()->route('products.index');
+        $image = Image::make(storage_path('app/public/' . $product->image));
+        $image->widen(600)->limitColors(255, '#ff9900')->encode();
+        Storage::put($product->image, (string) $image);
+
+        return redirect()->route('products.index')->with('message', 'Edited Product');
     }
 
     /**
@@ -126,8 +142,12 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): \Illuminate\Http\RedirectResponse
     {
+        Storage::disk('public')->delete($product->image);
+
+        Storage::delete($product->image);
+
         $product->delete();
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('message', 'Product Removed');
     }
 }

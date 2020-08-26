@@ -2,10 +2,11 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+// use Illuminate\Database\Query\Builder;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -47,43 +48,45 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Query builder by name
      *
-     * @param [type] $query
-     * @param [type] $name
-     * @return builder $query
+     * @param Builder $query
+     * @param string $name
+     * @return EloquentBuilder $query
      */
-    public function scopeName($query, $name)
+    public function scopeName($query, $name): EloquentBuilder
     {
         if ($name) {
             return $query->where('name', 'LIKE', "%$name%");
         }
+        return $query;
     }
 
     /**
      * Query builder by email
      *
-     * @param [type] $query
-     * @param [type] $email
-     * @return builder $query
+     * @param Builder $query
+     * @param string $email
+     * @return EloquentBuilder $query
      */
-
-    public function scopeEmail($query, $email)
+    public function scopeEmail($query, $email): EloquentBuilder
     {
         if ($email) {
             return $query->where('email', 'LIKE', "%$email%");
         }
+        return $query;
     }
 
     /**
      * Query builder by state
      *
-     * @param [type] $query
-     * @param [type] $enabled
-     * @return builder $query
+     * @param Builder $query
+     * @param bool $enabled
+     * @return EloquentBuilder $query
      */
-    public function scopeEnabled($query, $enabled)
+    public function scopeEnabled($query, $enabled): EloquentBuilder
     {
         if ($enabled) {
             return $query->where('enabled', false);
         }
+        return $query;
     }
 }
