@@ -1,21 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row">
+<div class="main-container">
 
   {{-- Administrator menu --}}
-  <div class="col-2">
-    {{-- botones del admin --}}
-    @auth
-    @if (Auth::user()->admin or Auth::user()->main_admin)
+  <div class="container-filter">
     <div class="container">
+
+      {{-- botones del admin --}}
+      @auth
+      @if (Auth::user()->admin or Auth::user()->main_admin)
       <div class="btn-group-vertical">
-        <a class="btn btn-primary btn-lg" href="{{ route('users.create') }}">Create a new account</a>
-        <a class="btn btn-primary btn-lg" href="{{ route('products.index') }}">Manage products</a>
+        <a class="btn btn-dark mb-2" href="{{ route('users.create') }}">Create a new account</a>
+        <a class="btn btn-dark mb-2" href="{{ route('products.index') }}">Manage products</a>
+        <a class="btn btn-dark mb-2" href="{{ route('products.panel') }}">View products panel</a>
       </div>
 
       <div class="page-header mt-4 p-edit">
-        <h1 class="text-primary">Filter</h1>
+        <h1 class="text-muted">Filter</h1>
 
         <form class="form-group" method="GET" action="{{route('users.index')}}">
           @csrf
@@ -32,22 +34,22 @@
             </label>
           </div>
 
-          <button type="submit" class="btn btn-primary btn btn-block mt-2">Search</button>
+          <button type="submit" class="btn btn-dark btn btn-block mt-2">Search</button>
         </form>
       </div>
 
+      @endif
+      @endauth
     </div>
-    @endif
-    @endauth
   </div>
 
-  <div class="col-10 d-flex flex-column justify-content-center">
+  <div class="container-products">
 
     <div class="container">
-      <h1 class="text-primary d-flex justify-content-center">Accounts Users</h1>
+      <h1 class="text-dark d-flex justify-content-center">Accounts Users</h1>
       <table class="table table-striped p-edit-2">
         <thead>
-          <tr class="text-primary h5">
+          <tr class="text-muted h5">
             <th>Id</th>
             <th>Name</th>
             <th>Email</th>
@@ -94,6 +96,7 @@
           @endforeach
         </tbody>
       </table>
+      {{-- filter --}}
       <div class="d-flex justify-content-center">{{ $users->render() }}</div>
     </div>
 

@@ -7,11 +7,11 @@
   <div class="col-2 ml-3">
     {{-- Admi buttons --}}
     <div class="btn-group-vertical">
-      <a class="btn btn-primary btn-lg" href="{{ route('products.index') }}">Back to products</a>
+      <a class="btn btn-dark btn-lg" href="{{ route('products.index') }}">Back to products</a>
       @auth
       @if (Auth::user()->admin or Auth::user()->main_admin)
-      <a class="btn btn-primary btn-lg" href="{{ route('products.panel') }}">View admin panel</a>
-      <a class="btn btn-primary btn-lg" href="{{ route('users.index') }}">Manage Users</a>
+      <a class="btn btn-dark btn-lg" href="{{ route('products.panel') }}">View admin panel</a>
+      <a class="btn btn-dark btn-lg" href="{{ route('users.index') }}">Manage Users</a>
       @endif
       @endauth
     </div>
@@ -24,10 +24,10 @@
     <div class="row">
       <div class="col-5">
         <div class="container">
-          <h1 class="text-primary h-big">{{$product->name}}</h1>
-          <h4 class="text-muted">{{$product->brand}}</h4>
+          <h1 class="text-dark h-big">{{$product->name}}</h1>
+          <h4 class="text-primary">{{$product->brand}}</h4>
           <h2 class="text-success">${{$product->unit_price}}</h2>
-          <h4 class="text-info">Description</h4>
+          <h4 class="text-dark">Description</h4>
           <p class="p-edit">{{$product->description}}, Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
             expedita maxime,
             perferendis tempore odit officia velit a aut, numquam error distinctio minus, recusandae optio. Dolor,
@@ -41,8 +41,12 @@
 
       </div>
       <div class="col-5 d-flex flex-column">
-        <div class="img">
-          <img id="imagen" src="/storage/{{$product->image}}" class="img-fluid wrapper" alt="Image">
+        <div class="image-show">
+          @if (substr($product->image, 0, 5) == 'https')
+          <img src="{{$product->image}}" class="img-fluid" alt="Responsive image">
+          @else
+          <img src="/storage/{{$product->image}}" class="img-fluid" alt="Responsive image">
+          @endif
         </div>
         {{-- Footer Buttons --}}
         <div class="btn-group">

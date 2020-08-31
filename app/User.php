@@ -2,9 +2,11 @@
 
 namespace App;
 
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+// use Illuminate\Database\Query\Builder;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -16,7 +18,11 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'enabled', 'admin'
+        'name',
+        'email',
+        'password',
+        'enabled',
+        'admin'
     ];
 
     /**
@@ -39,24 +45,48 @@ class User extends Authenticatable implements MustVerifyEmail
 
     //Query scope
 
-    public function scopeName($query, $name)
+    /**
+     * Query builder by name
+     *
+     * @param Builder $query
+     * @param string $name
+     * @return EloquentBuilder $query
+     */
+    public function scopeName($query, $name): EloquentBuilder
     {
         if ($name) {
             return $query->where('name', 'LIKE', "%$name%");
         }
+        return $query;
     }
 
-    public function scopeEmail($query, $email)
+    /**
+     * Query builder by email
+     *
+     * @param Builder $query
+     * @param string $email
+     * @return EloquentBuilder $query
+     */
+    public function scopeEmail($query, $email): EloquentBuilder
     {
         if ($email) {
             return $query->where('email', 'LIKE', "%$email%");
         }
+        return $query;
     }
 
-    public function scopeEnabled($query, $enabled)
+    /**
+     * Query builder by state
+     *
+     * @param Builder $query
+     * @param bool $enabled
+     * @return EloquentBuilder $query
+     */
+    public function scopeEnabled($query, $enabled): EloquentBuilder
     {
         if ($enabled) {
             return $query->where('enabled', false);
         }
+        return $query;
     }
 }
