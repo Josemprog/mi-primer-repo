@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 class Product extends Model
 {
+
     /**
      * The attributes that are mass assignable.
      *

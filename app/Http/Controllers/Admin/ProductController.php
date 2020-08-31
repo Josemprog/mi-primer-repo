@@ -110,7 +110,7 @@ class ProductController extends Controller
      * @param ProductsRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Product $product, ProductsRequest $request): \Illuminate\Http\RedirectResponse
+    public function update(Product $product, ProductsRequest $request)
     {
         if ($request->hasFile('image')) {
 
@@ -120,17 +120,15 @@ class ProductController extends Controller
             $product->fill($request->validated());
             $product->image = $request->file('image')->store('images', 'public');
             $product->save();
+
+            // Optimizing the image
+            $image = Image::make($product->image);
+            $image->widen(600)->limitColors(255, '#ff9900')->encode();
+            Storage::put($product->image, (string) $image);
         } else {
 
             $product->update($request->validated());
         }
-
-        // Optimizing the image
-
-        $image = Image::make(storage_path('app/public/' . $product->image));
-        $image->widen(600)->limitColors(255, '#ff9900')->encode();
-        Storage::put($product->image, (string) $image);
-
         return redirect()->route('products.index')->with('message', 'Edited Product');
     }
 

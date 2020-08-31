@@ -42,7 +42,11 @@
       </div>
       <div class="col-5 d-flex flex-column">
         <div class="image-show">
-          <img src="/storage/{{$product->image}}" alt="Image">
+          @if (substr($product->image, 0, 5) == 'https')
+          <img src="{{$product->image}}" class="img-fluid" alt="Responsive image">
+          @else
+          <img src="/storage/{{$product->image}}" class="img-fluid" alt="Responsive image">
+          @endif
         </div>
         {{-- Footer Buttons --}}
         <div class="btn-group">
