@@ -10,7 +10,7 @@
       @if (Auth::user()->admin or Auth::user()->main_admin)
       {{-- buttons --}}
       <div>
-        <a class="btn btn-dark mb-2" href="{{ route('products.create') }}">Create a new Product</a>
+        <a class="btn btn-dark mb-2" href="{{ route('products.create') }}">+ Create a new Product</a>
         <a class="btn btn-dark mb-2" href="{{ route('products.index') }}">View products as user</a>
         <a class="btn btn-dark mb-2" href="{{ route('users.index') }}">Manage Users</a>
       </div>
@@ -64,13 +64,19 @@
           @foreach ($products as $product)
           <tr scope="row">
             <td>{{$product->id}}</td>
-            <td class="img-panel"><img src="/storage/{{$product->image}}" class="img" alt="Responsive image"></td>
+            <td class="img-panel">
+              @if (substr($product->image, 0, 5) == 'https')
+              <img src="{{$product->image}}" class="img-fluid" alt="Responsive image">
+              @else
+              <img src="/storage/{{$product->image}}" class="img-fluid" alt="Responsive image">
+              @endif
+            </td>
             <td>{{$product->brand}}</td>
             <td>{{$product->name}}</td>
             <td class="text-success">${{number_format($product->unit_price)}}</td>
             <td>{{$product->quantity}}</td>
             <td>{{$product->created_at}}</td>
-            <td class="d-flex justify-content-center">...</td>
+            <td>{{$product->updated_at}}</td>
             <td>
               <button
                 class=" justify-content-center btn-sm @if($product->enabled) btn btn-outline-success @else btn btn-outline-secondary @endif "

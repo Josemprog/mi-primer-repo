@@ -73,7 +73,6 @@ class ProductController extends Controller
         $product->save();
 
         // Optimizing the image
-
         $image = Image::make(storage_path('app/public/' . $product->image));
         $image->widen(600)->limitColors(255, '#ff9900')->encode();
         Storage::put($product->image, (string) $image);
@@ -110,26 +109,30 @@ class ProductController extends Controller
      * @param ProductsRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Product $product, ProductsRequest $request)
+    public function update(Product $product, ProductsRequest $request): \Illuminate\Http\RedirectResponse
     {
         if ($request->hasFile('image')) {
 
+            // Removing old image from folders
             Storage::disk('public')->delete($product->image);
             Storage::delete($product->image);
 
+            // Loading new image
             $product->fill($request->validated());
             $product->image = $request->file('image')->store('images', 'public');
             $product->save();
 
-            // Optimizing the image
-            $image = Image::make($product->image);
+            // Optimizing the new image
+            $image = Image::make(storage_path('app/public/' . $product->image));
             $image->widen(600)->limitColors(255, '#ff9900')->encode();
             Storage::put($product->image, (string) $image);
         } else {
 
+            // Updating without the image
             $product->update($request->validated());
         }
-        return redirect()->route('products.index')->with('message', 'Edited Product');
+
+        return redirect()->route('products.index')->with('message', "Edited Product $product->name");
     }
 
     /**
@@ -140,8 +143,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): \Illuminate\Http\RedirectResponse
     {
+        // Removing image from folders
         Storage::disk('public')->delete($product->image);
-
         Storage::delete($product->image);
 
         $product->delete();

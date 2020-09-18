@@ -10,7 +10,7 @@
       @if (Auth::user()->admin or Auth::user()->main_admin)
       {{-- buttons --}}
       <div>
-        <a class="btn btn-dark mb-2" href="{{ route('products.create') }}">Create a new Product</a>
+        <a class="btn btn-dark mb-2" href="{{ route('products.create') }}">+ Create a new Product</a>
         <a class="btn btn-dark mb-2" href="{{ route('products.panel') }}">View admin panel</a>
         <a class="btn btn-dark mb-2" href="{{ route('users.index') }}">Manage Users</a>
       </div>

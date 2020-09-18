@@ -55,7 +55,11 @@
 
               <div class=" image-edit col-6 d-flex flex-column justify-content-between">
                 <h3 class="text-muted"> Image</h3>
-                <img id="imagen" src="/storage/{{$product->image}}" alt="Image">
+                @if (substr($product->image, 0, 5) == 'https')
+                <img src="{{$product->image}}" class="img-fluid" alt="Responsive image">
+                @else
+                <img src="/storage/{{$product->image}}" class="img-fluid" alt="Responsive image">
+                @endif
                 <div class="custom-file">
                   <input name="image" type="file" class="custom-file-input" id="customFile">
                   {!! $errors->first('image', '<small class="alert alert-danger">:message</small><br>') !!}
