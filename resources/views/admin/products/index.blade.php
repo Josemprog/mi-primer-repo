@@ -27,7 +27,7 @@
         <input type="text" class="form border" name="name" placeholder="Name ...">
 
         <small class="form-text text-muted">Search by price</small>
-        <input type="text" class="form border" name="unit_price" placeholder="Price ...">
+        <input type="text" class="form border" name="price" placeholder="Price ...">
 
         <button type="submit" class="btn btn-dark btn btn-block mt-2">Search</button>
       </form>
@@ -80,7 +80,7 @@
         <div class="p-card-body">
           <div class="name-price-product">
             <a class="text-dark">{{ $product->name}}</a>
-            <span class="text-success">${{ number_format($product->unit_price)}}</span>
+            <span class="text-success">${{ number_format($product->price)}}</span>
           </div>
           {{-- Buttons --}}
           <div class="p-card-btn">

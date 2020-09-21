@@ -24,7 +24,7 @@ class ProductController extends Controller
         $products = Product::orderBy('id', 'ASC')
             ->brand($products->brand)
             ->name($products->name)
-            ->unit_price($products->unit_price)
+            ->price($products->price)
             ->paginate(10);
 
         return view('admin.products.index')->with('products', $products);
@@ -43,7 +43,7 @@ class ProductController extends Controller
         $products = Product::orderBy('id', 'ASC')
             ->brand($products->brand)
             ->name($products->name)
-            ->unit_price($products->unit_price)
+            ->price($products->price)
             ->enabled($products->enabled)
             ->paginate(20);
 

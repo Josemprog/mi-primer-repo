@@ -19,7 +19,7 @@ class Product extends Model
     protected $fillable = [
         'brand',
         'name',
-        'unit_price',
+        'price',
         'quantity',
         'description',
         'image',
@@ -62,13 +62,13 @@ class Product extends Model
      * query builder by price
      *
      * @param Builder $query
-     * @param int $unit_price
+     * @param int $price
      * @return EloquentBuilder $query
      */
-    public function scopeUnit_price($query, $unit_price): EloquentBuilder
+    public function scopePrice($query, $price): EloquentBuilder
     {
-        if ($unit_price) {
-            return $query->where('unit_price', 'LIKE', "%$unit_price%");
+        if ($price) {
+            return $query->where('price', 'LIKE', "%$price%");
         }
         return $query;
     }

@@ -73,7 +73,7 @@
             </td>
             <td>{{$product->brand}}</td>
             <td>{{$product->name}}</td>
-            <td class="text-success">${{number_format($product->unit_price)}}</td>
+            <td class="text-success">${{number_format($product->price)}}</td>
             <td>{{$product->quantity}}</td>
             <td>{{$product->created_at}}</td>
             <td>{{$product->updated_at}}</td>
