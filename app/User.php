@@ -2,6 +2,10 @@
 
 namespace App;
 
+
+// use App\Cart;
+use App\Order;
+use App\Payment;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,7 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'enabled',
-        'admin'
+        'admin',
     ];
 
     /**
@@ -43,7 +47,25 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    //Query scope
+    //--------------------Relations---------------------------------------------
+
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'customer_id');
+    }
+
+    public function payments()
+    {
+        return $this->hasManyThrough(Payment::class, Order::class, 'customer_id');
+    }
+
+    // public function cart()
+    // {
+    //     return $this->hasOne(Cart::class);
+    // }
+
+    //------------Query scope-----------------------------
 
     /**
      * Query builder by name

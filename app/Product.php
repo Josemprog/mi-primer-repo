@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Cart;
+use App\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 // use Illuminate\Database\Query\Builder;
@@ -26,7 +28,19 @@ class Product extends Model
         'enabled'
     ];
 
-    //Query scope
+    //--------------------Relations---------------------------------------------
+
+    public function carts()
+    {
+        return $this->morphedByMany(Cart::class, 'productable')->withPivot('quantity');
+    }
+
+    public function orders()
+    {
+        return $this->morphedByMany(Order::class, 'productable')->withPivot('quantity');
+    }
+
+    //--------------------Query scope--------------------------------------------------
 
     /**
      * Query builder by brand
