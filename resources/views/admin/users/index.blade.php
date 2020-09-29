@@ -57,7 +57,7 @@
             <th>Modification date</th>
             <th>Type</th>
             <th>State</th>
-            <th style="display: flex; justify-content: center;">Set up</th>
+            <th>Set up</th>
           </tr>
         </thead>
         <tbody>
@@ -83,12 +83,16 @@
               </button>
             </td>
             <td>
-              <div class="btn-group" style="display: flex; justify-content: center;">
+              <div class="btn-group">
+                <button class="btn">
+                  <a href="{{ route('users.edit', $user) }}"><i class="fas fa-pencil-alt"></i></a>
+                </button>
                 <form method="POST" action="{{ route('users.destroy', $user) }}">
                   @csrf
                   @method('DELETE')
-                  <a href="{{ route('users.edit', $user) }}" type="button" class="btn btn-outline-info btn-sm">Edit</a>
-                  <input type="submit" class="btn btn-outline-danger btn-sm" value="Remove">
+                  <button class="btn">
+                    <i class=" fas fa-trash-alt text-danger"></i>
+                  </button>
                 </form>
               </div>
             </td>

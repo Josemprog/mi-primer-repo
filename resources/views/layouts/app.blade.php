@@ -48,6 +48,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('products.index') }}">{{ __('Products') }}</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('carts.index') }}">
+                                @inject('cartService', 'App\Services\CartService')
+                                <i class="fas fa-shopping-cart"></i>
+                                {{ __('Cart') }} ({{$cartService->countProductsInCart()}})
+                            </a>
+                        </li>
                         {{-- Fin Links añadidos Fin --}}
                     </ul>
 

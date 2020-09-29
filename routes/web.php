@@ -15,3 +15,10 @@ Route::resource('users', 'Admin\UserController')->middleware('verified', AdminVe
 
 Route::get('admin/products/panel', 'Admin\ProductController@panel')->name('products.panel');
 Route::resource('products', 'Admin\ProductController')->middleware('verified');
+
+// Cart routes
+Route::resource('products.carts', 'ProductCartController')->only(['store', 'destroy']);
+Route::resource('carts', 'CartController')->only(['index']);
+
+Route::resource('orders', 'OrderController')->only(['create', 'store']);
+Route::resource('orders.payments', 'OrderPaymentController')->only(['create', 'store']);

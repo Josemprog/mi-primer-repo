@@ -39,9 +39,9 @@
                 <input name="name" id="name" class="form-control" value="{{ $product->name}}">
                 {!! $errors->first('name', '<small class="alert alert-danger">:message</small><br>') !!}
 
-                <label class="text-muted" for="unit_price">Unit Price</label>
-                <input name="unit_price" id="unit_price" class="form-control" value="{{ $product->unit_price}}">
-                {!! $errors->first('unit_price', '<small class="alert alert-danger">:message</small><br>') !!}
+                <label class="text-muted" for="price">Unit Price</label>
+                <input name="price" id="price" class="form-control" value="{{ number_format($product->price)}}">
+                {!! $errors->first('price', '<small class="alert alert-danger">:message</small><br>') !!}
 
                 <label class="text-muted" for="quantity">Quantity</label>
                 <input name="quantity" id="quantity" class="form-control" value="{{ $product->quantity}}">

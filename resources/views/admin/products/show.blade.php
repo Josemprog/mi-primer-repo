@@ -26,17 +26,10 @@
         <div class="container">
           <h1 class="text-dark h-big">{{$product->name}}</h1>
           <h4 class="text-primary">{{$product->brand}}</h4>
-          <h2 class="text-success">${{$product->unit_price}}</h2>
+          <h2 class="text-success">${{number_format($product->price)}}</h2>
           <h4 class="text-dark">Description</h4>
-          <p class="p-edit">{{$product->description}}, Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
-            expedita maxime,
-            perferendis tempore odit officia velit a aut, numquam error distinctio minus, recusandae optio. Dolor,
-            deserunt id sunt laboriosam aperiam corporis totam illum mollitia magnam atque molestiae consectetur fuga!
-            Id quisquam quia hic sequi repudiandae ut molestiae facere nostrum fugit architecto consectetur maxime,
-            perferendis nulla officia repellat totam, quidem non quam aperiam! Similique molestiae, doloribus dolorem
-            porro nobis eius explicabo amet quisquam distinctio voluptatem sapiente reprehenderit voluptas neque
-            commodi. Quaerat sunt inventore consequuntur exercitationem voluptatum quo deserunt sit quisquam molestias
-            in, numquam, voluptas repellendus accusantium. Rerum alias corrupti quas consequatur!</p>
+          <p class="p-edit">{{$product->description}} {{ $product->description }} {{ $product->description }}
+            {{ $product->description }}</p>
         </div>
 
       </div>
@@ -49,12 +42,15 @@
           @endif
         </div>
         {{-- Footer Buttons --}}
-        <div class="btn-group">
-          <button class="btn btn-success btn-big"><span class="h1">Buy now</span></button>
-          <button class="btn btn-success btn-bigr">
-            <i class="fas fa-cart-plus h-big"></i>
-          </button>
-        </div>
+        <form method="POST" action="{{ route('products.carts.store', ['product' => $product->id]) }}">
+          @csrf
+          <div class="btn-group btn-block">
+            <button class="btn btn-success btn-big"><span class="h1">Buy now</span></button>
+            <button class="btn btn-success btn-bigr">
+              <i class="fas fa-cart-plus h-big"></i>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
 
