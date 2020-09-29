@@ -25,7 +25,7 @@ class Product extends Model
         'quantity',
         'description',
         'image',
-        'enabled'
+        'enabled',
     ];
 
     //--------------------Relations---------------------------------------------
@@ -38,6 +38,13 @@ class Product extends Model
     public function orders()
     {
         return $this->morphedByMany(Order::class, 'productable')->withPivot('quantity');
+    }
+
+    //---------------------Getters----------------------------------------
+
+    public function getTotalAttribute()
+    {
+        return $this->pivot->quantity * $this->price;
     }
 
     //--------------------Query scope--------------------------------------------------

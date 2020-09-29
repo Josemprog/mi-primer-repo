@@ -26,7 +26,7 @@ class ProductsRequest extends FormRequest
         return [
             'brand' => 'required|string',
             'name' => 'required|string',
-            'unit_price' => 'required|integer',
+            'price' => 'required|float',
             'quantity' => 'required|integer',
             'description' => 'required|min:3',
             'enabled' => $this->route('product') ? 'required' : '',

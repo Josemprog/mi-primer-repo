@@ -19,6 +19,7 @@
 
       {{-- Filter form --}}
       <form class="form-group mt-3 p-edit" method="GET" action="{{route('products.index')}}">
+        @csrf
         <h1 class="text-muted">Filter</h1>
         <small class="form-text text-muted">Search by Brand</small>
         <input type="text" class="form border" name="brand" placeholder="Brand ...">
@@ -86,10 +87,11 @@
           <div class="p-card-btn">
             <a href="{{ route('products.show', $product) }}" class="btn btn-dark text-white"
               style="height: 35px">See</a>
-            <form>
+            <form method="POST" action="{{ route('products.carts.store', ['product' => $product->id]) }}">
+              @csrf
               <div class="btn-group" style="height: 35px">
-                <button class="btn btn-success">Buy now</button>
-                <button class="btn btn-success"><i class="fas fa-cart-plus"></i></button>
+                <button type="submit" class="btn btn-success">Buy now</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-cart-plus"></i></button>
               </div>
             </form>
           </div>

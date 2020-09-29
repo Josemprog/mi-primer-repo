@@ -18,7 +18,7 @@ class CreateProductablesTable extends Migration
             $table->bigInteger('quantity')->unsigned();
             $table->morphs('productable');
 
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products')->constrained()->onDelete('cascade');
         });
     }
 
