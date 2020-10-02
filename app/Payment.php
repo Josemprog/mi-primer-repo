@@ -29,7 +29,11 @@ class Payment extends Model
 
     //--------------------Relations---------------------------------------------
 
-
+    /**
+     * Undocumented function
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function order()
     {
         return $this->belongsTo(Order::class);

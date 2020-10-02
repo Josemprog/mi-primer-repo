@@ -9,6 +9,7 @@ class CartService
 {
   protected $cookieName = 'cart';
 
+
   public function getFromCookie()
   {
     $cartId = Cookie::get($this->cookieName);
@@ -18,6 +19,8 @@ class CartService
     return $cart;
   }
 
+
+
   public function getFromCookieOrCreate()
   {
     $cart = $this->getFromCookie();
@@ -25,10 +28,15 @@ class CartService
     return $cart ?? Cart::create();
   }
 
+
+
+
   public function makeCookie(Cart $cart)
   {
     return Cookie::make($this->cookieName, $cart->id, 7 * 24 * 60);
   }
+
+
 
   public function countProductsInCart()
   {
