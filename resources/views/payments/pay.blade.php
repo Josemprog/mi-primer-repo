@@ -32,6 +32,8 @@
             'order' => $order
           ]) }}">
             @csrf
+
+            <textarea name="textArea" cols="30" rows="10"></textarea>
             <button class="btn btn-success btn-lg mb-3 w-auto" type="submit"> Pay </button>
           </form>
 

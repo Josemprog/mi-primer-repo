@@ -18,7 +18,11 @@ Route::resource('products', 'Admin\ProductController')->middleware('verified');
 
 // Cart routes
 Route::resource('products.carts', 'ProductCartController')->only(['store', 'destroy']);
+
+Route::patch('products/{product}/carts/{cart}', 'ProductCartController@removeOne')->name('products.carts.removeOne');
+
 Route::resource('carts', 'CartController')->only(['index']);
+
 
 Route::resource('orders', 'OrderController')->only(['create', 'store']);
 Route::resource('orders.payments', 'OrderPaymentController')->only(['create', 'store']);

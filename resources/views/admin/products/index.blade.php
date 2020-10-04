@@ -87,7 +87,7 @@
           <div class="p-card-btn">
             <a href="{{ route('products.show', $product) }}" class="btn btn-dark text-white"
               style="height: 35px">See</a>
-            <form method="POST" action="{{ route('products.carts.store', ['product' => $product->id]) }}">
+            <form method="POST" action="{{ route('products.carts.store', ['product' => $product]) }}">
               @csrf
               <div class="btn-group" style="height: 35px">
                 <button type="submit" class="btn btn-success">Buy now</button>

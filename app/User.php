@@ -3,7 +3,7 @@
 namespace App;
 
 
-// use App\Cart;
+use App\Cart;
 use App\Order;
 use App\Payment;
 use Illuminate\Notifications\Notifiable;
@@ -49,6 +49,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     //--------------------Relations---------------------------------------------
 
+
+    public function cart()
+    {
+        return $this->hasOne(Cart::class, 'user_id');
+    }
 
     public function orders()
     {

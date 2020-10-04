@@ -26,7 +26,7 @@ class ProductCartController extends Controller
      */
     public function store(Request $request, Product $product)
     {
-        $cart = $this->cartService->getFromCookieOrCreate();
+        $cart = $this->cartService->getFromUserOrCreate();
 
         $quantity = $cart->products()
             ->find($product->id)
@@ -37,9 +37,25 @@ class ProductCartController extends Controller
             $product->id => ['quantity' => $quantity + 1],
         ]);
 
-        $cookie = $this->cartService->makeCookie($cart);
+        // $cookie = $this->cartService->makeCookie($cart);
 
-        return redirect()->back()->cookie($cookie);
+        return redirect()->back();
+    }
+
+    public function removeOne(Request $request, Product $product)
+    {
+        $cart = $this->cartService->getFromUserOrCreate();
+
+        $quantity = $cart->products()
+            ->find($product->id)
+            ->pivot
+            ->quantity ?? 0;
+
+        $cart->products()->syncWithoutDetaching([
+            $product->id => ['quantity' => $quantity - 1],
+        ]);
+
+        return redirect()->back();
     }
 
     /**
@@ -53,8 +69,6 @@ class ProductCartController extends Controller
     {
         $cart->products()->detach($product->id);
 
-        $cookie = $this->cartService->makeCookie($cart);
-
-        return redirect()->back()->cookie($cookie);
+        return redirect()->back();
     }
 }

@@ -49,6 +49,7 @@
                             <a class="nav-link text-white" href="{{ route('products.index') }}">{{ __('Products') }}</a>
                         </li>
 
+                        @auth
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('carts.index') }}">
                                 @inject('cartService', 'App\Services\CartService')
@@ -56,6 +57,7 @@
                                 {{ __('Cart') }} ({{$cartService->countProductsInCart()}})
                             </a>
                         </li>
+                        @endauth
                         {{-- Fin Links añadidos Fin --}}
                     </ul>
 

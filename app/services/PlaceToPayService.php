@@ -2,12 +2,35 @@
 
 namespace App\Services;
 
+use App\Order;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class PlaceToPayService
 {
 
-  public function createRequest()
+  public function createRequest(Order $order, Request $request)
+  {
+    $response = Http::post('https://test.placetopay.com/redirection/api/session/', [
+      'auth' => $this->getCredentials(),
+      'payment' => [
+        'reference' => $order->id,
+        'description' => $request->textArea,
+        'amount' => [
+          'currency' => 'COP',
+          'total' => $order->total,
+        ],
+      ],
+      'expiration' => date('c', strtotime('1 hour')),
+      'returnUrl' => 'http://localhost:3000/',
+      'ipAddress' => '127.0.0.1',
+      'userAgent' => 'PlacetoPay Sandbox',
+    ]);
+
+    return $response->json();
+  }
+
+  public function createRequestt()
   {
     $response = Http::post('https://test.placetopay.com/redirection/api/session/', [
       'auth' => $this->getCredentials(),

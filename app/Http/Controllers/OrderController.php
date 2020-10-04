@@ -19,25 +19,6 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $cart = $this->cartService->getFromCookie();
-
-        if (!isset($cart) || $cart->products->isEmpty()) {
-            return redirect()
-                ->back()
-                ->withErrors("Your cart is empty");
-        }
-        return view('orders.create')->with([
-            'cart' => $cart,
-        ]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -45,24 +26,33 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $user = $request->user();
+        $cart = $this->cartService->getCartFromUser();
 
-        $order = $user->orders()->create([
-            'status' => 'pending',
-        ]);
+        if (!isset($cart) || $cart->products->isEmpty()) {
+            return redirect()
+                ->back()
+                ->withErrors("Your cart is empty");
+        } else {
 
-        $cart = $this->cartService->getFromCookie();
+            $user = $request->user();
 
-        $cartProductsWithQuantity = $cart
-            ->products
-            ->mapWithKeys(function ($product) {
-                $element[$product->id] = ['quantity' => $product->pivot->quantity];
+            $order = $user->orders()->create([
+                'status' => 'pending',
+            ]);
 
-                return $element;
-            });
+            $cart = $this->cartService->getCartFromUser();
 
-        $order->products()->attach($cartProductsWithQuantity->toArray());
+            $cartProductsWithQuantity = $cart
+                ->products
+                ->mapWithKeys(function ($product) {
+                    $element[$product->id] = ['quantity' => $product->pivot->quantity];
 
-        return redirect()->route('orders.payments.create', ['order' => $order]);
+                    return $element;
+                });
+
+            $order->products()->attach($cartProductsWithQuantity->toArray());
+
+            return redirect()->route('orders.payments.create', ['order' => $order]);
+        }
     }
 }

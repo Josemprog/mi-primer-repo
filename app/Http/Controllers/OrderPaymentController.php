@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use App\Order;
 use App\Payment;
 use App\Services\CartService;
+use App\Services\PlaceToPayService;
 use Illuminate\Http\Request;
 
 class OrderPaymentController extends Controller
 {
     public $cartService;
+    public $p2p;
 
-    public function __construct(CartService $cartService)
+    public function __construct(CartService $cartService, PlaceToPayService $p2p)
     {
         $this->cartService = $cartService;
+        $this->p2p = $p2p;
+
 
         $this->middleware('auth');
     }
@@ -40,19 +44,11 @@ class OrderPaymentController extends Controller
      */
     public function store(Request $request, Order $order)
     {
-        $this->cartService->getFromCookie()->products()->detach();
 
+        $payment = $this->p2p->createRequest($order, $request);
 
-        $order->payment()->create([
-            'amount' => $order->total,
-            'payed_at' => now(),
-        ]);
+        $this->cartService->getCartFromUser()->products()->detach();
 
-        $order->status = 'payed';
-        $order->save();
-
-        return redirect()
-            ->route('products.index')
-            ->with('message', "Thanks! Your payment for \$" . number_format($order->total) . " was successful.");
+        return redirect($payment['processUrl']);
     }
 }
