@@ -3,36 +3,31 @@
 namespace App\Services;
 
 use App\Cart;
-use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Auth;
 
 class CartService
 {
-  protected $cookieName = 'cart';
 
-  public function getFromCookie()
+  public function getCartFromUser()
   {
-    $cartId = Cookie::get($this->cookieName);
 
-    $cart = Cart::find($cartId);
-
-    return $cart;
+    return Auth::user()->cart()->first();
   }
 
-  public function getFromCookieOrCreate()
-  {
-    $cart = $this->getFromCookie();
 
-    return $cart ?? Cart::create();
+
+  public function getFromUserOrCreate()
+  {
+    $cart = $this->getCartFromUser();
+
+    return $cart ?? Auth::user()->cart()->create();
   }
 
-  public function makeCookie(Cart $cart)
-  {
-    return Cookie::make($this->cookieName, $cart->id, 7 * 24 * 60);
-  }
 
   public function countProductsInCart()
   {
-    $cart = $this->getFromCookie();
+    $cart = $this->getCartFromUser();
+
     if ($cart != null) {
       return $cart->products->pluck('pivot.quantity')->sum();
     }

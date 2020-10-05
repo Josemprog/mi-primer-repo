@@ -21,18 +21,32 @@ class Order extends Model
 
     //--------------------Relations---------------------------------------------
 
-
-    public function payment()
+    /**
+     * Defines the relationships between models
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function payment(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Payment::class);
     }
 
-    public function user()
+    /**
+     * Defines the relationships between models
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'customer_id');
     }
 
-    public function products()
+    /**
+     * Defines the relationships between models
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function products(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphToMany(Product::class, 'productable')->withPivot('quantity');
     }

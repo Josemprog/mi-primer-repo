@@ -38,9 +38,10 @@
 
 
       <div class="text-center">
-        <a class="btn btn-info btn-lg mb-3 text-white" href="{{ route('orders.create')}}">
-          Start Order
-        </a>
+        <form class="d-inline" method="POST" action="{{ route('orders.store') }}">
+          @csrf
+          <button class="btn btn-success btn-lg mb-3 w-auto" type="submit"> Confirm Oder </button>
+        </form>
       </div>
 
       <table class="table table-striped p-edit-2">
@@ -74,20 +75,24 @@
             <td>{{$product->pivot->quantity}}</td>
             <td class="text-success">${{number_format($product->total)}}</td>
             <td>
-              {{-- <div class="d-flex"> --}}
-              <form method="POST" action="{{ route('products.carts.store', ['product' => $product->id]) }}">
-                @csrf
-                <button type="submit" class="btn text-info">
-                  <i class="fas fa-plus pr-2"></i>
-                </button>
-              </form>
-              {{-- <form method="POST" action="{{ route('products.carts.store', ['product' => $product->id]) }}">
-              @csrf
-              <button type="submit" class="btn text-dark">
-                <i class="fas fa-minus"></i>
-              </button>
-              </form> --}}
-              {{-- </div> --}}
+              <div class="d-flex">
+                <form method="POST" action="{{ route('products.carts.store', ['product' => $product->id]) }}">
+                  @csrf
+                  <button type="submit" class="btn text-info">
+                    <i class="fas fa-plus pr-2"></i>
+                  </button>
+                </form>
+
+                <form method="POST"
+                  action="{{ route('products.carts.removeOne', ['product' => $product, 'cart' => $cart]) }}">
+                  @csrf
+                  @method('PATCH')
+                  <button type="submit" class="btn text-dark">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </form>
+
+              </div>
             </td>
             <td>
               <form method="POST"

@@ -23,6 +23,6 @@ class UserSeeder extends Seeder
         $user->remember_token = Str::random(10);
         $user->save();
 
-        factory(App\User::class, 20)->create();
+        factory(App\User::class, 30)->create();
     }
 }

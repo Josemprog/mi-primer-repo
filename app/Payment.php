@@ -29,8 +29,12 @@ class Payment extends Model
 
     //--------------------Relations---------------------------------------------
 
-
-    public function order()
+    /**
+     * Defines the relationships between models
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function order(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Order::class);
     }

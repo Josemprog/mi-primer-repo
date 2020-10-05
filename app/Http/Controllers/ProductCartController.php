@@ -26,7 +26,7 @@ class ProductCartController extends Controller
      */
     public function store(Request $request, Product $product)
     {
-        $cart = $this->cartService->getFromCookieOrCreate();
+        $cart = $this->cartService->getFromUserOrCreate();
 
         $quantity = $cart->products()
             ->find($product->id)
@@ -37,13 +37,45 @@ class ProductCartController extends Controller
             $product->id => ['quantity' => $quantity + 1],
         ]);
 
-        $cookie = $this->cartService->makeCookie($cart);
+        // $cookie = $this->cartService->makeCookie($cart);
 
-        return redirect()->back()->cookie($cookie);
+        return redirect()->back();
+    }
+
+
+    /**
+     * Remove only one product from cart
+     *
+     * @param Request $request
+     * @param Product $product
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function removeOne(Request $request, Product $product, Cart $cart): \Illuminate\Http\RedirectResponse
+    {
+        $cart = $this->cartService->getFromUserOrCreate();
+
+        $quantity = $cart->products()
+            ->find($product->id)
+            ->pivot
+            ->quantity ?? 0;
+
+        if ($quantity <= 1) {
+
+            $cart->products()->detach($product->id);
+
+            return redirect()->back();
+        } else {
+
+            $cart->products()->syncWithoutDetaching([
+                $product->id => ['quantity' => $quantity - 1],
+            ]);
+        }
+
+        return redirect()->back();
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified product from cart.
      *
      * @param  \App\Product  $product
      * @param  \App\Cart  $cart
@@ -53,8 +85,6 @@ class ProductCartController extends Controller
     {
         $cart->products()->detach($product->id);
 
-        $cookie = $this->cartService->makeCookie($cart);
-
-        return redirect()->back()->cookie($cookie);
+        return redirect()->back();
     }
 }

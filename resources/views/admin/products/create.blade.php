@@ -38,9 +38,9 @@
                 {!! $errors->first('name', '<small class="alert alert-danger">:message</small><br>') !!}
 
                 <label class="text-muted" for="unit_price">Unit Price</label>
-                <input name="unit_price" id="unit_price" class="form-control" placeholder="Unit price ..."
-                  value="{{old('unit_price')}}">
-                {!! $errors->first('unit_price', '<small class="alert alert-danger">:message</small><br>') !!}
+                <input name="price" id="price" class="form-control" placeholder="Unit price ..."
+                  value="{{old('price')}}">
+                {!! $errors->first('price', '<small class="alert alert-danger">:message</small><br>') !!}
 
                 <label class="text-muted" for="quantity">Quantity</label>
                 <input name="quantity" id="quantity" class="form-control" placeholder="Quantity ..."

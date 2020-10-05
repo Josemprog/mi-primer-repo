@@ -40,7 +40,7 @@
                 {!! $errors->first('name', '<small class="alert alert-danger">:message</small><br>') !!}
 
                 <label class="text-muted" for="price">Unit Price</label>
-                <input name="price" id="price" class="form-control" value="{{ number_format($product->price)}}">
+                <input name="price" id="price" class="form-control" value="{{ $product->price }}">
                 {!! $errors->first('price', '<small class="alert alert-danger">:message</small><br>') !!}
 
                 <label class="text-muted" for="quantity">Quantity</label>

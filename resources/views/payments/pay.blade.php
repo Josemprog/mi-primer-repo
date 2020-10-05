@@ -28,11 +28,17 @@
       <div class="container d-flex flex-column justify-content-center">
 
         <div class="text-center">
-          <form class="d-inline" method="POST" action="{{ route('orders.payments.store', [
+          <form class="form-group d-flex justify-content-center" method="POST" action="{{ route('orders.payments.store', [
             'order' => $order
           ]) }}">
             @csrf
-            <button class="btn btn-success btn-lg mb-3 w-auto" type="submit"> Pay </button>
+
+            <div class="d-flex flex-column w-50">
+              <textarea name="textArea" cols="40" rows="6" required></textarea>
+              <button class="btn btn-success btn-lg mb-3 w-auto" type="submit"> Pay </button>
+
+            </div>
+
           </form>
 
           <hr>
