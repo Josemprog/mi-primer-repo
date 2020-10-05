@@ -42,7 +42,15 @@ class ProductCartController extends Controller
         return redirect()->back();
     }
 
-    public function removeOne(Request $request, Product $product)
+
+    /**
+     * Remove only one product from cart
+     *
+     * @param Request $request
+     * @param Product $product
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function removeOne(Request $request, Product $product, Cart $cart): \Illuminate\Http\RedirectResponse
     {
         $cart = $this->cartService->getFromUserOrCreate();
 
@@ -51,15 +59,23 @@ class ProductCartController extends Controller
             ->pivot
             ->quantity ?? 0;
 
-        $cart->products()->syncWithoutDetaching([
-            $product->id => ['quantity' => $quantity - 1],
-        ]);
+        if ($quantity <= 1) {
+
+            $cart->products()->detach($product->id);
+
+            return redirect()->back();
+        } else {
+
+            $cart->products()->syncWithoutDetaching([
+                $product->id => ['quantity' => $quantity - 1],
+            ]);
+        }
 
         return redirect()->back();
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified product from cart.
      *
      * @param  \App\Product  $product
      * @param  \App\Cart  $cart

@@ -61,7 +61,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created product in storage.
+     * Store a newly created user in storage.
      *
      * @param ProductsRequest $request
      * @return \Illuminate\Http\RedirectResponse
@@ -111,6 +111,8 @@ class ProductController extends Controller
      */
     public function update(Product $product, ProductsRequest $request): \Illuminate\Http\RedirectResponse
     {
+
+
         if ($request->hasFile('image')) {
 
             // Removing old image from folders
@@ -128,6 +130,7 @@ class ProductController extends Controller
             Storage::put($product->image, (string) $image);
         } else {
 
+            // dd($product);
             // Updating without the image
             $product->update($request->validated());
         }

@@ -57,7 +57,6 @@
                                 {{ __('Cart') }} ({{$cartService->countProductsInCart()}})
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('orders.index') }}">{{ __('Orders') }}</a>
                         </li>

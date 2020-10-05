@@ -22,7 +22,7 @@ class PlaceToPayService
         ],
       ],
       'expiration' => date('c', strtotime('1 hour')),
-      'returnUrl' => 'http://localhost:3000/',
+      'returnUrl' => 'http://localhost:3000/products',
       'ipAddress' => '127.0.0.1',
       'userAgent' => 'PlacetoPay Sandbox',
     ]);

@@ -52,6 +52,6 @@ class OrderPaymentController extends Controller
 
         $this->cartService->getCartFromUser()->products()->detach();
 
-        return redirect($payment['processUrl']);
+        return redirect($payment['processUrl'])->with('message', "Thanks for your purchase! the payment has been processed correctly");
     }
 }

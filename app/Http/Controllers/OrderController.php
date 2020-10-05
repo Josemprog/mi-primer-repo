@@ -30,7 +30,7 @@ class OrderController extends Controller
      * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         $user = Auth::user();
         $orders = Order::where('customer_id', $user->id)
@@ -46,18 +46,24 @@ class OrderController extends Controller
      * @param  Product $product
      * @return \Illuminate\View\View
      */
-    public function show(Order $order): \Illuminate\View\View
+    public function show(Request $request, Order $order): \Illuminate\View\View
     {
-        return view('orders.show')->with('order', $order);
+
+        $payment = $this->p2p->createRequest($order, $request);
+
+
+        $payment = $this->p2p->getInformation($payment['requestId']);
+
+        return view('orders.show')->with(['payment' => $payment]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
         $cart = $this->cartService->getCartFromUser();
 

@@ -50,17 +50,32 @@ class User extends Authenticatable implements MustVerifyEmail
     //--------------------Relations---------------------------------------------
 
 
-    public function cart()
+    /**
+     * Defines the relationships between models
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function cart(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Cart::class, 'user_id');
     }
 
-    public function orders()
+    /**
+     * Defines the relationships between models
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Order::class, 'customer_id');
     }
 
-    public function payments()
+    /**
+     * Defines the relationships between models
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function payments(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
     {
         return $this->hasManyThrough(Payment::class, Order::class, 'customer_id');
     }

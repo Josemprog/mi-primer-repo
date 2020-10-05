@@ -20,9 +20,10 @@
       </div>
 
       <div class="">
-        <p>lleve</p>
+        <h1>Sport Shoes</h1>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sit ut officia cumque. Sequi quod vero animi autem
+          rerum error ipsam est quis, alias voluptatibus, repellendus quas beatae numquam laboriosam corporis?</p>
       </div>
-
 
     </div>
 

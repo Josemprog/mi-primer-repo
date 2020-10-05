@@ -26,22 +26,28 @@
 
 
       <div class="container d-flex flex-column justify-content-center">
-
+        @if ($orders->isEmpty())
+        <div class="alert alert-warning">
+          You have no orders
+        </div>
+        @else
         <table class="table table-striped p-edit-2 w-auto">
           <thead>
             <tr class="text-muted">
               <th>requestId</th>
+              <th>Order id</th>
               <th>Status</th>
               <th>Customer id</th>
-              <th>created_at</th>
-              <th>updated_at</th>
-              <th>set up</th>
+              <th>created at</th>
+              <th>updated at</th>
+              <th>view orders</th>
             </tr>
           </thead>
           <tbody>
             @foreach ($orders as $order)
             <tr scope="row">
               <td>{{$order->requestId}}</td>
+              <td>{{$order->id}}</td>
               <td>{{$order->status}}</td>
               <td>{{$order->customer_id}}</td>
               <td>{{$order->created_at}}</td>
@@ -54,6 +60,7 @@
             @endforeach
           </tbody>
         </table>
+        @endif
       </div>
       {{-- Pagination --}}
       {{-- <div class=" d-flex justify-content-center">{{ $products->render()}}

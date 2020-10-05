@@ -30,12 +30,22 @@ class Product extends Model
 
     //--------------------Relations---------------------------------------------
 
-    public function carts()
+    /**
+     * Defines the relationships between models
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function carts(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphedByMany(Cart::class, 'productable')->withPivot('quantity');
     }
 
-    public function orders()
+    /**
+     * Defines the relationships between models
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function orders(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphedByMany(Order::class, 'productable')->withPivot('quantity');
     }
