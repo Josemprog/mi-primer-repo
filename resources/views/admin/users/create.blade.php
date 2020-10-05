@@ -7,8 +7,7 @@
     @auth
     @if (Auth::user()->admin or Auth::user()->main_admin)
     <div class="btn-group-vertical">
-      <a class="btn btn-primary" href="{{ route('users.index') }}">Back to accounts</a>
-      <a class="btn btn-primary" href="{{ route('products.index') }}">Manage products</a>
+      <a class="btn btn-dark btn-lg" href="{{ route('users.index') }}">Back to accounts</a>
     </div>
     @endif
     @endauth
@@ -21,25 +20,25 @@
       <div class=" justify-content-center">
         <div class="col-md-10 p-edit-2">
 
-          <h1 class="text-primary">Creating Users</h1>
+          <h1 class="text-dark">Creating Users</h1>
           <form method="POST" action=" {{ route('users.store')}} " class="form-group">
             @csrf
 
-            <label class="text-info" for="name">Name</label>
+            <label class="text-muted" for="name">Name</label>
             <input name="name" id="name" class="form-control" placeholder="Name ...">
             {!! $errors->first('name', '<small class="alert alert-danger">:message</small><br>') !!}
 
-            <label class="text-info" for="email">Email</label>
+            <label class="text-muted" for="email">Email</label>
             <input type="text" name="email" class="form-control" placeholder="Email ...">
             {!! $errors->first('email', '<small class="alert alert-danger">:message</small><br>') !!}
 
-            <label class="text-info" for="password">Password</label>
+            <label class="text-muted" for="password">Password</label>
             <input type="password" name="password" class="form-control" placeholder="password ...">
             {!! $errors->first('password', '<small class="alert alert-danger">:message</small><br>') !!}
 
             <br>
 
-            <button type="submit" class="btn btn-info btn-lg btn-block">Create</button>
+            <button type="submit" class="btn btn-dark btn-lg btn-block">Create</button>
 
           </form>
         </div>

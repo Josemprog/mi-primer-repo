@@ -2,60 +2,56 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Product;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
+use App\Http\Requests\ProductsRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the product.
      *
+     * @param Request $request
      * @return \Illuminate\View\View
      */
     public function index(Request $request): \Illuminate\View\View
     {
-        $brand = $request->get('brand');
-        $name = $request->get('name');
-        $email = $request->get('email');
-        $unit_price = $request->get('unit_price');
+        $products = $request;
 
         $products = Product::orderBy('id', 'ASC')
-            ->brand($brand)
-            ->name($name)
-            ->email($email)
-            ->unit_price($unit_price)
-            ->paginate(9);
+            ->brand($products->brand)
+            ->name($products->name)
+            ->price($products->price)
+            ->paginate(10);
 
         return view('admin.products.index')->with('products', $products);
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the product.
      *
+     * @param Request $request
      * @return \Illuminate\View\View
      */
     public function panel(Request $request): \Illuminate\View\View
     {
-        $brand = $request->get('brand');
-        $name = $request->get('name');
-        $email = $request->get('email');
-        $unit_price = $request->get('unit_price');
-        $enabled = $request->get('enabled');
+        $products = $request;
 
         $products = Product::orderBy('id', 'ASC')
-            ->brand($brand)
-            ->name($name)
-            ->email($email)
-            ->unit_price($unit_price)
-            ->enabled($enabled)
-            ->paginate(4);
+            ->brand($products->brand)
+            ->name($products->name)
+            ->price($products->price)
+            ->enabled($products->enabled)
+            ->paginate(20);
 
         return view('admin.products.panel')->with('products', $products);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new product.
      *
      * @return \Illuminate\View\View
      */
@@ -65,31 +61,29 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created user in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param ProductsRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(ProductsRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $product = Product::create(request()->validate([
-            'brand' => 'required|string',
-            'name' => 'required|string',
-            'unit_price' => 'required|integer',
-            'quantity' => 'required|integer',
-            'description' => 'required|min:3',
-            'image' => 'required'
-        ]));
-
+        $product = new Product($request->validated());
         $product->image = $request->file('image')->store('images', 'public');
         $product->save();
-        return redirect()->route('products.index');
+
+        // Optimizing the image
+        $image = Image::make(storage_path('app/public/' . $product->image));
+        $image->widen(600)->limitColors(255, '#ff9900')->encode();
+        Storage::put($product->image, (string) $image);
+
+        return redirect()->route('products.index')->with('message', 'Product Created');
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified product.
      *
-     * @param  int  $id
+     * @param  Product $product
      * @return \Illuminate\View\View
      */
     public function show(Product $product): \Illuminate\View\View
@@ -98,9 +92,9 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified product.
      *
-     * @param  int  $id
+     * @param Product $product
      * @return \Illuminate\View\View
      */
     public function edit(Product $product): \Illuminate\View\View
@@ -109,50 +103,55 @@ class ProductController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified product in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param Product $product
+     * @param ProductsRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Product $product, Request $request): \Illuminate\Http\RedirectResponse
+    public function update(Product $product, ProductsRequest $request): \Illuminate\Http\RedirectResponse
     {
-        if ($request->hasFile('image')) {
-            $product->update(array_filter(request()->validate([
-                'brand' => 'required|string',
-                'name' => 'required|string',
-                'unit_price' => 'required|integer',
-                'quantity' => 'required|integer',
-                'description' => 'required|min:3',
-                'image' => 'required',
-            ])));
 
+
+        if ($request->hasFile('image')) {
+
+            // Removing old image from folders
+            Storage::disk('public')->delete($product->image);
+            Storage::delete($product->image);
+
+            // Loading new image
+            $product->fill($request->validated());
             $product->image = $request->file('image')->store('images', 'public');
             $product->save();
-            return redirect()->route('products.index');
+
+            // Optimizing the new image
+            $image = Image::make(storage_path('app/public/' . $product->image));
+            $image->widen(600)->limitColors(255, '#ff9900')->encode();
+            Storage::put($product->image, (string) $image);
         } else {
-            $product->update(array_filter(request()->validate([
-                'brand' => 'required|string',
-                'name' => 'required|string',
-                'unit_price' => 'required|integer',
-                'quantity' => 'required|integer',
-                'description' => 'required|min:3',
-                'image' => 'nullable',
-            ])));
-            return redirect()->route('products.index');
+
+            // dd($product);
+            // Updating without the image
+            $product->update($request->validated());
         }
+
+        return redirect()->route('products.index')->with('message', "Edited Product $product->name");
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified product from storage.
      *
-     * @param  int  $id
+     * @param Product $product
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Product $product): \Illuminate\Http\RedirectResponse
     {
+        // Removing image from folders
+        Storage::disk('public')->delete($product->image);
+        Storage::delete($product->image);
+
         $product->delete();
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('message', 'Product Removed');
     }
 }

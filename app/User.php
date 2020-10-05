@@ -2,9 +2,15 @@
 
 namespace App;
 
+
+use App\Cart;
+use App\Order;
+use App\Payment;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+// use Illuminate\Database\Query\Builder;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -16,7 +22,11 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'enabled', 'admin'
+        'name',
+        'email',
+        'password',
+        'enabled',
+        'admin',
     ];
 
     /**
@@ -37,26 +47,83 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    //Query scope
+    //--------------------Relations---------------------------------------------
 
-    public function scopeName($query, $name)
+
+    /**
+     * Defines the relationships between models
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function cart(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Cart::class, 'user_id');
+    }
+
+    /**
+     * Defines the relationships between models
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Order::class, 'customer_id');
+    }
+
+    /**
+     * Defines the relationships between models
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function payments(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(Payment::class, Order::class, 'customer_id');
+    }
+
+    //------------Query scope-----------------------------
+
+    /**
+     * Query builder by name
+     *
+     * @param Builder $query
+     * @param string $name
+     * @return EloquentBuilder $query
+     */
+    public function scopeName($query, $name): EloquentBuilder
     {
         if ($name) {
             return $query->where('name', 'LIKE', "%$name%");
         }
+        return $query;
     }
 
-    public function scopeEmail($query, $email)
+    /**
+     * Query builder by email
+     *
+     * @param Builder $query
+     * @param string $email
+     * @return EloquentBuilder $query
+     */
+    public function scopeEmail($query, $email): EloquentBuilder
     {
         if ($email) {
             return $query->where('email', 'LIKE', "%$email%");
         }
+        return $query;
     }
 
-    public function scopeEnabled($query, $enabled)
+    /**
+     * Query builder by state
+     *
+     * @param Builder $query
+     * @param bool $enabled
+     * @return EloquentBuilder $query
+     */
+    public function scopeEnabled($query, $enabled): EloquentBuilder
     {
         if ($enabled) {
             return $query->where('enabled', false);
         }
+        return $query;
     }
 }

@@ -1,25 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row">
+<div class="main-container">
 
-  <div class="col-2">
+  <div class="container-filter">
     <div class="container">
       {{-- Administrator menu --}}
       @auth
       @if (Auth::user()->admin or Auth::user()->main_admin)
       {{-- buttons --}}
-      <div class="btn-group-vertical">
-        <a class="btn btn-primary btn-lg" href="{{ route('products.create') }}">Create a new Product</a>
-        <a class="btn btn-primary btn-lg" href="{{ route('products.panel') }}">View admin panel</a>
-        <a class="btn btn-primary btn-lg" href="{{ route('users.index') }}">Manage Users</a>
+      <div>
+        <a class="btn btn-dark mb-2" href="{{ route('products.create') }}">+ Create a new Product</a>
+        <a class="btn btn-dark mb-2" href="{{ route('products.panel') }}">View admin panel</a>
+        <a class="btn btn-dark mb-2" href="{{ route('users.index') }}">Manage Users</a>
       </div>
       @endif
       @endauth
 
       {{-- Filter form --}}
       <form class="form-group mt-3 p-edit" method="GET" action="{{route('products.index')}}">
-        <h1 class="text-primary">Filter</h1>
+        @csrf
+        <h1 class="text-muted">Filter</h1>
         <small class="form-text text-muted">Search by Brand</small>
         <input type="text" class="form border" name="brand" placeholder="Brand ...">
 
@@ -27,30 +28,25 @@
         <input type="text" class="form border" name="name" placeholder="Name ...">
 
         <small class="form-text text-muted">Search by price</small>
-        <input type="text" class="form border" name="unit_price" placeholder="Price ...">
+        <input type="text" class="form border" name="price" placeholder="Price ...">
 
-        <button type="submit" class="btn btn-primary btn btn-block mt-2">Search</button>
+        <button type="submit" class="btn btn-dark btn btn-block mt-2">Search</button>
       </form>
 
     </div>
   </div>
 
-  {{-- Showing the products --}}
-  <div class="col-10 justify-content-center row row-cols-md-3">
+  {{-- Products container --}}
+  <div class="container-products">
 
-    {{-- Products container --}}
-    @forelse ($products as $product)
-    @if ($product->enabled == 1)
-    <div class="col mb-4">
+    <div class="card-group">
+      @forelse ($products as $product)
+      @if ($product->enabled == 1)
 
       {{-- Card Products --}}
       <div class="p-card">
-
-        {{-- Header --}}
-        <div class="d-flex justify-content-between p-2">
-          <h2 class="text-primary">{{ $product->brand}}</h2>
-
-          {{-- Header Buttons --}}
+        <div class="btn-edit">
+          <h3 style="padding: 5px 0 0 10px">{{ $product->brand}}</h3>
           <div class="btn-group">
             @auth
             @if (Auth::user()->admin or Auth::user()->main_admin)
@@ -61,7 +57,7 @@
                 </a>
               </button>
             </p>
-            <form method="POST" action="{{ route('products.destroy', $product) }}">
+            <form method="POST" action="{{ route('products.destroy', $product) }}" enctype="multipart/form-data">
               @csrf
               @method('DELETE')
               <button class="btn border-0">
@@ -72,41 +68,46 @@
             @endauth
           </div>
         </div>
-
         {{-- Image --}}
         <div class="imagen-card">
+          @if (substr($product->image, 0, 5) == 'https')
+          <img src="{{$product->image}}" class="img-fluid" alt="Responsive image">
+          @else
           <img src="/storage/{{$product->image}}" class="img-fluid" alt="Responsive image">
+          @endif
         </div>
 
         {{-- Body --}}
-        <div class="card-body p-2">
-          <h5 class="text-info">{{ $product->name}}</h5>
-          <span class="text-success">${{ $product->unit_price}}</span>
-          <hr>
-        </div>
-
-        {{-- Footer --}}
-        <div class="d-flex justify-content-around pb-3">
-          <a href="{{ route('products.show', $product) }}" class="btn btn-info text-white">See</a>
-          {{-- Footer Buttons --}}
-          <div class="btn-group">
-            <button class="btn btn-success">Buy now</button>
-            <button class="btn btn-success">
-              <i class="fas fa-cart-plus" style="font-size: 1.5em"></i>
-            </button>
+        <div class="p-card-body">
+          <div class="name-price-product">
+            <a class="text-dark">{{ $product->name}}</a>
+            <span class="text-success">${{ number_format($product->price)}}</span>
           </div>
+          {{-- Buttons --}}
+          <div class="p-card-btn">
+            <a href="{{ route('products.show', $product) }}" class="btn btn-dark text-white"
+              style="height: 35px">See</a>
+            <form method="POST" action="{{ route('products.carts.store', ['product' => $product]) }}">
+              @csrf
+              <div class="btn-group" style="height: 35px">
+                <button type="submit" class="btn btn-success">Buy now</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </form>
+          </div>
+          {{-- End Buttons --}}
         </div>
       </div>
-
       {{-- End Card Products --}}
+      @endif
+      @empty
+      <h1>No hay productos ...</h1>
+      @endforelse
     </div>
-    @endif
-    @empty
-    <h1>No hay productos ...</h1>
-    @endforelse
-    {{-- Pagination --}}
+
   </div>
 
 </div>
+{{-- Pagination --}}
 <div class=" d-flex justify-content-center">{{ $products->render()}}</div>
 @endsection

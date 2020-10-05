@@ -2,53 +2,120 @@
 
 namespace App;
 
+use App\Cart;
+use App\Order;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+// use Illuminate\Database\Query\Builder;
+
+
 
 class Product extends Model
 {
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'brand', 'name', 'unit_price', 'quantity', 'description', 'image', 'enabled'
+        'brand',
+        'name',
+        'price',
+        'quantity',
+        'description',
+        'image',
+        'enabled',
     ];
 
-    //Query scope
+    //--------------------Relations---------------------------------------------
 
-    public function scopeBrand($query, $brand)
+    /**
+     * Defines the relationships between models
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function carts(): \Illuminate\Database\Eloquent\Relations\MorphToMany
+    {
+        return $this->morphedByMany(Cart::class, 'productable')->withPivot('quantity');
+    }
+
+    /**
+     * Defines the relationships between models
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function orders(): \Illuminate\Database\Eloquent\Relations\MorphToMany
+    {
+        return $this->morphedByMany(Order::class, 'productable')->withPivot('quantity');
+    }
+
+    //---------------------Getters----------------------------------------
+
+    public function getTotalAttribute()
+    {
+        return $this->pivot->quantity * $this->price;
+    }
+
+    //--------------------Query scope--------------------------------------------------
+
+    /**
+     * Query builder by brand
+     *
+     * @param Builder $query
+     * @param string $brand
+     * @return EloquentBuilder $query
+     */
+    public function scopeBrand($query, $brand): EloquentBuilder
     {
         if ($brand) {
             return $query->where('brand', 'LIKE', "%$brand%");
         }
+        return $query;
     }
 
-    public function scopeName($query, $name)
+    /**
+     * query builder by name
+     *
+     * @param Builder $query
+     * @param string $name
+     * @return EloquentBuilder $query
+     */
+    public function scopeName($query, $name): EloquentBuilder
     {
         if ($name) {
             return $query->where('name', 'LIKE', "%$name%");
         }
+        return $query;
     }
 
-    public function scopeEmail($query, $email)
+    /**
+     * query builder by price
+     *
+     * @param Builder $query
+     * @param int $price
+     * @return EloquentBuilder $query
+     */
+    public function scopePrice($query, $price): EloquentBuilder
     {
-        if ($email) {
-            return $query->where('email', 'LIKE', "%$email%");
+        if ($price) {
+            return $query->where('price', 'LIKE', "%$price%");
         }
+        return $query;
     }
 
-    public function scopeUnit_price($query, $unit_price)
-    {
-        if ($unit_price) {
-            return $query->where('unit_price', 'LIKE', "%$unit_price%");
-        }
-    }
-
-    public function scopeEnabled($query, $enabled)
+    /**
+     * query builder by state
+     *
+     * @param Builder $query
+     * @param bool $enabled
+     * @return EloquentBuilder $query
+     */
+    public function scopeEnabled($query, $enabled): EloquentBuilder
     {
         if ($enabled) {
             return $query->where('enabled', false);
         }
+        return $query;
     }
 }

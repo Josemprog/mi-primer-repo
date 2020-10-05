@@ -4,23 +4,6 @@ use App\Http\Middleware\CheckAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('welcome');
-
-
-
 Auth::routes(['verify' => true]);
 Route::view('/', 'welcome')->name('welcome');
 
@@ -32,3 +15,14 @@ Route::resource('users', 'Admin\UserController')->middleware('verified', AdminVe
 
 Route::get('admin/products/panel', 'Admin\ProductController@panel')->name('products.panel');
 Route::resource('products', 'Admin\ProductController')->middleware('verified');
+
+// Cart routes
+Route::resource('products.carts', 'ProductCartController')->only(['store', 'destroy']);
+
+Route::patch('products/{product}/carts/{cart}', 'ProductCartController@removeOne')->name('products.carts.removeOne');
+
+Route::resource('carts', 'CartController')->only(['index']);
+
+
+Route::resource('orders', 'OrderController')->only(['index', 'create', 'store', 'show']);
+Route::resource('orders.payments', 'OrderPaymentController')->only(['create', 'store']);

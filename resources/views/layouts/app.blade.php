@@ -25,9 +25,9 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-dark shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand text-white" href="{{ url('/') }}">
                     {{-- {{ config('app.name', 'Laravel') }} --}}
                     Evertec Project
                 </a>
@@ -40,47 +40,61 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        @auth
-                        @if (Auth::user()->admin or Auth::user()->main_admin)
+                        {{-- Links añadidos --}}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('users.index') }}">{{ __('Admin') }}</a>
+                            <a class="nav-link text-white" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
-                        @endif
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('products.index') }}">{{ __('Products') }}</a>
+                        </li>
+
+                        @auth
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('carts.index') }}">
+                                @inject('cartService', 'App\Services\CartService')
+                                <i class="fas fa-shopping-cart"></i>
+                                {{ __('Cart') }} ({{$cartService->countProductsInCart()}})
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('orders.index') }}">{{ __('Orders') }}</a>
+                        </li>
                         @endauth
+
+
+                        {{-- Fin Links añadidos Fin --}}
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        @auth
+                        @if (Auth::user()->admin or Auth::user()->main_admin)
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('users.index') }}">{{ __('Admin') }}</a>
+                        </li>
+                        @endif
+                        @endauth
                         <!-- Authentication Links -->
                         @guest
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                         @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
                         @endif
                         @else
 
-                        {{-- Links añadidos --}}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('products.index') }}">{{ __('Products') }}</a>
-                        </li>
-                        {{-- Fin Links añadidos Fin --}}
-
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                            <a id="navbarDropdown" class="nav-link text-white dropdown-toggle" href="#" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                <a class="dropdown-item text-dark" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
@@ -96,8 +110,12 @@
                 </div>
             </div>
         </nav>
-
-        <main class="py-4">
+        @if (session('message'))
+        <div class="alert alert-success d-flex justify-content-center h1" role="alert">
+            {{ session('message') }}
+        </div>
+        @endif
+        <main class="py-4 m-0 p-0">
             @yield('content')
         </main>
     </div>

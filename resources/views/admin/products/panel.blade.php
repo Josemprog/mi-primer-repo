@@ -1,25 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row">
+<div class="main-container">
 
-  <div class="col-2">
+  <div class="container-filter">
     <div class="container">
       {{-- Administrator menu --}}
       @auth
       @if (Auth::user()->admin or Auth::user()->main_admin)
       {{-- buttons --}}
-      <div class="btn-group-vertical">
-        <a class="btn btn-primary btn-lg" href="{{ route('products.create') }}">Create a new Product</a>
-        <a class="btn btn-primary btn-lg" href="{{ route('products.index') }}">View products as user</a>
-        <a class="btn btn-primary btn-lg" href="{{ route('users.index') }}">Manage Users</a>
+      <div>
+        <a class="btn btn-dark mb-2" href="{{ route('products.create') }}">+ Create a new Product</a>
+        <a class="btn btn-dark mb-2" href="{{ route('products.index') }}">View products as user</a>
+        <a class="btn btn-dark mb-2" href="{{ route('users.index') }}">Manage Users</a>
       </div>
       @endif
       @endauth
 
       {{-- Filter form --}}
       <form class="form-group mt-3 p-edit" method="GET" action="{{route('products.panel')}}">
-        <h1 class="text-primary">Filter</h1>
+        <h1 class="text-muted">Filter</h1>
         <small class="form-text text-muted">Search by Brand</small>
         <input type="text" class="form border" name="brand" placeholder="Brand ...">
 
@@ -36,19 +36,20 @@
           </label>
         </div>
 
-        <button type="submit" class="btn btn-primary btn btn-block mt-2">Search</button>
+        <button type="submit" class="btn btn-dark btn btn-block mt-2">Search</button>
       </form>
     </div>
   </div>
 
-  <div class="col-10">
+  <div class="container-products">
 
     <div class="container">
-      <h1 class="text-primary d-flex justify-content-center h-big">Products</h1>
+      <h1 class="text-dark d-flex justify-content-center h-big">Products</h1>
       <table class="table table-striped p-edit-2">
         <thead>
-          <tr class="text-info">
+          <tr class="text-muted">
             <th>Id</th>
+            <th></th>
             <th>Brand</th>
             <th>Name</th>
             <th>Unit price</th>
@@ -63,12 +64,19 @@
           @foreach ($products as $product)
           <tr scope="row">
             <td>{{$product->id}}</td>
+            <td class="img-panel">
+              @if (substr($product->image, 0, 5) == 'https')
+              <img src="{{$product->image}}" class="img-fluid" alt="Responsive image">
+              @else
+              <img src="/storage/{{$product->image}}" class="img-fluid" alt="Responsive image">
+              @endif
+            </td>
             <td>{{$product->brand}}</td>
             <td>{{$product->name}}</td>
-            <td class="text-success">${{$product->unit_price}}</td>
+            <td class="text-success">${{number_format($product->price)}}</td>
             <td>{{$product->quantity}}</td>
             <td>{{$product->created_at}}</td>
-            <td class="d-flex justify-content-center">...</td>
+            <td>{{$product->updated_at}}</td>
             <td>
               <button
                 class=" justify-content-center btn-sm @if($product->enabled) btn btn-outline-success @else btn btn-outline-secondary @endif "
