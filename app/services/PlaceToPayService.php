@@ -8,10 +8,20 @@ use Illuminate\Support\Facades\Http;
 
 class PlaceToPayService
 {
+  protected $endponitBase;
+  protected $login;
+  protected $secretKey;
+
+  public function __construct()
+  {
+    $this->endponitBase = env('P2P_ENDPOINT_BASE');
+    $this->login = env('P2P_LOGIN');
+    $this->secretKey = env('P2P_SECRET_KEY');
+  }
 
   public function createRequest(Order $order, Request $request)
   {
-    $response = Http::post('https://test.placetopay.com/redirection/api/session/', [
+    $response = Http::post($this->endponitBase . '/api/session/', [
       'auth' => $this->getCredentials(),
       'payment' => [
         'reference' => $order->id,
@@ -32,7 +42,7 @@ class PlaceToPayService
 
   public function createRequestt()
   {
-    $response = Http::post('https://test.placetopay.com/redirection/api/session/', [
+    $response = Http::post($this->endponitBase . '/api/session/', [
       'auth' => $this->getCredentials(),
       'payment' => [
         'reference' => '2020sep080704',
@@ -64,10 +74,8 @@ class PlaceToPayService
 
   public function getCredentials()
   {
-    $login = '6dd490faf9cb87a9862245da41170ff2';
-
-    $secretKey = '024h1IlD';
-
+    $login = $this->login;
+    $secretKey = $this->secretKey;
     $seed = date('c');
 
     if (function_exists('random_bytes')) {
