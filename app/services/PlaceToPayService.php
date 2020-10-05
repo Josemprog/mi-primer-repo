@@ -51,6 +51,7 @@ class PlaceToPayService
     return $response->json();
   }
 
+
   public function getInformation($requestId)
   {
     $response = Http::post('https://test.placetopay.com/redirection/api/session/' . $requestId, [
@@ -59,6 +60,7 @@ class PlaceToPayService
 
     return $response->json();
   }
+
 
   public function getCredentials()
   {

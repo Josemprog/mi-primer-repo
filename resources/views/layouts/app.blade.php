@@ -57,7 +57,13 @@
                                 {{ __('Cart') }} ({{$cartService->countProductsInCart()}})
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('orders.index') }}">{{ __('Orders') }}</a>
+                        </li>
                         @endauth
+
+
                         {{-- Fin Links añadidos Fin --}}
                     </ul>
 
@@ -110,7 +116,7 @@
             {{ session('message') }}
         </div>
         @endif
-        <main class="py-4">
+        <main class="py-4 m-0 p-0">
             @yield('content')
         </main>
     </div>

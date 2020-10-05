@@ -47,6 +47,9 @@ class OrderPaymentController extends Controller
 
         $payment = $this->p2p->createRequest($order, $request);
 
+        $order->requestId = $payment['requestId'];
+        $order->save();
+
         $this->cartService->getCartFromUser()->products()->detach();
 
         return redirect($payment['processUrl']);

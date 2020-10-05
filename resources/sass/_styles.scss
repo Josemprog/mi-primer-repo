@@ -61,7 +61,7 @@
 }
 
 body {
-    background: linear-gradient(rgba(51, 47, 47, 0.836), rgb(163, 26, 26));
+    background: linear-gradient(rgba(51, 47, 47, 0.836), rgb(0, 0, 0));
     background: no-repeat;
 }
 
@@ -121,4 +121,12 @@ body {
 
 .btns {
     display: flex;
+}
+
+.home-images {
+    background: black;
+}
+
+.image-home {
+    background-image: src("/img/frontend/shelving1.jpeg");
 }
