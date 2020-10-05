@@ -34,7 +34,7 @@
             @csrf
 
             <div class="d-flex flex-column w-50">
-              <textarea name="textArea" cols="40" rows="6"></textarea>
+              <textarea name="textArea" cols="40" rows="6" required></textarea>
               <button class="btn btn-success btn-lg mb-3 w-auto" type="submit"> Pay </button>
 
             </div>
