@@ -27,59 +27,62 @@ class OrderController extends Controller
     /**
      * Display a listing of the Orders of User.
      *
-     * @param Request $request
      * @return \Illuminate\View\View
      */
     public function index(): \Illuminate\View\View
     {
         $user = Auth::user();
         $orders = Order::where('customer_id', $user->id)
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'ASC')
             ->get();
 
-        return view('orders.index')->with('orders', $orders);
+        return view('orders.index')->with([
+            'orders' => $orders,
+            'user' => $user
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         return view('payments.pay')->with([
             'cart' => $this->cartService->getFromUserOrCreate(),
         ]);
     }
 
-    /**
-     * Display the specified product.
+    /**s
+     * Display the specified order.
      *
-     * @param  Product $product
+     * @param  Order $order
      * @return \Illuminate\View\View
      */
-    public function show(Request $request, Order $order): \Illuminate\View\View
+    public function show(Order $order): \Illuminate\View\View
     {
-        // $payment = $this->p2p->createRequest($order, $request);
-        // dd($order->toArray());
+
         $payment = $this->p2p->getInformation($order->requestId);
 
         if ($order->status == 'PENDING') {
-
-            // dd($order->status);
 
             $order->status = $payment['status']['status'];
             $order->save();
         }
 
-        return view('orders.show')->with(['order' => $order, 'payment' => $payment]);
+        return view('orders.show')
+            ->with([
+                'order' => $order,
+                'payment' => $payment,
+            ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
@@ -116,9 +119,11 @@ class OrderController extends Controller
 
                 // agrupo las ordenes en un arreglo
 
-                $order->products()->attach($cartProductsWithQuantity->toArray());
+                $order->products()
+                    ->attach($cartProductsWithQuantity->toArray());
             }
 
+            // borro los productos del carrito
             $this->cartService->getCartFromUser()->products()->detach();
 
             // Consumo el api de Place to pay
@@ -129,14 +134,7 @@ class OrderController extends Controller
             $order->status = $payment['status']['status'];
             $order->save();
 
-            // borro los productos del carrito
-
-
-            if ($order->status == 'PENDING') {
-                return redirect($payment['processUrl'])->with('message', "The payment was not completed, try again later when you want");
-            }
-
-            return redirect($payment['processUrl'])->with('message', "Thanks for your purchase! the payment has been processed correctly");
+            return redirect($payment['processUrl']);
         }
     }
 
@@ -145,9 +143,9 @@ class OrderController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function retry(Request $request, Order $order)
+    public function retry(Request $request, Order $order): \Illuminate\Http\RedirectResponse
     {
 
         $payment = $this->p2p->createRequest($order, $request);
@@ -156,13 +154,8 @@ class OrderController extends Controller
         $order->requestId = $payment['requestId'];
         $order->save();
 
-
         $this->cartService->getCartFromUser()->products()->detach();
 
-        if ($order->status == 'PENDING') {
-            return redirect($payment['processUrl'])->with('message', "The payment was not completed, try again later when you want");
-        }
-
-        return redirect($payment['processUrl'])->with('message', "Thanks for your purchase! the payment has been processed correctly");
+        return redirect($payment['processUrl']);
     }
 }

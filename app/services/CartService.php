@@ -7,7 +7,11 @@ use Illuminate\Support\Facades\Auth;
 
 class CartService
 {
-
+  /**
+   * returns the user's first cart
+   *
+   * @return void
+   */
   public function getCartFromUser()
   {
 
@@ -15,7 +19,11 @@ class CartService
   }
 
 
-
+  /**
+   * The user's cart is selected or a new cart is created for the user
+   *
+   * @return void
+   */
   public function getFromUserOrCreate()
   {
     $cart = $this->getCartFromUser();
@@ -23,7 +31,11 @@ class CartService
     return $cart ?? Auth::user()->cart()->create();
   }
 
-
+  /**
+   * the products in the cart are counted
+   *
+   * @return void
+   */
   public function countProductsInCart()
   {
     $cart = $this->getCartFromUser();

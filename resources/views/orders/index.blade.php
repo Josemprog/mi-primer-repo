@@ -34,10 +34,8 @@
             <tr class="text-muted">
               <th>requestId</th>
               <th>Order id</th>
-              <th>Status</th>
-              <th>Customer id</th>
+              <th>User</th>
               <th>created at</th>
-              <th>updated at</th>
               <th>view orders</th>
             </tr>
           </thead>
@@ -46,10 +44,8 @@
             <tr scope="row">
               <td>{{$order->requestId}}</td>
               <td>{{$order->id}}</td>
-              <td>{{$order->status}}</td>
-              <td>{{$order->customer_id}}</td>
+              <td>{{$user->name}}</td>
               <td>{{$order->created_at}}</td>
-              <td>{{$order->updated_at}}</td>
               <td>
                 <a href="{{ route('orders.show', $order) }}" class="btn btn-dark text-white"
                   style="height: 35px">See</a>
