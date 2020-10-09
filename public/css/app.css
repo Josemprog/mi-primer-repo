@@ -68,11 +68,7 @@
 }
 
 body {
-<<<<<<< HEAD
   background: linear-gradient(white, #cacaca);
-=======
-  background: linear-gradient(rgba(51, 47, 47, 0.836), black);
->>>>>>> develop
   background: no-repeat;
 }
 

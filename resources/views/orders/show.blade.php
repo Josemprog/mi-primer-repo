@@ -36,6 +36,7 @@
               <th>Locale</th>
               <th>Amount</th>
               <th>Type of currency</th>
+              <th>Retry payment</th>
             </tr>
           </thead>
           <tbody>
@@ -46,6 +47,12 @@
               <td>{{ $payment['request']['locale'] }}</td>
               <td>{{ number_format($payment['request']['payment']['amount']['total']) }}</td>
               <td>{{ $payment['request']['payment']['amount']['currency'] }}</td>
+              <td>
+                <form method="POST" action="{{ route('orders.payments.store', ['order' => $order]) }}">
+                  @csrf
+                  <button class="btn btn-success">Retry</button>
+                </form>
+              </td>
             </tr>
           </tbody>
         </table>

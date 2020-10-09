@@ -32,7 +32,7 @@ class PlaceToPayService
         ],
       ],
       'expiration' => date('c', strtotime('1 hour')),
-      'returnUrl' => 'http://localhost:3000/products',
+      'returnUrl' => route('orders.show', $order->id),
       'ipAddress' => '127.0.0.1',
       'userAgent' => 'PlacetoPay Sandbox',
     ]);

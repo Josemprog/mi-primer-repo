@@ -47,6 +47,7 @@ class OrderPaymentController extends Controller
 
         $payment = $this->p2p->createRequest($order, $request);
 
+        $order->processUrl = $payment['processUrl'];
         $order->requestId = $payment['requestId'];
         $order->save();
 

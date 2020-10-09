@@ -54,7 +54,7 @@ class OrderController extends Controller
 
         $payment = $this->p2p->getInformation($payment['requestId']);
 
-        return view('orders.show')->with(['payment' => $payment]);
+        return view('orders.show')->with(['order' => $order, 'payment' => $payment]);
     }
 
     /**
