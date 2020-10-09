@@ -68,11 +68,11 @@ body {
 .p-card {
     background-color: transparentize($color: #ffffff78, $amount: 0);
     border: solid 0.5px rgba(67, 89, 116, 0.346);
-    border-radius: 10px;
+    border-radius: 5px;
     width: 200px;
     height: 300px;
     margin: 0 10px 20px 10px;
-    background: white;
+    background: rgba(255, 255, 255, 0.693);
 }
 
 .p-card-body {
