@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Product::class, function (Faker $faker) {
     return [
-        'brand' => $faker->randomElement(['Nike', 'Addida', 'Converse', 'Puma']),
+        'brand' => $faker->randomElement(['Nike', 'Addidas', 'Converses', 'Puma']),
         'name' => $faker->word,
         'price' => $faker->numberBetween($min = 10, $max = 99) * 1000,
         'quantity' => $faker->numberBetween($min = 1, $max = 255),

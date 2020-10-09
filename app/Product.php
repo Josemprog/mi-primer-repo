@@ -52,6 +52,11 @@ class Product extends Model
 
     //---------------------Getters----------------------------------------
 
+    /**
+     * The total amount of the payment to be made is obtained
+     *
+     * @return void
+     */
     public function getTotalAttribute()
     {
         return $this->pivot->quantity * $this->price;

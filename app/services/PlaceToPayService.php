@@ -19,6 +19,13 @@ class PlaceToPayService
     $this->secretKey = env('P2P_SECRET_KEY');
   }
 
+  /**
+   * The place to pay api is consumed
+   *
+   * @param Order $order
+   * @param Request $request
+   * @return void
+   */
   public function createRequest(Order $order, Request $request)
   {
     $response = Http::post($this->endponitBase . '/api/session/', [
@@ -32,7 +39,7 @@ class PlaceToPayService
         ],
       ],
       'expiration' => date('c', strtotime('1 hour')),
-      'returnUrl' => 'http://localhost:3000/products',
+      'returnUrl' => route('orders.show', $order->id),
       'ipAddress' => '127.0.0.1',
       'userAgent' => 'PlacetoPay Sandbox',
     ]);
@@ -40,6 +47,11 @@ class PlaceToPayService
     return $response->json();
   }
 
+  /**
+   * test function to consume place to pay api
+   *
+   * @return void
+   */
   public function createRequestt()
   {
     $response = Http::post($this->endponitBase . '/api/session/', [
@@ -61,7 +73,12 @@ class PlaceToPayService
     return $response->json();
   }
 
-
+  /**
+   * The requestId information is obtained
+   *
+   * @param int $requestId
+   * @return void
+   */
   public function getInformation($requestId)
   {
     $response = Http::post('https://test.placetopay.com/redirection/api/session/' . $requestId, [
@@ -71,7 +88,11 @@ class PlaceToPayService
     return $response->json();
   }
 
-
+  /**
+   * the credentials requested by the place to pay api are obtained
+   *
+   * @return void
+   */
   public function getCredentials()
   {
     $login = $this->login;

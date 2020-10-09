@@ -7,13 +7,10 @@
     <div class="container">
       {{-- Administrator menu --}}
       @auth
-      @if (Auth::user()->admin or Auth::user()->main_admin)
       {{-- buttons --}}
       <div>
-        <a class="btn btn-dark btn-lg mb-2" href="{{ route('products.index') }}">Back to Products</a>
-        <a class="btn btn-dark btn-lg" href="{{ route('carts.index') }}">Back to Cart</a>
+        <a class="btn btn-dark btn-lg mb-2" href="{{ route('orders.index') }}">Back to Orders</a>
       </div>
-      @endif
       @endauth
     </div>
 
@@ -36,6 +33,7 @@
               <th>Locale</th>
               <th>Amount</th>
               <th>Type of currency</th>
+              <th>Retry payment</th>
             </tr>
           </thead>
           <tbody>
@@ -46,6 +44,12 @@
               <td>{{ $payment['request']['locale'] }}</td>
               <td>{{ number_format($payment['request']['payment']['amount']['total']) }}</td>
               <td>{{ $payment['request']['payment']['amount']['currency'] }}</td>
+              <td>
+                <form method="POST" action="{{ route('orders.retry', ['order' => $order]) }}">
+                  @csrf
+                  <button class="btn btn-success">Retry</button>
+                </form>
+              </td>
             </tr>
           </tbody>
         </table>

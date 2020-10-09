@@ -77,7 +77,9 @@ class ProductController extends Controller
         $image->widen(600)->limitColors(255, '#ff9900')->encode();
         Storage::put($product->image, (string) $image);
 
-        return redirect()->route('products.index')->with('message', 'Product Created');
+        return redirect()
+            ->route('products.index')
+            ->with('message', 'Product Created');
     }
 
     /**
@@ -135,7 +137,9 @@ class ProductController extends Controller
             $product->update($request->validated());
         }
 
-        return redirect()->route('products.index')->with('message', "Edited Product $product->name");
+        return redirect()
+            ->route('products.index')
+            ->with('message', "Edited Product $product->name");
     }
 
     /**
@@ -152,6 +156,8 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return redirect()->route('products.index')->with('message', 'Product Removed');
+        return redirect()
+            ->route('products.index')
+            ->with('message', 'Product Removed');
     }
 }

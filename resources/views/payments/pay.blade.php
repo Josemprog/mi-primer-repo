@@ -17,6 +17,12 @@
 
     </div>
 
+    <hr>
+
+    <h3>Total to pay in the order <span class="badge badge-success">$ {{number_format($cart->total)}}</span></h3>
+
+    <hr>
+
   </div>
 
   <div class="container-products">
@@ -28,9 +34,7 @@
       <div class="container d-flex flex-column justify-content-center">
 
         <div class="text-center">
-          <form class="form-group d-flex justify-content-center" method="POST" action="{{ route('orders.payments.store', [
-            'order' => $order
-          ]) }}">
+          <form class="form-group d-flex justify-content-center" method="POST" action="{{ route('orders.store') }}">
             @csrf
 
             <div class="d-flex flex-column w-50">
@@ -40,12 +44,6 @@
             </div>
 
           </form>
-
-          <hr>
-
-          <h3>Total to pay in the order <span class="badge badge-success">$ {{number_format($order->total)}}</span></h3>
-
-          <hr>
         </div>
 
 

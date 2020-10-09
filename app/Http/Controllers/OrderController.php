@@ -27,71 +27,135 @@ class OrderController extends Controller
     /**
      * Display a listing of the Orders of User.
      *
-     * @param Request $request
      * @return \Illuminate\View\View
      */
     public function index(): \Illuminate\View\View
     {
         $user = Auth::user();
         $orders = Order::where('customer_id', $user->id)
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'ASC')
             ->get();
 
-        return view('orders.index')->with('orders', $orders);
+        return view('orders.index')->with([
+            'orders' => $orders,
+            'user' => $user
+        ]);
     }
 
     /**
-     * Display the specified product.
+     * Show the form for creating a new resource.
      *
-     * @param  Product $product
      * @return \Illuminate\View\View
      */
-    public function show(Request $request, Order $order): \Illuminate\View\View
+    public function create(): \Illuminate\View\View
+    {
+        return view('payments.pay')->with([
+            'cart' => $this->cartService->getFromUserOrCreate(),
+        ]);
+    }
+
+    /**s
+     * Display the specified order.
+     *
+     * @param  Order $order
+     * @return \Illuminate\View\View
+     */
+    public function show(Order $order): \Illuminate\View\View
     {
 
-        $payment = $this->p2p->createRequest($order, $request);
+        $payment = $this->p2p->getInformation($order->requestId);
 
+        if ($order->status == 'PENDING') {
 
-        $payment = $this->p2p->getInformation($payment['requestId']);
+            $order->status = $payment['status']['status'];
+            $order->save();
+        }
 
-        return view('orders.show')->with(['payment' => $payment]);
+        return view('orders.show')
+            ->with([
+                'order' => $order,
+                'payment' => $payment,
+            ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
+        // obtengo el carro del usuario
         $cart = $this->cartService->getCartFromUser();
 
+        // pregunto si el carro esta vacio
         if (!isset($cart) || $cart->products->isEmpty()) {
             return redirect()
                 ->back()
                 ->withErrors("Your cart is empty");
         } else {
 
+            // traigo el usuario
+
             $user = $request->user();
 
-            $order = $user->orders()->create([
-                'status' => 'pending',
-            ]);
+            // le creo la orden si no existe
 
-            $cart = $this->cartService->getCartFromUser();
+            // dd($user->orders);
 
-            $cartProductsWithQuantity = $cart
-                ->products
-                ->mapWithKeys(function ($product) {
-                    $element[$product->id] = ['quantity' => $product->pivot->quantity];
+            if (!isset($order) || $user->orders->isEmpty()) {
+                $order = $user->orders()->create([
+                    'status' => 'PENDING',
+                ]);
 
-                    return $element;
-                });
+                $cartProductsWithQuantity = $cart
+                    ->products
+                    ->mapWithKeys(function ($product) {
+                        $element[$product->id] = ['quantity' => $product->pivot->quantity];
 
-            $order->products()->attach($cartProductsWithQuantity->toArray());
+                        return $element;
+                    });
 
-            return redirect()->route('orders.payments.create', ['order' => $order]);
+                // agrupo las ordenes en un arreglo
+
+                $order->products()
+                    ->attach($cartProductsWithQuantity->toArray());
+            }
+
+            // borro los productos del carrito
+            $this->cartService->getCartFromUser()->products()->detach();
+
+            // Consumo el api de Place to pay
+            $payment = $this->p2p->createRequest($order, $request);
+
+            $order->processUrl = $payment['processUrl'];
+            $order->requestId = $payment['requestId'];
+            $order->status = $payment['status']['status'];
+            $order->save();
+
+            return redirect($payment['processUrl']);
         }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Order  $order
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function retry(Request $request, Order $order): \Illuminate\Http\RedirectResponse
+    {
+
+        $payment = $this->p2p->createRequest($order, $request);
+
+        $order->processUrl = $payment['processUrl'];
+        $order->requestId = $payment['requestId'];
+        $order->save();
+
+        $this->cartService->getCartFromUser()->products()->detach();
+
+        return redirect($payment['processUrl']);
     }
 }

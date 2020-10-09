@@ -24,7 +24,7 @@ class ProductCartController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request, Product $product)
+    public function store(Request $request, Product $product): \Illuminate\Http\RedirectResponse
     {
         $cart = $this->cartService->getFromUserOrCreate();
 
@@ -36,8 +36,6 @@ class ProductCartController extends Controller
         $cart->products()->syncWithoutDetaching([
             $product->id => ['quantity' => $quantity + 1],
         ]);
-
-        // $cookie = $this->cartService->makeCookie($cart);
 
         return redirect()->back();
     }

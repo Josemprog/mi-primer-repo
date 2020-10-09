@@ -49,7 +49,10 @@ class UserController extends Controller
         $user = new User($request->validated());
         $user->email_verified_at = now();
         $user->save();
-        return redirect()->route('users.index')->with('message', 'User Created');
+
+        return redirect()
+            ->route('users.index')
+            ->with('message', 'User Created');
     }
 
     /**
@@ -81,12 +84,14 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(User $user, SaveUsers $request)
+    public function update(User $user, SaveUsers $request): \Illuminate\Http\RedirectResponse
     {
 
         $user->update($request->validated());
 
-        return redirect()->route('users.index', $user)->with('message', 'Edited User');
+        return redirect()
+            ->route('users.index', $user)
+            ->with('message', 'Edited User');
     }
 
     /**
@@ -99,6 +104,8 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('users.index', $user)->with('message', 'User Removed');
+        return redirect()
+            ->route('users.index', $user)
+            ->with('message', 'User Removed');
     }
 }
