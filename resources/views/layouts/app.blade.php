@@ -41,6 +41,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         {{-- Links añadidos --}}
+                        @auth
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
@@ -49,7 +50,6 @@
                             <a class="nav-link text-white" href="{{ route('products.index') }}">{{ __('Products') }}</a>
                         </li>
 
-                        @auth
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('carts.index') }}">
                                 @inject('cartService', 'App\Services\CartService')
