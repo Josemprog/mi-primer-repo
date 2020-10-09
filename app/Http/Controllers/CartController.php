@@ -15,11 +15,11 @@ class CartController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Undocumented function
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         return view('cart.index')->with([
             'cart' => $this->cartService->getFromUserOrCreate(),
