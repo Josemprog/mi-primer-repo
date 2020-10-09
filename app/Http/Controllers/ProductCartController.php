@@ -37,8 +37,6 @@ class ProductCartController extends Controller
             $product->id => ['quantity' => $quantity + 1],
         ]);
 
-        // $cookie = $this->cartService->makeCookie($cart);
-
         return redirect()->back();
     }
 

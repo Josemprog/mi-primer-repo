@@ -55,16 +55,18 @@
   <div class="d-flex justify-content-center align-items-center" style="height: 500px;">
     <img class="img d-block p-4" style="height: 400px; width: auto;" src="/img/frontend/shelving1.jpeg">
     <div>
-      <h1>Sport shoes</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit quae eius dignissimos commodi, earum itaque! Ab
+      <h1 class="text-white">Sport shoes</h1>
+      <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit quae eius dignissimos
+        commodi, earum itaque! Ab
         quae repellat, fugiat cumque impedit numquam at, aliquam assumenda nemo consectetur, labore molestiae neque.</p>
     </div>
   </div>
   <hr>
   <div class="d-flex justify-content-center align-items-center" style="height: 500px;">
     <div>
-      <h1>Variety of shoes</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit quae eius dignissimos commodi, earum itaque! Ab
+      <h1 class="text-white">Variety of shoes</h1>
+      <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit quae eius dignissimos
+        commodi, earum itaque! Ab
         quae repellat, fugiat cumque impedit numquam at, aliquam assumenda nemo consectetur, labore molestiae neque.</p>
     </div>
     <img class="img d-block p-4" style="height: 400px; width: auto;" src="/img/frontend/shelving2.jpeg">

@@ -7,19 +7,17 @@
     <div class="container">
       {{-- Administrator menu --}}
       @auth
-      @if (Auth::user()->admin or Auth::user()->main_admin)
       {{-- buttons --}}
       <div>
-        <a class="btn btn-dark mb-2" href="{{ route('products.create') }}">+ Create a new Product</a>
-        <a class="btn btn-dark mb-2" href="{{ route('products.index') }}">View products as user</a>
-        <a class="btn btn-dark mb-2" href="{{ route('users.index') }}">Manage Users</a>
+        <a class="btn btn-dark btn-lg mb-2" href="{{ route('orders.index') }}">Go to Orders</a>
+        <a class="btn btn-dark btn-lg mb-2" href="{{ route('products.index') }}">Back to Products</a>
       </div>
-      @endif
       @endauth
 
       <hr>
 
       <h3>Total in cart <span class="badge badge-success">$ {{number_format($cart->total)}}</span></h3>
+
 
       <hr>
     </div>
@@ -38,10 +36,9 @@
 
 
       <div class="text-center">
-        <form class="d-inline" method="POST" action="{{ route('orders.store') }}">
-          @csrf
-          <button class="btn btn-success btn-lg mb-3 w-auto" type="submit"> Confirm Oder </button>
-        </form>
+        <a href="{{ route('orders.create') }}" class="btn btn-success btn-lg mb-3 w-auto" type="submit">
+          Confirm Oder
+        </a>
       </div>
 
       <table class="table table-striped p-edit-2">

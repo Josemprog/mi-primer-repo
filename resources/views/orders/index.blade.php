@@ -7,13 +7,11 @@
     <div class="container">
       {{-- Administrator menu --}}
       @auth
-      @if (Auth::user()->admin or Auth::user()->main_admin)
       {{-- buttons --}}
       <div>
-        <a class="btn btn-dark btn-lg mb-2" href="{{ route('products.index') }}">Back to Products</a>
-        <a class="btn btn-dark btn-lg" href="{{ route('carts.index') }}">Back to Cart</a>
+        <a class="btn btn-dark btn-lg mb-2" href="{{ route('carts.index') }}">Back to Cart</a>
+        <a class="btn btn-dark btn-lg mb-2" href="{{ route('products.index') }}">Go to Products</a>
       </div>
-      @endif
       @endauth
     </div>
 
