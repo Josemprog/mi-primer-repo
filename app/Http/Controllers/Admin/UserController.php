@@ -56,17 +56,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified user.
-     *
-     * @param [type] $id
-     * @return void
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified user.
      *
      * @param User $user

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Cart;
 use Illuminate\Support\Facades\Auth;
 
 class CartService

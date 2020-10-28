@@ -117,23 +117,19 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
 
-            // Removing old image from folders
+
             Storage::disk('public')->delete($product->image);
             Storage::delete($product->image);
-
-            // Loading new image
+            
             $product->fill($request->validated());
             $product->image = $request->file('image')->store('images', 'public');
             $product->save();
 
-            // Optimizing the new image
             $image = Image::make(storage_path('app/public/' . $product->image));
             $image->widen(600)->limitColors(255, '#ff9900')->encode();
             Storage::put($product->image, (string) $image);
         } else {
 
-            // dd($product);
-            // Updating without the image
             $product->update($request->validated());
         }
 
@@ -150,7 +146,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): \Illuminate\Http\RedirectResponse
     {
-        // Removing image from folders
+
         Storage::disk('public')->delete($product->image);
         Storage::delete($product->image);
 

@@ -86,23 +86,16 @@ class OrderController extends Controller
      */
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
-        // obtengo el carro del usuario
         $cart = $this->cartService->getCartFromUser();
 
-        // pregunto si el carro esta vacio
         if (!isset($cart) || $cart->products->isEmpty()) {
             return redirect()
                 ->back()
                 ->withErrors("Your cart is empty");
         } else {
 
-            // traigo el usuario
 
             $user = $request->user();
-
-            // le creo la orden si no existe
-
-            // dd($user->orders);
 
             if (!isset($order) || $user->orders->isEmpty()) {
                 $order = $user->orders()->create([
@@ -117,16 +110,12 @@ class OrderController extends Controller
                         return $element;
                     });
 
-                // agrupo las ordenes en un arreglo
-
                 $order->products()
                     ->attach($cartProductsWithQuantity->toArray());
             }
 
-            // borro los productos del carrito
             $this->cartService->getCartFromUser()->products()->detach();
 
-            // Consumo el api de Place to pay
             $payment = $this->p2p->createRequest($order, $request);
 
             $order->processUrl = $payment['processUrl'];

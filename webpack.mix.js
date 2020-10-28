@@ -16,4 +16,4 @@ mix.js("resources/js/app.js", "public/js").sass(
     "public/css"
 );
 
-mix.browserSync("http://evertec-project.test");
+mix.browserSync("http://evertec-project");
