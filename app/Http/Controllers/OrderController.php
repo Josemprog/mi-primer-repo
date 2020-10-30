@@ -38,7 +38,6 @@ class OrderController extends Controller
 
         return view('orders.index')->with([
             'orders' => $orders,
-            'user' => $user
         ]);
     }
 
@@ -64,12 +63,14 @@ class OrderController extends Controller
     {
 
         $payment = $this->p2p->getInformation($order->requestId);
-
+        
         if ($order->status == 'PENDING') {
-
+            
             $order->status = $payment['status']['status'];
             $order->save();
+
         }
+        
 
         return view('orders.show')
             ->with([
@@ -98,9 +99,7 @@ class OrderController extends Controller
             $user = $request->user();
 
             if (!isset($order) || $user->orders->isEmpty()) {
-                $order = $user->orders()->create([
-                    'status' => 'PENDING',
-                ]);
+                $order = $user->orders()->create();
 
                 $cartProductsWithQuantity = $cart
                     ->products
@@ -114,7 +113,7 @@ class OrderController extends Controller
                     ->attach($cartProductsWithQuantity->toArray());
             }
 
-            $this->cartService->getCartFromUser()->products()->detach();
+            $cart->products()->detach();
 
             $payment = $this->p2p->createRequest($order, $request);
 

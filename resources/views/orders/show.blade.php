@@ -53,6 +53,7 @@
             </tr>
           </tbody>
         </table>
+        {{-- {{ dd($order->products[0]['brand']) }} --}}
       </div>
     </div>
   </div>

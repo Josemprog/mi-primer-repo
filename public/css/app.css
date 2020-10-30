@@ -139,6 +139,10 @@ body {
   background-image: src("/img/frontend/shelving1.jpeg");
 }
 
+body {
+  color: black;
+}
+
 /*!
  * Bootstrap v4.5.0 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors

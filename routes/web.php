@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes(['verify' => true]);
-Route::view('/', 'welcome')->name('welcome');
+Route::view('/', 'home')->name('home');
 
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
@@ -23,4 +23,3 @@ Route::resource('carts', 'CartController')->only(['index']);
 // Orders routes
 Route::resource('orders', 'OrderController')->middleware('verified');
 Route::post('orders/{order}', 'OrderController@retry')->name('orders.retry')->middleware('verified');
-// Route::resource('orders.payments', 'OrderPaymentController')->only(['create', 'store']);
