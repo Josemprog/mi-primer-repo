@@ -33,8 +33,8 @@
           <thead>
             <tr class="text-muted">
               <th>requestId</th>
+              <th>state</th>
               <th>Order id</th>
-              <th>User</th>
               <th>created at</th>
               <th>view orders</th>
             </tr>
@@ -43,8 +43,8 @@
             @foreach ($orders as $order)
             <tr scope="row">
               <td>{{$order->requestId}}</td>
+              <td>{{$order->state}}</td>
               <td>{{$order->id}}</td>
-              <td>{{$user->name}}</td>
               <td>{{$order->created_at}}</td>
               <td>
                 <a href="{{ route('orders.show', $order) }}" class="btn btn-dark text-white"
@@ -56,10 +56,7 @@
         </table>
         @endif
       </div>
-      {{-- Pagination --}}
-      {{-- <div class=" d-flex justify-content-center">{{ $products->render()}}
-    </div> --}}
+    </div>
   </div>
-</div>
 </div>
 @endsection

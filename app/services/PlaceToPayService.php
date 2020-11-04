@@ -8,15 +8,21 @@ use Illuminate\Support\Facades\Http;
 
 class PlaceToPayService
 {
+
+    public const P2P_APPROVED = 'approved';
+    public const P2P_REJECTED = 'rejected';
+    public const P2P_PENDING = 'pending';
+    public const P2P_IN_PROCESS = 'in_process';
+    
   protected $endponitBase;
   protected $login;
   protected $secretKey;
 
   public function __construct()
   {
-    $this->endponitBase = env('P2P_ENDPOINT_BASE');
-    $this->login = env('P2P_LOGIN');
-    $this->secretKey = env('P2P_SECRET_KEY');
+    $this->endponitBase = config('services.p2p.endpoint_base');
+    $this->login = config('services.p2p.login');
+    $this->secretKey = config('services.p2p.secret_key');
   }
 
   /**

@@ -3,12 +3,6 @@
 @section('content')
 <div class="container">
 
-  {{-- <div class="d-flex justify-content-center align-items-center" style="height: 500px;">
-    <img class="img-fluid" style="width: 800px; height: auto;" src="/img/frontend/shelving4.jpeg">
-  </div> --}}
-
-  {{-- <img class="d-block w-100" src="/img/frontend/shelving4.jpeg"> --}}
-
   <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="margin-top: 50px">
     <ol class="carousel-indicators">
       <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>

@@ -6,7 +6,6 @@ use App\Cart;
 use App\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-// use Illuminate\Database\Query\Builder;
 
 
 

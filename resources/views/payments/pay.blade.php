@@ -38,7 +38,8 @@
             @csrf
 
             <div class="d-flex flex-column w-50">
-              <textarea name="textArea" cols="40" rows="6" required></textarea>
+              <textarea name="textArea" cols="40" rows="6" disabled> Agregar una descripción basada en la orden.
+              </textarea>
               <button class="btn btn-success btn-lg mb-3 w-auto" type="submit"> Pay </button>
 
             </div>

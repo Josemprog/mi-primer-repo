@@ -30,4 +30,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'p2p' => [
+        'endpoint_base' => env('P2P_ENDPOINT_BASE'),
+        'login' => env('P2P_LOGIN'),
+        'secret_key' => env('P2P_SECRET_KEY')
+    ]
+
 ];
