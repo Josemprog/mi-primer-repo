@@ -23,3 +23,6 @@ Route::resource('carts', 'CartController')->only(['index']);
 // Orders routes
 Route::resource('orders', 'OrderController')->middleware('verified');
 Route::post('orders/{order}', 'OrderController@retry')->name('orders.retry')->middleware('verified');
+
+// Export
+Route::get('/export', 'ProductController@export')->name('export');
