@@ -13,7 +13,6 @@ class CartService
    */
   public function getCartFromUser()
   {
-
     return Auth::user()->cart()->first();
   }
 

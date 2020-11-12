@@ -26,3 +26,9 @@ Route::post('orders/{order}', 'OrderController@retry')->name('orders.retry')->mi
 
 // Export
 Route::get('/export', 'ProductController@export')->name('export');
+
+// pruebas
+Route::get('/rangualiado', function ()
+{
+    dd(request()->userAgent());
+});
