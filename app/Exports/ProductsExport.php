@@ -3,19 +3,16 @@
 namespace App\Exports;
 
 use App\Product;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 
-class ProductsExport implements FromCollection
+class ProductsExport implements FromQuery, ShouldQueue
 {
-
     use Exportable;
 
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+    public function query()
     {
-        return Product::all();
+        return Product::query();
     }
 }

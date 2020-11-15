@@ -25,7 +25,7 @@ Route::resource('orders', 'OrderController')->middleware('verified');
 Route::post('orders/{order}', 'OrderController@retry')->name('orders.retry')->middleware('verified');
 
 // Export
-Route::get('/export', 'ProductController@export')->name('export');
+Route::get('/export', 'Admin\ProductController@export')->name('export');
 
 // pruebas
 Route::get('/rangualiado', function ()

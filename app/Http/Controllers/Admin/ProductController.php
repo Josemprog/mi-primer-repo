@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ProductsExport;
 use App\Product;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
@@ -155,5 +156,11 @@ class ProductController extends Controller
         return redirect()
             ->route('products.index')
             ->with('message', 'Product Removed');
+    }
+
+    public function export() 
+    {
+        (new ProductsExport())->store('products.csv');
+        return back()->with('message', 'Export started!');
     }
 }

@@ -45,6 +45,10 @@
 
     <div class="container">
       <h1 class="text-dark d-flex justify-content-center h-big">Products</h1>
+
+      <div>
+        <a class="btn btn-info" href="{{ route('export') }}">Exportar</a>
+      </div>
       <table class="table table-striped p-edit-2">
         <thead>
           <tr class="text-muted">
