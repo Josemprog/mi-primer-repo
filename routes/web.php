@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Middleware\CheckAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -28,7 +27,11 @@ Route::post('orders/{order}', 'OrderController@retry')->name('orders.retry')->mi
 Route::get('/export', 'Admin\ProductController@export')->name('export');
 
 // pruebas
-Route::get('/rangualiado', function ()
+Route::get('/lleve', function ()
 {
-    dd(request()->userAgent());
+    $pdf = App::make('dompdf.wrapper');
+
+    $pdf->loadHTML('<h1>Test</h1>');
+
+    return $pdf->stream();
 });

@@ -48,7 +48,7 @@
 
 .main-container {
   display: grid;
-  grid-template-columns: 16% 84%;
+  grid-template-columns: 18% 82%;
 }
 
 .container-filter {
@@ -77,7 +77,7 @@ body {
   border-radius: 5px;
   width: 190px;
   height: 250px;
-  margin: 0 10px 20px 10px;
+  margin: 0 7px 20px 7px;
   background: rgba(255, 255, 255, 0.693);
 }
 

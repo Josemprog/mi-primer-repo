@@ -75,7 +75,6 @@ class UserController extends Controller
      */
     public function update(User $user, SaveUsers $request): \Illuminate\Http\RedirectResponse
     {
-
         $user->update($request->validated());
 
         return redirect()

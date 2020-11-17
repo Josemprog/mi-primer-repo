@@ -55,12 +55,10 @@ class ProductCartController extends Controller
             ->quantity ?? 0;
 
         if ($quantity <= 1) {
-
             $cart->products()->detach($product->id);
 
             return redirect()->back();
         } else {
-
             $cart->products()->syncWithoutDetaching([
                 $product->id => ['quantity' => $quantity - 1],
             ]);

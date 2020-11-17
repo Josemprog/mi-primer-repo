@@ -72,8 +72,7 @@ class ProductController extends Controller
         $product = new Product($request->validated());
         $product->image = $request->file('image')->store('images', 'public');
         $product->save();
-
-        // Optimizing the image
+        
         $image = Image::make(storage_path('app/public/' . $product->image));
         $image->widen(600)->limitColors(255, '#ff9900')->encode();
         Storage::put($product->image, (string) $image);
@@ -114,23 +113,19 @@ class ProductController extends Controller
      */
     public function update(Product $product, ProductsRequest $request): \Illuminate\Http\RedirectResponse
     {
-
-
         if ($request->hasFile('image')) {
-
-
             Storage::disk('public')->delete($product->image);
             Storage::delete($product->image);
-            
+
             $product->fill($request->validated());
             $product->image = $request->file('image')->store('images', 'public');
             $product->save();
 
             $image = Image::make(storage_path('app/public/' . $product->image));
             $image->widen(600)->limitColors(255, '#ff9900')->encode();
+
             Storage::put($product->image, (string) $image);
         } else {
-
             $product->update($request->validated());
         }
 
@@ -147,7 +142,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): \Illuminate\Http\RedirectResponse
     {
-
         Storage::disk('public')->delete($product->image);
         Storage::delete($product->image);
 
@@ -158,7 +152,12 @@ class ProductController extends Controller
             ->with('message', 'Product Removed');
     }
 
-    public function export() 
+    /**
+     * Export all products
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function export():\Illuminate\Http\RedirectResponse
     {
         (new ProductsExport())->store('products.csv');
         return back()->with('message', 'Export started!');
