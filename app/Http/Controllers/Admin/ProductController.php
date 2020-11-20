@@ -67,15 +67,11 @@ class ProductController extends Controller
      * @param ProductsRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(ProductsRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(ProductsRequest $request)
     {
         $product = new Product($request->validated());
         $product->image = $request->file('image')->store('images', 'public');
         $product->save();
-        
-        $image = Image::make(storage_path('app/public/' . $product->image));
-        $image->widen(600)->limitColors(255, '#ff9900')->encode();
-        Storage::put($product->image, (string) $image);
 
         return redirect()
             ->route('products.index')
@@ -113,18 +109,20 @@ class ProductController extends Controller
      */
     public function update(Product $product, ProductsRequest $request): \Illuminate\Http\RedirectResponse
     {
+        // dd($request->hasFile('image'));
         if ($request->hasFile('image')) {
             Storage::disk('public')->delete($product->image);
             Storage::delete($product->image);
 
             $product->fill($request->validated());
-            $product->image = $request->file('image')->store('images', 'public');
+            $product->image = $request->file('image')->store('images');
             $product->save();
 
-            $image = Image::make(storage_path('app/public/' . $product->image));
-            $image->widen(600)->limitColors(255, '#ff9900')->encode();
+            // dd(Image::make(Storage::get($product->image)));
 
-            Storage::put($product->image, (string) $image);
+            $image = Image::make(Storage::get($product->image));
+            $image->widen(600)->limitColors(255, '#ff9900')->encode();
+            Storage::put($product->image, (string )$image);
         } else {
             $product->update($request->validated());
         }
@@ -159,7 +157,7 @@ class ProductController extends Controller
      */
     public function export():\Illuminate\Http\RedirectResponse
     {
-        (new ProductsExport())->store('products.csv');
+        (new ProductsExport())->store('products.csv', 'public');
         return back()->with('message', 'Export started!');
     }
 }

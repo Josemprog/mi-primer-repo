@@ -44,11 +44,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('products.index') }}">{{ __('Home') }}</a>
                         </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('products.panel') }}">{{ __('Products') }}</a>
-                        </li>
-
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('carts.index') }}">
                                 @inject('cartService', 'App\Services\CartService')
@@ -71,6 +66,9 @@
                         @if (Auth::user()->admin or Auth::user()->main_admin)
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('users.index') }}">{{ __('Admin') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('products.panel') }}">{{ __('Products') }}</a>
                         </li>
                         @endif
                         @endauth

@@ -27,11 +27,6 @@ Route::post('orders/{order}', 'OrderController@retry')->name('orders.retry')->mi
 Route::get('/export', 'Admin\ProductController@export')->name('export');
 
 // pruebas
-Route::get('/lleve', function ()
-{
-    $pdf = App::make('dompdf.wrapper');
-
-    $pdf->loadHTML('<h1>Test</h1>');
-
-    return $pdf->stream();
+Route::get('/lleve', function () {
+    return 'lleve';
 });
