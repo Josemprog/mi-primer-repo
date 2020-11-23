@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use App\Http\Requests\ProductsRequest;
 use App\Http\Controllers\Controller;
+use App\Jobs\NotifyUserOfCompletedExport;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -155,9 +156,15 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function export():\Illuminate\Http\RedirectResponse
+    public function export()
     {
-        (new ProductsExport())->store('products.csv', 'public');
-        return back()->with('message', 'Export started!');
+        $user = auth()->user();
+        $filePath = asset('storage/products.csv');
+
+        (new ProductsExport())->store('products.csv', 'public')->chain([
+            new NotifyUserOfCompletedExport($user, $filePath)
+        ]);
+
+        return back()->with('message', 'The export has started, we will send you an email when it is ready.');
     }
 }
