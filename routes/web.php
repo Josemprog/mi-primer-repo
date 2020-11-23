@@ -12,7 +12,7 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('verified'
 // Admin routes
 Route::resource('users', 'Admin\UserController')->middleware('verified', AdminVerify::class);
 Route::get('admin/products/panel', 'Admin\ProductController@panel')->name('products.panel');
-Route::resource('products', 'Admin\ProductController')->middleware('verified');
+Route::resource('products', 'Admin\ProductController')->middleware('verified', AdminVerify::class);
 
 // Cart routes
 Route::resource('products.carts', 'ProductCartController')->only(['store', 'destroy']);
@@ -24,7 +24,10 @@ Route::resource('orders', 'OrderController')->middleware('verified');
 Route::post('orders/{order}', 'OrderController@retry')->name('orders.retry')->middleware('verified');
 
 // Export
-Route::get('/export', 'Admin\ProductController@export')->name('export');
+Route::get('/export', 'Admin\ProductController@export')->name('products.export');
+
+// Import
+Route::post('/import', 'Admin\ProductController@import')->name('products.import');
 
 // pruebas
 Route::get('/lleve', function () {

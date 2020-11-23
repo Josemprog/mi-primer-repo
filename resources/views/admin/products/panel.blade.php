@@ -46,9 +46,30 @@
         <div class="container">
             <h1 class="text-dark d-flex justify-content-center h-big">Products</h1>
 
-            <div>
-                <a class="btn btn-info" href="{{ route('export') }}">Exportar</a>
+            {{-- Buttons to export and import --}}
+
+            <div class=" d-flex justify-content-between m-2">
+                <div>
+                    <a class="btn btn-primary" href="{{ route('products.export') }}">Exportar</a>
+                </div>
+
+                <form action="{{ route('products.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input name="file" type="file" class="custom-file-input" id="inputGroupFile04"
+                                aria-describedby="inputGroupFileAddon04">
+                            <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                        </div>
+                        {{-- <div class="input-group-append"> --}}
+                        <button class="btn btn-primary ml-2" type="submit" id="inputGroupFileAddon04">Importar</button>
+                        {{-- </div> --}}
+                    </div>
+                    @csrf
+                </form>
             </div>
+
             <table class="table table-striped p-edit-2">
                 <thead>
                     <tr class="text-muted">

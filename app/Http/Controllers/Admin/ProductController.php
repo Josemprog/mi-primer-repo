@@ -2,14 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\ProductsExport;
 use App\Product;
-use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
+
 use App\Http\Requests\ProductsRequest;
 use App\Http\Controllers\Controller;
+
+use App\Exports\ProductsExport;
+use App\Imports\ProductsImport;
+
 use App\Jobs\NotifyUserOfCompletedExport;
+
+use Intervention\Image\Facades\Image;
+
+use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Storage;
+
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -75,7 +84,7 @@ class ProductController extends Controller
         $product->save();
 
         return redirect()
-            ->route('products.index')
+            ->route('products.panel')
             ->with('message', 'Product Created');
     }
 
@@ -129,7 +138,7 @@ class ProductController extends Controller
         }
 
         return redirect()
-            ->route('products.index')
+            ->route('products.panel')
             ->with('message', "Edited Product $product->name");
     }
 
@@ -147,16 +156,16 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()
-            ->route('products.index')
+            ->route('products.panel')
             ->with('message', 'Product Removed');
     }
 
     /**
-     * Export all products
+     * Export products from the database
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function export()
+    public function export(): \Illuminate\Http\RedirectResponse
     {
         $user = auth()->user();
         $filePath = asset('storage/products.csv');
@@ -166,5 +175,22 @@ class ProductController extends Controller
         ]);
 
         return back()->with('message', 'The export has started, we will send you an email when it is ready.');
+    }
+    
+    /**
+     * Import products to the database
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function import(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        // dd($request->file('file'));
+
+        $file = $request->file('file');
+
+        Excel::import(new ProductsImport, $file, 'public');
+
+        return back()->with('message', 'lleve');
     }
 }
