@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('brand', 9);
             $table->string('name', 20);
             $table->unsignedBigInteger('price');
-            $table->bigInteger('quantity');
+            $table->unsignedBigInteger('quantity');
             $table->string('description', 255);
             $table->string('image');
             $table->boolean('enabled')->default(true);

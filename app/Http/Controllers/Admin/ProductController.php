@@ -3,22 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Product;
-
-use App\Http\Requests\ProductsRequest;
-use App\Http\Controllers\Controller;
-
+use Illuminate\Http\Request;
 use App\Exports\ProductsExport;
 use App\Imports\ProductsImport;
-
-use App\Jobs\NotifyUserOfCompletedExport;
-
-use Intervention\Image\Facades\Image;
-
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Storage;
-
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Controller;
+use Intervention\Image\Facades\Image;
+use App\Http\Requests\ProductsRequest;
+use Illuminate\Support\Facades\Storage;
+use App\Jobs\NotifyUserOfCompletedExport;
 
 class ProductController extends Controller
 {
@@ -168,9 +161,9 @@ class ProductController extends Controller
     public function export(): \Illuminate\Http\RedirectResponse
     {
         $user = auth()->user();
-        $filePath = asset('storage/products.csv');
+        $filePath = asset('storage/products.xlsx');
 
-        (new ProductsExport())->store('products.csv', 'public')->chain([
+        (new ProductsExport())->store('products.xlsx', 'public')->chain([
             new NotifyUserOfCompletedExport($user, $filePath)
         ]);
 
@@ -185,8 +178,6 @@ class ProductController extends Controller
      */
     public function import(Request $request): \Illuminate\Http\RedirectResponse
     {
-        // dd($request->file('file'));
-
         $file = $request->file('file');
 
         Excel::import(new ProductsImport, $file, 'public');
