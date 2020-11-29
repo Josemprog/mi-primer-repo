@@ -7,8 +7,6 @@ use App\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
-
-
 class Product extends Model
 {
 

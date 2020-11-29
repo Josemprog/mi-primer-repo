@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\AdminVerify;
 
 Auth::routes(['verify' => true]);
 Route::view('/', 'home')->name('home');
