@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveUsers;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
