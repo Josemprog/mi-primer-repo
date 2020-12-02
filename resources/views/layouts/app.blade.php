@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Online shoe store</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -42,7 +42,7 @@
                         {{-- Links añadidos --}}
                         @auth
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('products.index') }}">{{ __('Home') }}</a>
+                            <a class="nav-link text-white" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('carts.index') }}">
@@ -65,10 +65,10 @@
                         @auth
                         @if (Auth::user()->admin or Auth::user()->main_admin)
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('users.index') }}">{{ __('Admin') }}</a>
+                            <a class="nav-link text-white" href="{{ route('users.index') }}">{{ __('Users') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('products.panel') }}">{{ __('Products') }}</a>
+                            <a class="nav-link text-white" href="{{ route('products.index') }}">{{ __('Products') }}</a>
                         </li>
                         @endif
                         @endauth

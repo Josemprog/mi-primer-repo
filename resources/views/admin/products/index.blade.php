@@ -9,9 +9,9 @@
             @auth
             @if (Auth::user()->admin or Auth::user()->main_admin)
             {{-- buttons --}}
-            <div>
+            <div class="btn-group-vertical">
                 <a class="btn btn-dark mb-2" href="{{ route('products.create') }}">+ Create a new Product</a>
-                <a class="btn btn-dark mb-2" href="{{ route('products.panel') }}">View admin panel</a>
+                <a class="btn btn-dark mb-2" href="{{ route('home') }}">View products as user</a>
                 <a class="btn btn-dark mb-2" href="{{ route('users.index') }}">Manage Users</a>
             </div>
             @endif
@@ -19,7 +19,6 @@
 
             {{-- Filter form --}}
             <form class="form-group mt-3 p-edit" method="GET" action="{{route('products.index')}}">
-                @csrf
                 <h1 class="text-muted">Filter</h1>
                 <small class="form-text text-muted">Search by Brand</small>
                 <input type="text" class="form border" name="brand" placeholder="Brand ...">
@@ -28,90 +27,110 @@
                 <input type="text" class="form border" name="name" placeholder="Name ...">
 
                 <small class="form-text text-muted">Search by price</small>
-                <input type="text" class="form border" name="price" placeholder="Price ...">
+                <input type="text" class="form border" name="unit_price" placeholder="Price ...">
+
+                <div class="form-check pt-2">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="enabled" value="checkedValue">
+                        Search for disabled products
+                    </label>
+                </div>
 
                 <button type="submit" class="btn btn-dark btn btn-block mt-2">Search</button>
             </form>
-
         </div>
     </div>
 
-    {{-- Products container --}}
     <div class="container-products">
 
-        <div class="card-group">
-            @forelse ($products as $product)
-            @if ($product->enabled == 1)
+        <div class="container">
+            <h1 class="text-dark d-flex justify-content-center h-big">Products</h1>
 
-            {{------------------------- Card Products -------------------------}}
-            <div class="p-card mb-4">
-                <div class="d-flex justify-content-between">
-                    {{------------------------- Brand Product -------------------------}}
-                    <h3 class="pl-1 pt-1">{{$product->brand}}</h3>
+            {{-- Buttons to export and import --}}
 
-                    {{---------------------- Admin buttons--------------------------}}
-                    @auth
-                    @if (Auth::user()->admin or Auth::user()->main_admin)
-                    <div class="btn-group">
-                        <a class="btn" href="{{ route('products.edit', $product)}}">
-                            <i class="fas fa-pencil-alt text-primary"></i>
-                        </a>
-                        <form method="POST" action="{{ route('products.destroy', $product) }}"
-                            enctype="multipart/form-data">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn border-0">
-                                <i class="fas fa-trash-alt text-danger"></i>
-                            </button>
-                        </form>
-                    </div>
-                    @endif
-                    @endauth
-                </div>
-                {{---------------------- Product image--------------------------}}
-                <div class="imagen-card">
-                    @if (substr($product->image, 0, 5) == 'https')
-                    <img src="{{$product->image}}" class="img-fluid" alt="Responsive image">
-                    @else
-                    <img src="/storage/{{$product->image}}" class="img-fluid" alt="Responsive image">
-                    @endif
-                </div>
+            <div class=" d-flex justify-content-between m-2">
                 <div>
-                    {{---------------------- Name and price of product--------------------------}}
-                    <div class="d-flex justify-content-between" style="height: 32px;">
-                        <h5 class="text-dark pl-1 pt-1">{{ $product->name}}</h5>
-                        <span class="text-success pr-1 pt-1">${{ number_format($product->price)}}</span>
-                    </div>
-
-                    {{---------------------- Cart buttons--------------------------}}
-                    <div class="container">
-                        <form class="btn-group btn-block" method="POST"
-                            action="{{ route('products.carts.store', ['product' => $product]) }}">
-                            @csrf
-                            <div class="btn-group btn-block ">
-                                <a href="{{ route('products.show', $product) }}"
-                                    class="btn btn-dark text-white rounded">
-                                    See
-                                </a>
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-cart-plus"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    {{---------------------- End of Cart buttons--------------------------}}
+                    <a class="btn btn-primary" href="{{ route('products.export') }}">Export</a>
                 </div>
+
+                <form action="{{ route('products.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input name="file" type="file" class="custom-file-input" id="inputGroupFile04"
+                                aria-describedby="inputGroupFileAddon04">
+                            <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                        </div>
+                        {{-- <div class="input-group-append"> --}}
+                        <button class="btn btn-primary ml-2" type="submit" id="inputGroupFileAddon04">Import</button>
+                        {{-- </div> --}}
+                    </div>
+                    @csrf
+                </form>
             </div>
-            @endif
-            @empty
-            <h1>No hay productos ...</h1>
-            @endforelse
+
+            <table class="table table-striped p-edit-2">
+                <thead>
+                    <tr class="text-muted">
+                        <th>Id</th>
+                        <th></th>
+                        <th>Brand</th>
+                        <th>Name</th>
+                        <th>Unit price</th>
+                        <th>Quantity</th>
+                        <th>Creation date</th>
+                        <th>Modification date</th>
+                        <th>State</th>
+                        <th>Set up</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($products as $product)
+                    <tr scope="row">
+                        <td>{{$product->id}}</td>
+                        <td class="img-panel">
+                            @if (substr($product->image, 0, 5) == 'https')
+                            <img src="{{$product->image}}" class="img-fluid" alt="Responsive image">
+                            @else
+                            <img src="/storage/{{$product->image}}" class="img-fluid" alt="Responsive image">
+                            @endif
+                        </td>
+                        <td>{{$product->brand}}</td>
+                        <td>{{$product->name}}</td>
+                        <td class="text-success">${{number_format($product->price)}}</td>
+                        <td>{{$product->quantity}}</td>
+                        <td>{{$product->created_at->diffForHumans()}}</td>
+                        <td>{{$product->updated_at->diffForHumans()}}</td>
+                        <td>
+                            <button
+                                class=" justify-content-center btn-sm @if($product->enabled) btn btn-outline-success @else btn btn-outline-secondary @endif "
+                                disabled>
+                                {{ $product->enabled ? 'Enabled' : 'Disabled' }}
+                            </button>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn">
+                                    <a href="{{ route('products.edit', $product) }}"><i
+                                            class="fas fa-pencil-alt"></i></a>
+                                </button>
+                                <form method="POST" action="{{ route('products.destroy', $product) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn">
+                                        <i class=" fas fa-trash-alt text-danger"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{-- Pagination --}}
+            <div class=" d-flex justify-content-center">{{ $products->render()}}</div>
         </div>
-
     </div>
-
 </div>
-{{-- Pagination --}}
-<div class=" d-flex justify-content-center mt-3">
-    {{ $products->appends(request()->query())->links()}}</div>
 @endsection

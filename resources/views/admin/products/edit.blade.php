@@ -9,8 +9,8 @@
     @if (Auth::user()->admin or Auth::user()->main_admin)
     {{-- Admi buttons --}}
     <div>
-      <a class="btn btn-dark btn-lg mb-2" href="{{ route('products.index') }}">Back to Products</a>
-      <a class="btn btn-dark mb-2" href="{{ route('products.panel') }}">Back to admin panel</a>
+      <a class="btn btn-dark btn-lg mb-2" href="{{ route('home') }}">Back to Products</a>
+      <a class="btn btn-dark mb-2" href="{{ route('products.index') }}">Back to admin panel</a>
     </div>
     @endif
     @endauth

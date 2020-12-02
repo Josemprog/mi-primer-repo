@@ -12,8 +12,8 @@
       @if (Auth::user()->admin or Auth::user()->main_admin)
       <div class="btn-group-vertical">
         <a class="btn btn-dark mb-2" href="{{ route('users.create') }}">+ Create a new account</a>
-        <a class="btn btn-dark mb-2" href="{{ route('products.index') }}">Manage products</a>
-        <a class="btn btn-dark mb-2" href="{{ route('products.panel') }}">View products panel</a>
+        <a class="btn btn-dark mb-2" href="{{ route('home') }}">Manage products</a>
+        <a class="btn btn-dark mb-2" href="{{ route('products.index') }}">View products panel</a>
       </div>
 
       <div class="page-header mt-4 p-edit">

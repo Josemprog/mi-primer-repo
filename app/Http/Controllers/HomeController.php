@@ -1,7 +1,9 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
+use App\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -21,8 +23,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(): \Illuminate\View\View
+    public function index(Request $request): \Illuminate\View\View
     {
-        return view('home');
+        $products = $request;
+
+        $products = Product::orderBy('id', 'ASC')
+            ->brand($products->brand)
+            ->name($products->name)
+            ->price($products->price)
+            ->paginate(20);
+
+        return view('home')->with('products', $products);
     }
 }

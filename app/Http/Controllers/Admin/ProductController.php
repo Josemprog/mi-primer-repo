@@ -23,8 +23,6 @@ class ProductController extends Controller
      */
     public function index(Request $request): \Illuminate\View\View
     {
-        if (auth()->user()->hasRole('admin')) {
-        }
         $products = $request;
 
         $products = Product::orderBy('id', 'ASC')
@@ -34,26 +32,6 @@ class ProductController extends Controller
             ->paginate(25);
 
         return view('admin.products.index')->with('products', $products);
-    }
-
-    /**
-     * Display a listing of the product.
-     *
-     * @param Request $request
-     * @return \Illuminate\View\View
-     */
-    public function panel(Request $request): \Illuminate\View\View
-    {
-        $products = $request;
-
-        $products = Product::orderBy('id', 'ASC')
-            ->brand($products->brand)
-            ->name($products->name)
-            ->price($products->price)
-            ->enabled($products->enabled)
-            ->paginate(20);
-
-        return view('admin.products.panel')->with('products', $products);
     }
 
     /**
