@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveUsers;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -75,7 +76,6 @@ class UserController extends Controller
      */
     public function update(User $user, SaveUsers $request): \Illuminate\Http\RedirectResponse
     {
-
         $user->update($request->validated());
 
         return redirect()

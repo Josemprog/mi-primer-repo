@@ -9,8 +9,8 @@
     @if (Auth::user()->admin or Auth::user()->main_admin)
     {{-- Admi buttons --}}
     <div>
-      <a class="btn btn-dark btn-lg mb-2" href="{{ route('products.index') }}">Back to Products</a>
-      <a class="btn btn-dark mb-2" href="{{ route('products.panel') }}">Back to admin panel</a>
+      <a class="btn btn-dark btn-lg mb-2" href="{{ route('home') }}">Back to Products</a>
+      <a class="btn btn-dark mb-2" href="{{ route('products.index') }}">Back to admin panel</a>
     </div>
     @endif
     @endauth
@@ -58,7 +58,7 @@
                 @if (substr($product->image, 0, 5) == 'https')
                 <img src="{{$product->image}}" class="img-fluid" alt="Responsive image">
                 @else
-                <img src="/storage/{{$product->image}}" class="img-fluid" alt="Responsive image">
+                <img src="{{ '/img/images/' . $product->image}}" class="img-fluid" alt="Responsive image">
                 @endif
                 <div class="custom-file">
                   <input name="image" type="file" class="custom-file-input" id="customFile">

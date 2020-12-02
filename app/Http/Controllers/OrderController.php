@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-
     public $cartService;
     public $p2p;
 
@@ -61,14 +60,11 @@ class OrderController extends Controller
      */
     public function show(Order $order): \Illuminate\View\View
     {
-
         $payment = $this->p2p->getInformation($order->requestId);
         
         if ($order->status == 'PENDING') {
-            
             $order->status = $payment['status']['status'];
             $order->save();
-
         }
         
 
@@ -94,8 +90,6 @@ class OrderController extends Controller
                 ->back()
                 ->withErrors("Your cart is empty");
         } else {
-
-
             $user = $request->user();
 
             if (!isset($order) || $user->orders->isEmpty()) {
@@ -135,7 +129,6 @@ class OrderController extends Controller
      */
     public function retry(Request $request, Order $order): \Illuminate\Http\RedirectResponse
     {
-
         $payment = $this->p2p->createRequest($order, $request);
 
         $order->processUrl = $payment['processUrl'];

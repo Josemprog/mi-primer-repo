@@ -1,69 +1,117 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="main-container">
 
-  <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="margin-top: 50px">
-    <ol class="carousel-indicators">
-      <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-      <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-      <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img class="rounded mx-auto d-block w-50" src="/img/frontend/shelving4.jpeg">
+    <div class="container-filter">
+        <div class="container">
+            {{-- Administrator menu --}}
+            @auth
+            @if (Auth::user()->admin or Auth::user()->main_admin)
+            {{-- buttons --}}
+            <div class="btn-group-vertical">
+                <a class="btn btn-dark mb-2" href="{{ route('products.create') }}">+ Create a new Product</a>
+                <a class="btn btn-dark mb-2" href="{{ route('products.index') }}">View admin panel</a>
+                <a class="btn btn-dark mb-2" href="{{ route('users.index') }}">Manage Users</a>
+            </div>
+            @endif
+            @endauth
 
-        <div class="carousel-caption d-none d-md-block">
-          <h3>Welcome!!</h3>
-          <p>This is your online shoe store!</p>
+            {{-- Filter form --}}
+            <form class="form-group mt-3 p-edit" method="GET" action="{{route('products.index')}}">
+                @csrf
+                <h1 class="text-muted">Filter</h1>
+                <small class="form-text text-muted">Search by Brand</small>
+                <input type="text" class="form border" name="brand" placeholder="Brand ...">
+
+                <small class="form-text text-muted">Search by name</small>
+                <input type="text" class="form border" name="name" placeholder="Name ...">
+
+                <small class="form-text text-muted">Search by price</small>
+                <input type="text" class="form border" name="price" placeholder="Price ...">
+
+                <button type="submit" class="btn btn-dark btn btn-block mt-2">Search</button>
+            </form>
+
         </div>
-      </div>
-      <div class="carousel-item">
-        <img class="rounded mx-auto d-block w-50" src="/img/frontend/shelving7.jpeg">
+    </div>
 
-        <div class="carousel-caption d-none d-md-block">
-          <h3>Find your style</h3>
-          <p>We have brands for every type of personality and style.</p>
+    {{-- Products container --}}
+    <div class="container-products">
+
+        <div class="card-group">
+            @forelse ($products as $product)
+            @if ($product->enabled == 1)
+
+            {{------------------------- Card Products -------------------------}}
+            <div class="p-card mb-4">
+                <div class="d-flex justify-content-between">
+                    {{------------------------- Brand Product -------------------------}}
+                    <h3 class="pl-1 pt-1">{{$product->brand}}</h3>
+
+                    {{---------------------- Admin buttons--------------------------}}
+                    @auth
+                    @if (Auth::user()->admin or Auth::user()->main_admin)
+                    <div class="btn-group">
+                        <a class="btn" href="{{ route('products.edit', $product)}}">
+                            <i class="fas fa-pencil-alt text-primary"></i>
+                        </a>
+                        <form method="POST" action="{{ route('products.destroy', $product) }}"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn border-0">
+                                <i class="fas fa-trash-alt text-danger"></i>
+                            </button>
+                        </form>
+                    </div>
+                    @endif
+                    @endauth
+                </div>
+                {{---------------------- Product image--------------------------}}
+                <div class="imagen-card">
+                    @if (substr($product->image, 0, 5) == 'https')
+                    <img src="{{$product->image}}" class="img-fluid" alt="Responsive image">
+                    @else
+                    <img src="/storage/{{$product->image}}" class="img-fluid" alt="Responsive image">
+                    @endif
+                </div>
+                <div>
+                    {{---------------------- Name and price of product--------------------------}}
+                    <div class="d-flex justify-content-between" style="height: 32px;">
+                        <h5 class="text-dark pl-1 pt-1">{{ $product->name}}</h5>
+                        <span class="text-success pr-1 pt-1">${{ number_format($product->price)}}</span>
+                    </div>
+
+                    {{---------------------- Cart buttons--------------------------}}
+                    <div class="container">
+                        <form class="btn-group btn-block" method="POST"
+                            action="{{ route('products.carts.store', ['product' => $product]) }}">
+                            @csrf
+                            <div class="btn-group btn-block ">
+                                <a href="{{ route('products.show', $product) }}"
+                                    class="btn btn-dark text-white rounded">
+                                    See
+                                </a>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-cart-plus"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    {{---------------------- End of Cart buttons--------------------------}}
+                </div>
+            </div>
+            @endif
+            @empty
+            <h1>No hay productos ...</h1>
+            @endforelse
         </div>
-      </div>
-      <div class="carousel-item">
-        <img class="rounded mx-auto d-block w-50" src="/img/frontend/shelving11.jpeg">
 
-        <div class="carousel-caption d-none d-md-block">
-          <h3>Give the best first impression</h3>
-          <p>We have shoes for every occasion.</p>
-        </div>
-      </div>
     </div>
-    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div>
 
-  <hr style="margin-top: 50px">
-  <div class="d-flex justify-content-center align-items-center" style="height: 500px;">
-    <img class="img d-block p-4" style="height: 400px; width: auto;" src="/img/frontend/shelving1.jpeg">
-    <div>
-      <h1 class="text-white">Sport shoes</h1>
-      <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit quae eius dignissimos
-        commodi, earum itaque! Ab
-        quae repellat, fugiat cumque impedit numquam at, aliquam assumenda nemo consectetur, labore molestiae neque.</p>
-    </div>
-  </div>
-  <hr>
-  <div class="d-flex justify-content-center align-items-center" style="height: 500px;">
-    <div>
-      <h1 class="text-white">Variety of shoes</h1>
-      <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit quae eius dignissimos
-        commodi, earum itaque! Ab
-        quae repellat, fugiat cumque impedit numquam at, aliquam assumenda nemo consectetur, labore molestiae neque.</p>
-    </div>
-    <img class="img d-block p-4" style="height: 400px; width: auto;" src="/img/frontend/shelving2.jpeg">
-  </div>
 </div>
+{{-- Pagination --}}
+<div class=" d-flex justify-content-center mt-3">
+    {{ $products->appends(request()->query())->links()}}</div>
 @endsection

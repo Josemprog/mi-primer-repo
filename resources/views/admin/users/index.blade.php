@@ -12,8 +12,8 @@
       @if (Auth::user()->admin or Auth::user()->main_admin)
       <div class="btn-group-vertical">
         <a class="btn btn-dark mb-2" href="{{ route('users.create') }}">+ Create a new account</a>
-        <a class="btn btn-dark mb-2" href="{{ route('products.index') }}">Manage products</a>
-        <a class="btn btn-dark mb-2" href="{{ route('products.panel') }}">View products panel</a>
+        <a class="btn btn-dark mb-2" href="{{ route('home') }}">Manage products</a>
+        <a class="btn btn-dark mb-2" href="{{ route('products.index') }}">View products panel</a>
       </div>
 
       <div class="page-header mt-4 p-edit">
@@ -66,8 +66,8 @@
             <td scope="row">{{ $user->id }}</td>
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
-            <td>{{ $user->created_at }}</td>
-            <td>{{$user->updated_at}}</td>
+            <td>{{ $user->created_at->diffForHumans() }}</td>
+            <td>{{$user->updated_at->diffForHumans()}}</td>
             <td>
               <button
                 class=" justify-content-center btn-sm @if($user->admin) btn btn-outline-success @else btn btn-outline-secondary @endif "

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Cart;
 use App\Product;
 use App\Services\CartService;
-use Illuminate\Http\Request;
 
 class ProductCartController extends Controller
 {
@@ -55,12 +54,10 @@ class ProductCartController extends Controller
             ->quantity ?? 0;
 
         if ($quantity <= 1) {
-
             $cart->products()->detach($product->id);
 
             return redirect()->back();
         } else {
-
             $cart->products()->syncWithoutDetaching([
                 $product->id => ['quantity' => $quantity - 1],
             ]);
