@@ -4,6 +4,7 @@ use App\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UserSeeder extends Seeder
 {
@@ -32,6 +33,10 @@ class UserSeeder extends Seeder
         
         $admin->assignRole($adminRole);
 
-        factory(App\User::class, 5)->create();
+        $permiso = Permission::create(['name' => 'edit articles']);
+
+        $adminRole->givePermissionTo($permiso);
+
+        factory(App\User::class, 1000)->create();
     }
 }

@@ -23,13 +23,15 @@ class ProductController extends Controller
      */
     public function index(Request $request): \Illuminate\View\View
     {
+        if (auth()->user()->hasRole('admin')) {
+        }
         $products = $request;
 
         $products = Product::orderBy('id', 'ASC')
             ->brand($products->brand)
             ->name($products->name)
             ->price($products->price)
-            ->paginate(10);
+            ->paginate(25);
 
         return view('admin.products.index')->with('products', $products);
     }
@@ -98,7 +100,7 @@ class ProductController extends Controller
      * @param Product $product
      * @return \Illuminate\View\View
      */
-    public function edit(Product $product): \Illuminate\View\View
+    public function edit(Product $product)
     {
         return view('admin.products.edit')->with('product', $product);
     }
@@ -112,7 +114,6 @@ class ProductController extends Controller
      */
     public function update(Product $product, ProductsRequest $request): \Illuminate\Http\RedirectResponse
     {
-        // dd($request->hasFile('image'));
         if ($request->hasFile('image')) {
             Storage::disk('public')->delete($product->image);
             Storage::delete($product->image);
@@ -120,8 +121,6 @@ class ProductController extends Controller
             $product->fill($request->validated());
             $product->image = $request->file('image')->store('images');
             $product->save();
-
-            // dd(Image::make(Storage::get($product->image)));
 
             $image = Image::make(Storage::get($product->image));
             $image->widen(600)->limitColors(255, '#ff9900')->encode();

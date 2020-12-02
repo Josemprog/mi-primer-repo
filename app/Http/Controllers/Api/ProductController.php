@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductsRequest;
-use App\Product;
-use App\Http\Resources\Product as ProductResources;
-use App\Http\Resources\ProductCollection;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\ProductCollection;
+use App\Http\Resources\Product as ProductResources;
 
 class ProductController extends Controller
 {

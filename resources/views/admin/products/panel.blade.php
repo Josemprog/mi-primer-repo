@@ -50,7 +50,7 @@
 
             <div class=" d-flex justify-content-between m-2">
                 <div>
-                    <a class="btn btn-primary" href="{{ route('products.export') }}">Exportar</a>
+                    <a class="btn btn-primary" href="{{ route('products.export') }}">Export</a>
                 </div>
 
                 <form action="{{ route('products.import') }}" method="POST" enctype="multipart/form-data">
@@ -63,7 +63,7 @@
                             <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
                         </div>
                         {{-- <div class="input-group-append"> --}}
-                        <button class="btn btn-primary ml-2" type="submit" id="inputGroupFileAddon04">Importar</button>
+                        <button class="btn btn-primary ml-2" type="submit" id="inputGroupFileAddon04">Import</button>
                         {{-- </div> --}}
                     </div>
                     @csrf
@@ -100,8 +100,8 @@
                         <td>{{$product->name}}</td>
                         <td class="text-success">${{number_format($product->price)}}</td>
                         <td>{{$product->quantity}}</td>
-                        <td>{{$product->created_at}}</td>
-                        <td>{{$product->updated_at}}</td>
+                        <td>{{$product->created_at->diffForHumans()}}</td>
+                        <td>{{$product->updated_at->diffForHumans()}}</td>
                         <td>
                             <button
                                 class=" justify-content-center btn-sm @if($product->enabled) btn btn-outline-success @else btn btn-outline-secondary @endif "

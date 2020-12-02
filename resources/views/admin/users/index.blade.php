@@ -66,8 +66,8 @@
             <td scope="row">{{ $user->id }}</td>
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
-            <td>{{ $user->created_at }}</td>
-            <td>{{$user->updated_at}}</td>
+            <td>{{ $user->created_at->diffForHumans() }}</td>
+            <td>{{$user->updated_at->diffForHumans()}}</td>
             <td>
               <button
                 class=" justify-content-center btn-sm @if($user->admin) btn btn-outline-success @else btn btn-outline-secondary @endif "
