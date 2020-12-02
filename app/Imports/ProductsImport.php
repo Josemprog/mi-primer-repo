@@ -3,10 +3,14 @@
 namespace App\Imports;
 
 use App\Product;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class ProductsImport implements ToModel
+class ProductsImport implements ToModel, WithHeadingRow
 {
+    use Importable;
+
     /**
     * @param array $row
     *
@@ -14,14 +18,27 @@ class ProductsImport implements ToModel
     */
     public function model(array $row)
     {
+        $product = Product::find($row['id']);
+        return $product ? $this->updateProduct($product, $row) : $this->createProduct($row);
+    }
+
+    public function createProduct($row)
+    {
         return new Product([
-           'brand'         => $row[1],
-           'name'          => $row[2],
-           'price'         => $row[3],
-           'quantity'      => $row[4],
-           'description'   => $row[5],
-           'image'         => $row[6],
-           'enabled'       => $row[7],
+           'id'            => $row['id'],
+           'brand'         => $row['brand'],
+           'name'          => $row['name'],
+           'price'         => $row['price'],
+           'quantity'      => $row['quantity'],
+           'description'   => $row['description'],
+           'image'         => $row['image'],
+           'enabled'       => $row['enabled'],
         ]);
+    }
+
+    public function updateProduct(Product $product, $row)
+    {
+        $product->update($row);
+        return $product;
     }
 }

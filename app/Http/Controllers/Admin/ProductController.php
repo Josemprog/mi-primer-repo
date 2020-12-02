@@ -6,7 +6,6 @@ use App\Product;
 use Illuminate\Http\Request;
 use App\Exports\ProductsExport;
 use App\Imports\ProductsImport;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
 use App\Http\Requests\ProductsRequest;
@@ -57,7 +56,7 @@ class ProductController extends Controller
         $product->save();
 
         return redirect()
-            ->route('products.panel')
+            ->route('products.index')
             ->with('message', 'Product Created');
     }
 
@@ -108,7 +107,7 @@ class ProductController extends Controller
         }
 
         return redirect()
-            ->route('products.panel')
+            ->route('products.index')
             ->with('message', "Edited Product $product->name");
     }
 
@@ -126,7 +125,7 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()
-            ->route('products.panel')
+            ->route('products.index')
             ->with('message', 'Product Removed');
     }
 
@@ -153,12 +152,10 @@ class ProductController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function import(Request $request): \Illuminate\Http\RedirectResponse
+    public function import(Request $request, ProductsImport $productsImport): \Illuminate\Http\RedirectResponse
     {
-        $file = $request->file('file');
+        $productsImport->import($request->importFile);
 
-        Excel::import(new ProductsImport, $file, 'public');
-
-        return back()->with('message', 'lleve');
+        return back()->with('message', 'The Import has been completed successfully!');
     }
 }
