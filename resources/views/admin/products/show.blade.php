@@ -38,7 +38,7 @@
           @if (substr($product->image, 0, 5) == 'https')
           <img src="{{$product->image}}" class="img-fluid" alt="Responsive image">
           @else
-          <img src="/storage/images/{{$product->image}}" class="img-fluid" alt="Responsive image">
+          <img src="/storage/{{$product->image}}" class="img-fluid" alt="Responsive image">
           @endif
         </div>
         <form method="POST" action="{{ route('products.carts.store', ['product' => $product->id]) }}">
