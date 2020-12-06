@@ -7,6 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="user-auth" content="{{ Auth::user()}}">
 
     <title>Online shoe store</title>
 
@@ -64,6 +65,9 @@
                     <ul class="navbar-nav ml-auto">
                         @auth
                         @if (Auth::user()->admin or Auth::user()->main_admin)
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('panel.index') }}">{{ __('Panel API') }}</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('users.index') }}">{{ __('Users') }}</a>
                         </li>

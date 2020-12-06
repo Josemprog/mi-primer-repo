@@ -28,7 +28,7 @@ class ProductController extends Controller
     {
         return response()->json(
             new ProductCollection(
-                $this->product->orderBy('id', 'desc')->get()
+                $this->product->orderBy('id', 'ASC')->get()
             )
         );
     }

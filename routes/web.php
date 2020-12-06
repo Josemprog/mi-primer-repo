@@ -7,6 +7,8 @@ Auth::routes(['verify' => true]);
 
 Route::view('/', 'welcome')->name('welcome');
 
+// Route::resource('panel', 'PanelController')->only('index');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('products.carts', 'ProductCartController')->only(['store', 'destroy']);
@@ -16,3 +18,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('orders', 'OrderController');
     Route::post('orders/{order}', 'OrderController@retry')->name('orders.retry');
 });
+
+Route::resource('vue', 'VueController')->only('index');

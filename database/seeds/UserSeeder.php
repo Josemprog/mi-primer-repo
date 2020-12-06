@@ -37,6 +37,6 @@ class UserSeeder extends Seeder
 
         $adminRole->givePermissionTo($permiso);
 
-        factory(App\User::class, 20)->create();
+        factory(App\User::class, 5)->create();
     }
 }
