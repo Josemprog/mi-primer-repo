@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->boolean('main_admin')->default(false);
             $table->boolean('admin')->default(false);
             $table->boolean('enabled')->default(true);
+            $table->string('api_token')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

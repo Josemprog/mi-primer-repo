@@ -31,7 +31,7 @@ class HomeController extends Controller
             ->brand($products->brand)
             ->name($products->name)
             ->price($products->price)
-            ->paginate(20);
+            ->paginate(28);
 
         return view('home')->with('products', $products);
     }

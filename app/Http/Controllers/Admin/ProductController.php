@@ -28,7 +28,7 @@ class ProductController extends Controller
             ->brand($products->brand)
             ->name($products->name)
             ->price($products->price)
-            ->paginate(25);
+            ->paginate(10);
 
         return view('admin.products.index')->with('products', $products);
     }
@@ -49,7 +49,7 @@ class ProductController extends Controller
      * @param ProductsRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(ProductsRequest $request)
+    public function store(ProductsRequest $request): \Illuminate\Http\RedirectResponse
     {
         $product = new Product($request->validated());
         $product->image = $request->file('image')->store('images', 'public');
@@ -77,7 +77,7 @@ class ProductController extends Controller
      * @param Product $product
      * @return \Illuminate\View\View
      */
-    public function edit(Product $product)
+    public function edit(Product $product): \Illuminate\View\View
     {
         return view('admin.products.edit')->with('product', $product);
     }

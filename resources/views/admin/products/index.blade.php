@@ -52,6 +52,9 @@
                 <div>
                     <a class="btn btn-primary" href="{{ route('products.export') }}">Export</a>
                 </div>
+                <div>
+                    <a class="btn btn-primary" href="#">Generate sales report</a>
+                </div>
 
                 <form action="{{ route('products.import') }}" method="POST" enctype="multipart/form-data">
                     @csrf

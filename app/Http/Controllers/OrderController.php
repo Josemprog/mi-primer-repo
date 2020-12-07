@@ -18,7 +18,6 @@ class OrderController extends Controller
         $this->cartService = $cartService;
         $this->p2p = $p2p;
 
-
         $this->middleware('auth');
     }
 

@@ -42,7 +42,7 @@
               <td>{{ $payment['status']['status'] }}</td>
               <td>{{ $payment['status']['message'] }}</td>
               <td>{{ $payment['request']['locale'] }}</td>
-              <td>{{ number_format($payment['request']['payment']['amount']['total']) }}</td>
+              <td class="text-success">${{ number_format($payment['request']['payment']['amount']['total']) }}</td>
               <td>{{ $payment['request']['payment']['amount']['currency'] }}</td>
               <td>
                 <form method="POST" action="{{ route('orders.retry', ['order' => $order]) }}">

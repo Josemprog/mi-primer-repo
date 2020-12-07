@@ -19,7 +19,14 @@ class UserSeeder extends Seeder
     {
         Role::truncate();
 
+        // Roles
         $adminRole = Role::create(['name'  => 'admin']);
+
+        // Permisos
+        $permisoShowArticles = Permission::create(['name' => 'show articles']);
+        $permisoStoreArticles = Permission::create(['name' => 'store articles']);
+        $permisoEditArticles = Permission::create(['name' => 'edit articles']);
+        $permisoDestroyArticles = Permission::create(['name' => 'destroy articles']);
 
         $admin = new User();
         $admin->name = 'JoseM';
@@ -31,12 +38,15 @@ class UserSeeder extends Seeder
         $admin->remember_token = Str::random(10);
         $admin->save();
         
+        // Asignando roles
         $admin->assignRole($adminRole);
+        
+        // Asignando Permisos
+        $adminRole->givePermissionTo($permisoShowArticles);
+        $adminRole->givePermissionTo($permisoStoreArticles);
+        $adminRole->givePermissionTo($permisoEditArticles);
+        $adminRole->givePermissionTo($permisoDestroyArticles);
 
-        $permiso = Permission::create(['name' => 'edit articles']);
-
-        $adminRole->givePermissionTo($permiso);
-
-        factory(App\User::class, 1000)->create();
+        factory(App\User::class, 100)->create();
     }
 }

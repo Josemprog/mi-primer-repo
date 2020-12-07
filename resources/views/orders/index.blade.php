@@ -10,7 +10,7 @@
       {{-- buttons --}}
       <div>
         <a class="btn btn-dark btn-lg mb-2" href="{{ route('carts.index') }}">Back to Cart</a>
-        <a class="btn btn-dark btn-lg mb-2" href="{{ route('products.index') }}">Go to Products</a>
+        <a class="btn btn-dark btn-lg mb-2" href="{{ route('home') }}">Go to Products</a>
       </div>
       @endauth
     </div>
@@ -32,8 +32,6 @@
         <table class="table table-striped p-edit-2 w-auto">
           <thead>
             <tr class="text-muted">
-              <th>requestId</th>
-              <th>state</th>
               <th>Order id</th>
               <th>created at</th>
               <th>view orders</th>
@@ -42,12 +40,10 @@
           <tbody>
             @foreach ($orders as $order)
             <tr scope="row">
-              <td>{{$order->requestId}}</td>
-              <td>{{$order->state}}</td>
               <td>{{$order->id}}</td>
               <td>{{$order->created_at}}</td>
               <td>
-                <a href="{{ route('orders.show', $order) }}" class="btn btn-dark text-white"
+                <a href="{{ route('orders.show', $order) }}" class="btn btn-dark text-white btn-block"
                   style="height: 35px">See</a>
               </td>
             </tr>

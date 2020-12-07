@@ -8,6 +8,7 @@ use App\Http\Requests\ProductsRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\Product as ProductResources;
+use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
@@ -21,13 +22,13 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return response()->json(
             new ProductCollection(
-                $this->product->orderBy('id', 'desc')->get()
+                $this->product->orderBy('id', 'ASC')->get()
             )
         );
     }
@@ -35,10 +36,10 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\ProductsRequest  $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ProductsRequest $request)
+    public function store(ProductsRequest $request): JsonResponse
     {
         $product = $this->product->create($request->validated());
         $product->image = $request->file('image')->store('images', 'public');
@@ -51,9 +52,9 @@ class ProductController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Product $product)
+    public function show(Product $product): JsonResponse
     {
         return response()->json(new ProductResources($product), 200);
     }
@@ -63,9 +64,9 @@ class ProductController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
+     * @return @return \Illuminate\Http\JsonResponse
      */
-    public function update(ProductsRequest $request, Product $product)
+    public function update(ProductsRequest $request, Product $product): JsonResponse
     {
         if ($request->hasFile('image')) {
             Storage::disk('public')->delete($product->image);
@@ -85,9 +86,9 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
+     * @return @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): JsonResponse
     {
         $product->delete();
 
