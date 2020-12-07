@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Cart;
 use App\Product;
 use App\Services\CartService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
 
 class ProductCartController extends Controller
 {
@@ -20,11 +18,10 @@ class ProductCartController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Product  $product
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request, Product $product): \Illuminate\Http\RedirectResponse
+    public function store(Product $product): \Illuminate\Http\RedirectResponse
     {
         $cart = $this->cartService->getFromUserOrCreate();
 
@@ -44,11 +41,10 @@ class ProductCartController extends Controller
     /**
      * Remove only one product from cart
      *
-     * @param Request $request
      * @param Product $product
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function removeOne(Request $request, Product $product, Cart $cart): \Illuminate\Http\RedirectResponse
+    public function removeOne(Product $product, Cart $cart): \Illuminate\Http\RedirectResponse
     {
         $cart = $this->cartService->getFromUserOrCreate();
 
@@ -58,12 +54,10 @@ class ProductCartController extends Controller
             ->quantity ?? 0;
 
         if ($quantity <= 1) {
-
             $cart->products()->detach($product->id);
 
             return redirect()->back();
         } else {
-
             $cart->products()->syncWithoutDetaching([
                 $product->id => ['quantity' => $quantity - 1],
             ]);

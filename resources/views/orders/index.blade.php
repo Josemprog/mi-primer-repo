@@ -10,7 +10,7 @@
       {{-- buttons --}}
       <div>
         <a class="btn btn-dark btn-lg mb-2" href="{{ route('carts.index') }}">Back to Cart</a>
-        <a class="btn btn-dark btn-lg mb-2" href="{{ route('products.index') }}">Go to Products</a>
+        <a class="btn btn-dark btn-lg mb-2" href="{{ route('home') }}">Go to Products</a>
       </div>
       @endauth
     </div>
@@ -32,9 +32,7 @@
         <table class="table table-striped p-edit-2 w-auto">
           <thead>
             <tr class="text-muted">
-              <th>requestId</th>
               <th>Order id</th>
-              <th>User</th>
               <th>created at</th>
               <th>view orders</th>
             </tr>
@@ -42,12 +40,10 @@
           <tbody>
             @foreach ($orders as $order)
             <tr scope="row">
-              <td>{{$order->requestId}}</td>
               <td>{{$order->id}}</td>
-              <td>{{$user->name}}</td>
               <td>{{$order->created_at}}</td>
               <td>
-                <a href="{{ route('orders.show', $order) }}" class="btn btn-dark text-white"
+                <a href="{{ route('orders.show', $order) }}" class="btn btn-dark text-white btn-block"
                   style="height: 35px">See</a>
               </td>
             </tr>
@@ -56,10 +52,7 @@
         </table>
         @endif
       </div>
-      {{-- Pagination --}}
-      {{-- <div class=" d-flex justify-content-center">{{ $products->render()}}
-    </div> --}}
+    </div>
   </div>
-</div>
 </div>
 @endsection

@@ -1,5 +1,6 @@
 <?php
 
+use App\Order;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('processUrl')->nullable();
-            $table->string('status')->default('pending');
+            $table->string('status')->default(Order::IN_PROCESS);
             $table->unsignedInteger('requestId')->nullable();
             $table->bigInteger('customer_id')->unsigned();
             $table->timestamps();

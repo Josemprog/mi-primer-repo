@@ -6,12 +6,12 @@
   {{-- Administrator menu --}}
   <div class="col-2 ml-3">
     {{-- Admi buttons --}}
-    <div class="btn-group-vertical">
-      <a class="btn btn-dark btn-lg" href="{{ route('products.index') }}">Back to products</a>
+    <div>
+      <a class="btn btn-dark btn-lg mb-2" href="{{ route('home') }}">Back to products</a>
       @auth
       @if (Auth::user()->admin or Auth::user()->main_admin)
-      <a class="btn btn-dark btn-lg" href="{{ route('products.panel') }}">View admin panel</a>
-      <a class="btn btn-dark btn-lg" href="{{ route('users.index') }}">Manage Users</a>
+      <a class="btn btn-dark mb-2" href="{{ route('products.index') }}">View admin panel</a>
+      <a class="btn btn-dark mb-2" href="{{ route('users.index') }}">Manage Users</a>
       @endif
       @endauth
     </div>
@@ -41,7 +41,6 @@
           <img src="/storage/{{$product->image}}" class="img-fluid" alt="Responsive image">
           @endif
         </div>
-        {{-- Footer Buttons --}}
         <form method="POST" action="{{ route('products.carts.store', ['product' => $product->id]) }}">
           @csrf
           <div class="btn-group btn-block">

@@ -2,7 +2,6 @@
 
 namespace App;
 
-
 use App\Cart;
 use App\Order;
 use App\Payment;
@@ -10,11 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-// use Illuminate\Database\Query\Builder;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable;
+    use Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.

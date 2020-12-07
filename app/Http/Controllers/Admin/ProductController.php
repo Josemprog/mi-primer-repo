@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Product;
 use Illuminate\Http\Request;
+use App\Exports\ProductsExport;
+use App\Imports\ProductsImport;
+use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
 use App\Http\Requests\ProductsRequest;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use App\Jobs\NotifyUserOfCompletedExport;
 
 class ProductController extends Controller
 {
@@ -31,26 +34,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Display a listing of the product.
-     *
-     * @param Request $request
-     * @return \Illuminate\View\View
-     */
-    public function panel(Request $request): \Illuminate\View\View
-    {
-        $products = $request;
-
-        $products = Product::orderBy('id', 'ASC')
-            ->brand($products->brand)
-            ->name($products->name)
-            ->price($products->price)
-            ->enabled($products->enabled)
-            ->paginate(20);
-
-        return view('admin.products.panel')->with('products', $products);
-    }
-
-    /**
      * Show the form for creating a new product.
      *
      * @return \Illuminate\View\View
@@ -71,11 +54,6 @@ class ProductController extends Controller
         $product = new Product($request->validated());
         $product->image = $request->file('image')->store('images', 'public');
         $product->save();
-
-        // Optimizing the image
-        $image = Image::make(storage_path('app/public/' . $product->image));
-        $image->widen(600)->limitColors(255, '#ff9900')->encode();
-        Storage::put($product->image, (string) $image);
 
         return redirect()
             ->route('products.index')
@@ -113,27 +91,18 @@ class ProductController extends Controller
      */
     public function update(Product $product, ProductsRequest $request): \Illuminate\Http\RedirectResponse
     {
-
-
         if ($request->hasFile('image')) {
-
-            // Removing old image from folders
             Storage::disk('public')->delete($product->image);
             Storage::delete($product->image);
 
-            // Loading new image
             $product->fill($request->validated());
-            $product->image = $request->file('image')->store('images', 'public');
+            $product->image = $request->file('image')->store('images');
             $product->save();
 
-            // Optimizing the new image
-            $image = Image::make(storage_path('app/public/' . $product->image));
+            $image = Image::make(Storage::get($product->image));
             $image->widen(600)->limitColors(255, '#ff9900')->encode();
-            Storage::put($product->image, (string) $image);
+            Storage::put($product->image, (string )$image);
         } else {
-
-            // dd($product);
-            // Updating without the image
             $product->update($request->validated());
         }
 
@@ -150,7 +119,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): \Illuminate\Http\RedirectResponse
     {
-        // Removing image from folders
         Storage::disk('public')->delete($product->image);
         Storage::delete($product->image);
 
@@ -159,5 +127,35 @@ class ProductController extends Controller
         return redirect()
             ->route('products.index')
             ->with('message', 'Product Removed');
+    }
+
+    /**
+     * Export products from the database
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function export(): \Illuminate\Http\RedirectResponse
+    {
+        $user = auth()->user();
+        $filePath = asset('storage/products.xlsx');
+
+        (new ProductsExport())->store('products.xlsx', 'public')->chain([
+            new NotifyUserOfCompletedExport($user, $filePath)
+        ]);
+
+        return back()->with('message', 'The export has started, we will send you an email when it is ready.');
+    }
+    
+    /**
+     * Import products to the database
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function import(Request $request, ProductsImport $productsImport): \Illuminate\Http\RedirectResponse
+    {
+        $productsImport->import($request->importFile);
+
+        return back()->with('message', 'The Import has been completed successfully!');
     }
 }

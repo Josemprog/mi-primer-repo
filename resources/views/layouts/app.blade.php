@@ -7,8 +7,9 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="user-auth" content="{{ Auth::user()}}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Online shoe store</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -28,8 +29,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-dark shadow-sm fixed-top">
             <div class="container">
                 <a class="navbar-brand text-white" href="{{ url('/') }}">
-                    {{-- {{ config('app.name', 'Laravel') }} --}}
-                    Evertec Project
+                    Online shoe store
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -45,11 +45,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('products.index') }}">{{ __('Products') }}</a>
-                        </li>
-
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('carts.index') }}">
                                 @inject('cartService', 'App\Services\CartService')
@@ -71,7 +66,13 @@
                         @auth
                         @if (Auth::user()->admin or Auth::user()->main_admin)
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('users.index') }}">{{ __('Admin') }}</a>
+                            <a class="nav-link text-white" href="{{ route('panel.index') }}">{{ __('Panel API') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('users.index') }}">{{ __('Users') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('products.index') }}">{{ __('Products') }}</a>
                         </li>
                         @endif
                         @endauth

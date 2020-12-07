@@ -4,6 +4,9 @@
 // Variables
 @import "variables";
 @import "styles";
+body {
+    color: black;
+}
 
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";

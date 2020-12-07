@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveUsers;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -23,7 +24,7 @@ class UserController extends Controller
             ->name($users->name)
             ->email($users->email)
             ->enabled($users->enabled)
-            ->paginate(6);
+            ->paginate(10);
 
         return view('admin.users.index')->with('users', $users);
     }
@@ -56,17 +57,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified user.
-     *
-     * @param [type] $id
-     * @return void
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified user.
      *
      * @param User $user
@@ -86,7 +76,6 @@ class UserController extends Controller
      */
     public function update(User $user, SaveUsers $request): \Illuminate\Http\RedirectResponse
     {
-
         $user->update($request->validated());
 
         return redirect()

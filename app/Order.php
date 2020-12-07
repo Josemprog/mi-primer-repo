@@ -9,6 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+
+    public const APPROVED = 'approved';
+    public const REJECTED = 'rejected';
+    public const PENDING = 'pending';
+    public const IN_PROCESS = 'in_process';
+
     /**
      * The attributes that are mass assignable.
      *

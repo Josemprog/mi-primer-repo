@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-
     public $cartService;
     public $p2p;
 
@@ -18,7 +17,6 @@ class OrderController extends Controller
     {
         $this->cartService = $cartService;
         $this->p2p = $p2p;
-
 
         $this->middleware('auth');
     }
@@ -38,7 +36,6 @@ class OrderController extends Controller
 
         return view('orders.index')->with([
             'orders' => $orders,
-            'user' => $user
         ]);
     }
 
@@ -62,14 +59,13 @@ class OrderController extends Controller
      */
     public function show(Order $order): \Illuminate\View\View
     {
-
         $payment = $this->p2p->getInformation($order->requestId);
-
+        
         if ($order->status == 'PENDING') {
-
             $order->status = $payment['status']['status'];
             $order->save();
         }
+        
 
         return view('orders.show')
             ->with([
@@ -86,28 +82,17 @@ class OrderController extends Controller
      */
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
-        // obtengo el carro del usuario
         $cart = $this->cartService->getCartFromUser();
 
-        // pregunto si el carro esta vacio
         if (!isset($cart) || $cart->products->isEmpty()) {
             return redirect()
                 ->back()
                 ->withErrors("Your cart is empty");
         } else {
-
-            // traigo el usuario
-
             $user = $request->user();
 
-            // le creo la orden si no existe
-
-            // dd($user->orders);
-
             if (!isset($order) || $user->orders->isEmpty()) {
-                $order = $user->orders()->create([
-                    'status' => 'PENDING',
-                ]);
+                $order = $user->orders()->create();
 
                 $cartProductsWithQuantity = $cart
                     ->products
@@ -117,16 +102,12 @@ class OrderController extends Controller
                         return $element;
                     });
 
-                // agrupo las ordenes en un arreglo
-
                 $order->products()
                     ->attach($cartProductsWithQuantity->toArray());
             }
 
-            // borro los productos del carrito
-            $this->cartService->getCartFromUser()->products()->detach();
+            $cart->products()->detach();
 
-            // Consumo el api de Place to pay
             $payment = $this->p2p->createRequest($order, $request);
 
             $order->processUrl = $payment['processUrl'];
@@ -147,7 +128,6 @@ class OrderController extends Controller
      */
     public function retry(Request $request, Order $order): \Illuminate\Http\RedirectResponse
     {
-
         $payment = $this->p2p->createRequest($order, $request);
 
         $order->processUrl = $payment['processUrl'];

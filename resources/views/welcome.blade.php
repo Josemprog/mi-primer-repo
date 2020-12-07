@@ -1,97 +1,69 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.app')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@section('content')
+<div class="container">
 
-    <title>Laravel</title>
+  <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="margin-top: 50px">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+      <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img class="rounded mx-auto d-block w-50" src="/img/frontend/shelving4.jpeg">
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-    <!-- Styles -->
-    <style>
-        html,
-        body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 84px;
-        }
-
-        .links>a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="flex-center position-ref full-height">
-        @if (Route::has('login'))
-        <div class="top-right links">
-            @auth
-            <a href="{{ url('/home') }}">Home</a>
-            @else
-            <a href="{{ route('login') }}">Login</a>
-
-            @if (Route::has('register'))
-            <a href="{{ route('register') }}">Register</a>
-            @endif
-            @endauth
+        <div class="carousel-caption d-none d-md-block">
+          <h3>Welcome!!</h3>
+          <p>This is your online shoe store!</p>
         </div>
-        @endif
+      </div>
+      <div class="carousel-item">
+        <img class="rounded mx-auto d-block w-50" src="/img/frontend/shelving7.jpeg">
 
-        <div class="content">
-            <div class="title m-b-md">
-                Evertec Project
-            </div>
-
-            <div class="links">
-                <p>Desarrollado por JosemProg</p>
-            </div>
+        <div class="carousel-caption d-none d-md-block">
+          <h3>Find your style</h3>
+          <p>We have brands for every type of personality and style.</p>
         </div>
+      </div>
+      <div class="carousel-item">
+        <img class="rounded mx-auto d-block w-50" src="/img/frontend/shelving11.jpeg">
+
+        <div class="carousel-caption d-none d-md-block">
+          <h3>Give the best first impression</h3>
+          <p>We have shoes for every occasion.</p>
+        </div>
+      </div>
     </div>
-</body>
+    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
 
-</html>
+  <hr style="margin-top: 50px">
+  <div class="d-flex justify-content-center align-items-center" style="height: 500px;">
+    <img class="img d-block p-4" style="height: 400px; width: auto;" src="/img/frontend/shelving1.jpeg">
+    <div>
+      <h1 class="text-white">Sport shoes</h1>
+      <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit quae eius dignissimos
+        commodi, earum itaque! Ab
+        quae repellat, fugiat cumque impedit numquam at, aliquam assumenda nemo consectetur, labore molestiae neque.</p>
+    </div>
+  </div>
+  <hr>
+  <div class="d-flex justify-content-center align-items-center" style="height: 500px;">
+    <div>
+      <h1 class="text-white">Variety of shoes</h1>
+      <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit quae eius dignissimos
+        commodi, earum itaque! Ab
+        quae repellat, fugiat cumque impedit numquam at, aliquam assumenda nemo consectetur, labore molestiae neque.</p>
+    </div>
+    <img class="img d-block p-4" style="height: 400px; width: auto;" src="/img/frontend/shelving2.jpeg">
+  </div>
+</div>
+@endsection

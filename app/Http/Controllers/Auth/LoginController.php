@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -52,5 +53,20 @@ class LoginController extends Controller
         $credenciales['enabled'] = true;
 
         return $credenciales;
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated($user)
+    {
+        if ($user->hasRole('admin')) {
+            $user->api_token = Str::random(60);
+            $user->save();
+        }
     }
 }
