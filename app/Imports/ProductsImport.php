@@ -35,7 +35,7 @@ class ProductsImport implements ToModel, WithHeadingRow
            'enabled'       => $row['enabled'],
         ]);
     }
-
+    
     public function updateProduct(Product $product, $row)
     {
         $product->update($row);

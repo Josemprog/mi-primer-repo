@@ -1,9 +1,9 @@
-<form method="POST" @submit.prevent="editProduct">
-    <div class="modal fade" id="edit">
+<form method="POST" @submit.prevent="createProduct">
+    <div class="modal fade" id="create">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4>Edit a New Product</h4>
+                    <h4>Create a New Product</h4>
                     <button type="button" class="close" data-dismiss="modal">
                         <span>&times;</span>
                     </button>
@@ -28,7 +28,7 @@
                                 rows="5">description</textarea>
                         </div>
 
-                        <div class=" image-edit col-6 d-flex flex-column justify-content-between">
+                        <div class=" image-create col-6 d-flex flex-column justify-content-between">
                             <h3 class="text-muted"> Image</h3>
                             <img src="#" class="img-fluid" alt="Responsive image">
                             <div class="custom-file">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary btn-block" value="Edit">
+                    <input type="submit" class="btn btn-primary btn-block" value="Create">
                 </div>
             </div>
         </div>

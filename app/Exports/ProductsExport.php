@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class ProductsExport implements FromQuery, ShouldQueue, WithHeadings
 {
     use Exportable;
-
+    
     public function query()
     {
         return Product::query();

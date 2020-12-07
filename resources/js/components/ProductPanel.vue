@@ -16,21 +16,20 @@
         </thead>
         <tbody>
             <tr v-for="(product, index) in products" :key="index">
-                <th scope="row">{{ index+1 }}</th>
-                <th>{{ product.image.substr(-50, 15) + '...' }}</th>
-                <th>{{ product.brand }}</th>
-                <th>{{ product.name }}</th>
-                <th class="text-success">${{ product.price}}</th>
-                <th>{{ product.quantity }}</th>
-                <th>{{ product.created }}</th>
-                <th>{{ product.updated_at }}</th>
-                <th> state </th>
-                <th class="btn-group">
-                    <!-- <div> -->
-                        <i class="btn fas fa-pencil-alt text-info" data-toggle="modal" data-target="#edit"></i>
-                        <i class="btn fas fa-trash-alt text-danger" v-on:click="deleteProducts(product)"></i>
-                    <!-- </div> -->
-                </th>
+                <td scope="row">{{ index+1 }}</td>
+                <td>{{ product.image.substr(-50, 15) + '...' }}</td>
+                <td>{{ product.brand }}</td>
+                <td>{{ product.name }}</td>
+                <td class="text-success">${{ product.price}}</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.created }}</td>
+                <td>{{ product.updated_at }}</td>
+                <td class="text-success" v-if="product.enabled">Enabled</td>
+                <td class="text-muted" v-else>Disabled</td>
+                <td class="btn-group">
+                    <i class="btn fas fa-pencil-alt text-info" data-toggle="modal" data-target="#edit"></i>
+                    <i class="btn fas fa-trash-alt text-danger" v-on:click="deleteProduct(product)"></i>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -39,8 +38,6 @@
 <script>
 
     let user = document.head.querySelector('meta[name="user-auth"]');
- 
-    console.log(JSON.parse(user.content).api_token);
 
     import axios from 'axios'
 
@@ -48,6 +45,7 @@
         data () {
             return {
                 products: null,
+                newProduct: null
             }
         },
         mounted () {
@@ -59,16 +57,28 @@
                     this.products = response.data.data
                 });
             },
-            deleteProducts: function (product) {
+            deleteProduct: function (product) {
                 axios.delete('/api/products/' + product.id + '/?api_token='+ JSON.parse(user.content).api_token).then(response => {
                     this.getProducts();
                     alert('The product has been removed successfully');
                 });
             },
-            edit () {
-                axios.get('/api/products').then(response => {
-                    console.log(response.data.data)
-                });
+            createProduct: function(product) {
+                var url = '/api/products/' + product.id + '/?api_token='+ JSON.parse(user.content).api_token;
+                axios.post(url, {
+                    brand: this.newProduct,
+                    name: this.newProduct,
+                    price: this.newProduct,
+                    quantity: this.newProduct,
+                    description: this.newProduct,
+                    image: this.newProduct,
+                    enabled: this.newProduct,
+                }).then(response => {
+                    this.getProducts();
+                    this.newProduct = null;
+                    $('create'.modal('hide'));
+                    alert('The product has been create successfully');
+                })
             }
         }
     }

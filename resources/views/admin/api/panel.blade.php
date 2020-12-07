@@ -68,6 +68,7 @@
 
             <div>
                 <product-panel></product-panel>
+                @include('admin.api.create')
                 @include('admin.api.edit')
             </div>
         </div>
