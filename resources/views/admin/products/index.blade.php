@@ -47,7 +47,7 @@
             <h1 class="text-dark d-flex justify-content-center h-big">Products</h1>
 
             {{-- Buttons to export and import --}}
-
+            @if (Auth::user()->hasRole('main-admin'))
             <div class=" d-flex justify-content-between m-2">
                 <div>
                     <a class="btn btn-primary" href="{{ route('products.export') }}">Export</a>
@@ -72,6 +72,7 @@
                     @csrf
                 </form>
             </div>
+            @endif
 
             <table class="table table-striped p-edit-2">
                 <thead>
@@ -114,10 +115,8 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <button class="btn">
-                                    <a href="{{ route('products.edit', $product) }}"><i
-                                            class="fas fa-pencil-alt"></i></a>
-                                </button>
+                                <a class="btn text-info" href="{{ route('products.edit', $product) }}"><i
+                                        class="fas fa-pencil-alt"></i></a>
                                 <form method="POST" action="{{ route('products.destroy', $product) }}">
                                     @csrf
                                     @method('DELETE')
@@ -132,7 +131,8 @@
                 </tbody>
             </table>
             {{-- Pagination --}}
-            <div class=" d-flex justify-content-center">{{ $products->render()}}</div>
+            <div class=" d-flex justify-content-center mt-3">
+                {{ $products->appends(request()->query())->links()}}</div>
         </div>
     </div>
 </div>

@@ -12,28 +12,6 @@
             <buttons-component></buttons-component>
             @endif
             @endauth
-
-            {{-- Filter form --}}
-            <form class="form-group mt-3 p-edit" method="GET" action="{{route('products.index')}}">
-                <h1 class="text-muted">Filter</h1>
-                <small class="form-text text-muted">Search by Brand</small>
-                <input type="text" class="form border" name="brand" placeholder="Brand ...">
-
-                <small class="form-text text-muted">Search by name</small>
-                <input type="text" class="form border" name="name" placeholder="Name ...">
-
-                <small class="form-text text-muted">Search by price</small>
-                <input type="text" class="form border" name="unit_price" placeholder="Price ...">
-
-                <div class="form-check pt-2">
-                    <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="enabled" value="checkedValue">
-                        Search for disabled products
-                    </label>
-                </div>
-
-                <button type="submit" class="btn btn-dark btn btn-block mt-2">Search</button>
-            </form>
         </div>
     </div>
 

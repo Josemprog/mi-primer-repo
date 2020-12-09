@@ -100,8 +100,10 @@
           @endforeach
         </tbody>
       </table>
-      {{-- filter --}}
-      <div class="d-flex justify-content-center">{{ $users->render() }}</div>
+      {{-- Pagination --}}
+      <div class=" d-flex justify-content-center mt-3">
+        {{ $users->appends(request()->query())->links()}}</div>
+
     </div>
 
   </div>
