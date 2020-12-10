@@ -54,7 +54,7 @@
         <div class="container border-left border-white">
           <div class="box box-primary">
             <div class="box-header">
-              <h1 class="box-title">Roles and permissions</h1>
+              <h1 class="box-title">Roles</h1>
             </div>
             <div class="box-body">
               <form method="POST" action="{{ route('roles.update', $user) }}">
@@ -71,11 +71,6 @@
                 <button class="btn btn-primary btn-block">Edit Roles</button>
               </form>
             </div>
-          </div>
-          <hr>
-          {{-- permissions --}}
-          <div>
-            <h1>lleve</h1>
           </div>
         </div>
       </div>

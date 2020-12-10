@@ -71,7 +71,7 @@ class UsersRolesController extends Controller
     public function update(Request $request, User $user)
     {
         $user->syncRoles($request->roles);
-        return back()->with('message', 'Lleve');
+        return back()->with('message', 'The role has been added successfully');
     }
 
     /**

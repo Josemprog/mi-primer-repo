@@ -11,6 +11,7 @@ Route::group(['middleware' => ['role:main-admin']], function () {
     Route::resource('users', 'UserController');
 
     Route::put('users/{user}/roles', 'UsersRolesController@update')->name('roles.update');
+    Route::put('users/{user}/permissions', 'UsersPermissionsController@update')->name('permissions.update');
     Route::get('/export', 'ProductController@export')->name('products.export');
     Route::post('/import', 'ProductController@import')->name('products.import');
 });
