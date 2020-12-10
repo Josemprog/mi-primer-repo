@@ -20,8 +20,8 @@
   <div class="container-products">
 
     <div class="container">
-      <h1 class="text-dark d-flex justify-content-center h-big">Orders Details</h1>
 
+      <h1 class="text-dark d-flex justify-content-center h-big">Orders Details</h1>
 
       <div class="container d-flex flex-column justify-content-center">
         @if ($orders->isEmpty())
@@ -32,7 +32,7 @@
         <table class="table table-striped p-edit-2 w-auto">
           <thead>
             <tr class="text-muted">
-              <th>Order id</th>
+              <th>#</th>
               <th>created at</th>
               <th>view orders</th>
             </tr>

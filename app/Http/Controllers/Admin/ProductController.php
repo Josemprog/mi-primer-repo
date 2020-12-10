@@ -28,6 +28,7 @@ class ProductController extends Controller
             ->brand($products->brand)
             ->name($products->name)
             ->price($products->price)
+            ->enabled($products->enabled)
             ->paginate(10);
 
         return view('admin.products.index')->with('products', $products);

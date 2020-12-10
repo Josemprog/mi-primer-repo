@@ -14,7 +14,6 @@
       </div>
       @endif
       @endauth
-
     </div>
 
     <hr>
@@ -24,32 +23,20 @@
     <hr>
 
   </div>
-
   <div class="container-products">
-
     <div class="container">
       <h1 class="text-dark d-flex justify-content-center h-big">Payments Details</h1>
-
-
       <div class="container d-flex flex-column justify-content-center">
-
         <div class="text-center">
           <form class="form-group d-flex justify-content-center" method="POST" action="{{ route('orders.store') }}">
             @csrf
-
             <div class="d-flex flex-column w-50">
-              <textarea name="textArea" cols="40" rows="6" disabled> Agregar una descripción basada en la orden.
+              <textarea name="textArea" cols="40" rows="6" disabled> Add a description based on the order.
               </textarea>
               <button class="btn btn-success btn-lg mb-3 w-auto" type="submit"> Pay </button>
-
             </div>
-
           </form>
         </div>
-
-
-
-
       </div>
     </div>
   </div>

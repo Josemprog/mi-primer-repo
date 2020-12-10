@@ -16,28 +16,25 @@
         <a class="btn btn-dark mb-2" href="{{ route('products.index') }}">View products panel</a>
       </div>
 
-      <div class="page-header mt-4 p-edit">
+      <form class="p-edit mt-4" method="GET" action="{{route('users.index')}}">
+        @csrf
         <h1 class="text-muted">Filter</h1>
-
-        <form class="form-group" method="GET" action="{{route('users.index')}}">
-          @csrf
-          <small class="form-text text-muted">Search by name</small>
-          <input type="text" class="form border" name="name" placeholder="Name ...">
-
-          <small class="form-text text-muted">Search byemail</small>
-          <input type="text" class="form border" name="email" placeholder="Email ...">
-
-          <div class="form-check pt-2">
-            <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" name="enabled" value="checkedValue">
-              Search for disabled users
-            </label>
-          </div>
-
-          <button type="submit" class="btn btn-dark btn btn-block mt-2">Search</button>
-        </form>
-      </div>
-
+        <div class="mb-2">
+          <div id="brandHelp" class="form-text text-muted">Search by Name.</div>
+          <input type="text" name="name" placeholder="Name ..." class="form-control" id="name"
+            aria-describedby="nameHelp">
+        </div>
+        <div class="mb-2">
+          <div id="emailHelp" class="form-text text-muted">Search by email.</div>
+          <input type="email" name="email" placeholder="Email ..." class="form-control" id="email"
+            aria-describedby="emailHelp">
+        </div>
+        <div class="mb-2 form-check">
+          <input type="checkbox" name="enabled" value="checkedValue" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Search for disabled users</label>
+        </div>
+        <button type="submit" class="btn btn-dark btn-block">Search</button>
+      </form>
       @endif
       @endauth
     </div>
@@ -66,7 +63,7 @@
             <td scope="row">{{ $user->id }}</td>
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
-            <td>{{ $user->created_at->diffForHumans() }}</td>
+            <td>{{ $user->created_at->diffForHumans()}}</td>
             <td>{{$user->updated_at->diffForHumans()}}</td>
             <td>
               <button

@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
 
         // Permissions
         $EditProducts = Permission::create(['name' => 'Edit Products']);
-        $StoreProducts = Permission::create(['name' => 'Store Products']);
+        $CreateProducts = Permission::create(['name' => 'Create Products']);
         $DestroyProducts = Permission::create(['name' => 'Destroy Products']);
 
         $admin = new User();
@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
         
         // Assigning permissions
         $adminRole->givePermissionTo($EditProducts);
-        $adminRole->givePermissionTo($StoreProducts);
+        $adminRole->givePermissionTo($CreateProducts);
         $adminRole->givePermissionTo($DestroyProducts);
         $supervisorRole->givePermissionTo($EditProducts);
         
