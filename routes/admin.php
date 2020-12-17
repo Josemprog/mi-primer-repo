@@ -3,8 +3,14 @@
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['role_or_permission:main-admin|Edit Products']], function () {
-    Route::resource('products', 'ProductController');
+    Route::resource('products', 'ProductController')->except('show');
 });
+
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::resource('products', 'ProductController')->only('show');
+});
+
 
 Route::group(['middleware' => ['role:main-admin']], function () {
     Route::resource('panel', 'PanelController')->only('index');

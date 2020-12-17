@@ -24,10 +24,10 @@
                 <td>{{ product.quantity }}</td>
                 <td>{{ product.created }}</td>
                 <td>{{ product.updated_at }}</td>
-                <td class="text-success" v-if="product.enabled">Enabled</td>
-                <td class="text-muted" v-else>Disabled</td>
+                <td class="text-success" v-if="product.enabled"><button class="btn btn-outline-success" disabled>Enabled</button></td>
+                <td class="text-success" v-else><button class="btn btn-outline-secondary" disabled>Disabled</button></td>
                 <td class="btn-group">
-                    <i class="btn fas fa-pencil-alt text-info" data-toggle="modal" data-target="#edit"></i>
+                    <i class="btn fas fa-pencil-alt text-primary" data-toggle="modal" data-target="#edit"></i>
                     <i class="btn fas fa-trash-alt text-danger" v-on:click="deleteProduct(product)"></i>
                 </td>
             </tr>

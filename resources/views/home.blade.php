@@ -7,7 +7,7 @@
         <div class="container">
             {{-- Administrator menu --}}
             @auth
-            @if (Auth::user()->admin or Auth::user()->main_admin)
+            @if (Auth::user()->hasRole('main-admin'))
             {{-- buttons --}}
             <div class="btn-group-vertical">
                 <a class="btn btn-dark mb-2" href="{{ route('products.create') }}">+ Create a new Product</a>
@@ -18,7 +18,7 @@
             @endauth
 
             {{-- Filter form --}}
-            <form class="p-edit mt-4" method="GET" action="{{route('products.index')}}">
+            <form class="p-edit mt-4" method="GET" action="{{route('home')}}">
                 @csrf
                 <h1 class="text-muted">Filter</h1>
                 <div class="mb-2">
@@ -62,7 +62,7 @@
 
                     {{---------------------- Admin buttons--------------------------}}
                     @auth
-                    @if (Auth::user()->admin or Auth::user()->main_admin)
+                    @if (Auth::user()->hasRole('main-admin'))
                     <div class="btn-group">
                         <a class="btn" href="{{ route('products.edit', $product)}}">
                             <i class="fas fa-pencil-alt text-primary"></i>

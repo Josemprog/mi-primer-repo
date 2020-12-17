@@ -1918,8 +1918,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+var user = document.head.querySelector('meta[name="user-auth"]');
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      products: null,
+      newProduct: null
+    };
+  },
+  mounted: function mounted() {
+    this.getProducts();
+  },
+  methods: {
+    getProducts: function getProducts() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/products' + '?api_token=' + JSON.parse(user.content).api_token).then(function (response) {
+        _this.products = response.data.data;
+      });
+    },
+    createProduct: function createProduct(product) {
+      var _this2 = this;
+
+      var url = '/api/products/' + product.id + '/?api_token=' + JSON.parse(user.content).api_token;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, {
+        brand: this.newProduct,
+        name: this.newProduct,
+        price: this.newProduct,
+        quantity: this.newProduct,
+        description: this.newProduct,
+        image: this.newProduct,
+        enabled: this.newProduct
+      }).then(function (response) {
+        _this2.getProducts();
+
+        _this2.newProduct = null;
+        $('create'.modal('hide'));
+        alert('The product has been create successfully');
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -37694,12 +37734,30 @@ var render = function() {
             _c("td", [_vm._v(_vm._s(product.updated_at))]),
             _vm._v(" "),
             product.enabled
-              ? _c("td", { staticClass: "text-success" }, [_vm._v("Enabled")])
-              : _c("td", { staticClass: "text-muted" }, [_vm._v("Disabled")]),
+              ? _c("td", { staticClass: "text-success" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-success",
+                      attrs: { disabled: "" }
+                    },
+                    [_vm._v("Enabled")]
+                  )
+                ])
+              : _c("td", { staticClass: "text-success" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-secondary",
+                      attrs: { disabled: "" }
+                    },
+                    [_vm._v("Disabled")]
+                  )
+                ]),
             _vm._v(" "),
             _c("td", { staticClass: "btn-group" }, [
               _c("i", {
-                staticClass: "btn fas fa-pencil-alt text-info",
+                staticClass: "btn fas fa-pencil-alt text-primary",
                 attrs: { "data-toggle": "modal", "data-target": "#edit" }
               }),
               _vm._v(" "),

@@ -117,7 +117,7 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a class="btn text-info" href="{{ route('products.edit', $product) }}"><i
+                                <a class="btn text-primary" href="{{ route('products.edit', $product) }}"><i
                                         class="fas fa-pencil-alt"></i></a>
                                 <form method="POST" action="{{ route('products.destroy', $product) }}">
                                     @csrf

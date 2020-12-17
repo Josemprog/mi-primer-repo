@@ -51,10 +51,33 @@
 
           </form>
         </div>
+
+        {{-- Roles y permisos --}}
         <div class="container border-left border-white">
           <div class="box box-primary">
             <div class="box-header">
               <h1 class="box-title">Roles</h1>
+            </div>
+            <div class="box-body">
+              <form method="POST" action="{{ route('roles.update', $user) }}">
+                @csrf @method('PUT')
+                @foreach ($roles as $id => $name)
+                <div class="checkbox">
+                  <label>
+                    <input name="roles" type="checkbox" value="{{ $id }}"
+                      {{ $user->roles->contains($id) ? 'checked' : '' }}>
+                    {{ $name }}
+                  </label>
+                </div>
+                @endforeach
+                <button class="btn btn-primary btn-block">Edit Roles</button>
+              </form>
+            </div>
+          </div>
+          <hr>
+          <div class="box box-primary">
+            <div class="box-header">
+              <h1 class="box-title">Permisos</h1>
             </div>
             <div class="box-body">
               <form method="POST" action="{{ route('roles.update', $user) }}">

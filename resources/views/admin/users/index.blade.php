@@ -67,9 +67,9 @@
             <td>{{$user->updated_at->diffForHumans()}}</td>
             <td>
               <button
-                class=" justify-content-center btn-sm @if($user->admin) btn btn-outline-success @else btn btn-outline-secondary @endif "
+                class=" justify-content-center btn-sm @if($user->hasRole('main-admin')) btn btn-outline-success @else btn btn-outline-secondary @endif "
                 disabled>
-                {{ $user->admin ? 'Admin' : 'User' }}
+                {{ $user->hasRole('main-admin') ? 'Admin' : 'User' }}
               </button>
             </td>
             <td>
@@ -79,19 +79,15 @@
                 {{ $user->enabled ? 'Enabled' : 'Disabled' }}
               </button>
             </td>
-            <td>
-              <div class="btn-group">
+            <td class="btn-group">
+              <a class="btn" href="{{ route('users.edit', $user) }}"><i class="fas fa-pencil-alt text-primary"></i></a>
+              <form method="POST" action="{{ route('users.destroy', $user) }}">
+                @csrf
+                @method('DELETE')
                 <button class="btn">
-                  <a href="{{ route('users.edit', $user) }}"><i class="fas fa-pencil-alt"></i></a>
+                  <i class=" fas fa-trash-alt text-danger"></i>
                 </button>
-                <form method="POST" action="{{ route('users.destroy', $user) }}">
-                  @csrf
-                  @method('DELETE')
-                  <button class="btn">
-                    <i class=" fas fa-trash-alt text-danger"></i>
-                  </button>
-                </form>
-              </div>
+              </form>
             </td>
           </tr>
           @endforeach
