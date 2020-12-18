@@ -1,4 +1,5 @@
-{{-- <form method="POST" @submit.prevent="createProduct">
+<template>
+    <form @submit.prevent="createProduct">
     <div class="modal fade" id="create">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -12,19 +13,19 @@
                     <div class="row form-group" style="padding: 10px">
                         <div class="col-6">
                             <label class="text-muted" for="brand">Brand</label>
-                            <input name="brand" id="brand" class="form-control" value="brand">
+                            <input type="text" v-model="newProduct.brand" id="brand" class="form-control" value="brand">
 
                             <label class="text-muted" for="name">Name</label>
-                            <input name="name" id="name" class="form-control" value="name">
+                            <input type="text" v-model="newProduct.name" id="name" class="form-control" value="name">
 
                             <label class="text-muted" for="price">Unit Price</label>
-                            <input name="price" id="price" class="form-control" value="350000">
+                            <input type="number" v-model="newProduct.price" id="price" class="form-control" value="350000">
 
                             <label class="text-muted" for="quantity">Quantity</label>
-                            <input name="quantity" id="quantity" class="form-control" value="7">
+                            <input type="number" v-model="newProduct.quantity" id="quantity" class="form-control" value="7">
 
                             <label class="text-muted" for="description">Description</label>
-                            <textarea class="form-control" name="description" id="description" cols="30"
+                            <textarea type="text" class="form-control" v-model="newProduct.description" id="description" cols="30"
                                 rows="5">description</textarea>
                         </div>
 
@@ -33,7 +34,7 @@
                             <img src="#" class="img-fluid" alt="Responsive image">
                             <div class="custom-file">
                                 <label class="text-muted" for="image">Image</label>
-                                <input name="image" id="image" class="form-control"
+                                <input type="text" v-model="newProduct.image" id="image" class="form-control"
                                     value="https://lorempixel.com/output/fashion-q-c-640-480-10.jpg">
                             </div>
                         </div>
@@ -45,4 +46,41 @@
             </div>
         </div>
     </div>
-</form> --}}
+</form>
+</template>
+
+<script>
+
+    let user = document.head.querySelector('meta[name="user-auth"]');
+
+    import axios from 'axios'
+
+    export default {
+        data () {
+            return {
+                newProduct: {
+                    brand: 'brand',
+                    name: 'name',
+                    price: 350000,
+                    quantity: 7,
+                    description: 'description',
+                    image: 'https://lorempixel.com/output/fashion-q-c-640-480-10.jpg',
+                    enabled: true,
+                    api_token: JSON.parse(user.content).api_token
+                }
+            }
+        },
+        methods: {
+            createProduct: function() {
+                var url = '/api/products/';
+                axios.post(url, this.newProduct)
+                .then(response => {
+                    this.$emit('createProduct');
+                    $('#create').modal('hide');
+                    alert('The product has been create successfully');
+                })
+            }
+        }
+    }
+</script>
+
