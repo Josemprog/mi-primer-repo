@@ -30,7 +30,7 @@ class ProductsRequest extends FormRequest
             'quantity' => 'required|integer',
             'description' => 'required|min:3',
             'enabled' => $this->route('product') ? 'required' : '',
-            'image' => $this->route('product') ? '' : 'required|image',
+            'image' => $this->route('product') ? '' : 'required',
         ];
     }
 }

@@ -7,7 +7,7 @@
         <div class="container">
             {{-- Administrator menu --}}
             @auth
-            @if (Auth::user()->admin or Auth::user()->main_admin)
+            @if (Auth::user()->hasRole('main-admin'))
             {{-- buttons --}}
             <div class="btn-group-vertical">
                 <a class="btn btn-dark mb-2" href="{{ route('products.create') }}">+ Create a new Product</a>
@@ -18,19 +18,30 @@
             @endauth
 
             {{-- Filter form --}}
-            <form class="form-group mt-3 p-edit" method="GET" action="{{route('products.index')}}">
+            <form class="p-edit mt-4" method="GET" action="{{route('home')}}">
                 @csrf
                 <h1 class="text-muted">Filter</h1>
-                <small class="form-text text-muted">Search by Brand</small>
-                <input type="text" class="form border" name="brand" placeholder="Brand ...">
-
-                <small class="form-text text-muted">Search by name</small>
-                <input type="text" class="form border" name="name" placeholder="Name ...">
-
-                <small class="form-text text-muted">Search by price</small>
-                <input type="text" class="form border" name="price" placeholder="Price ...">
-
-                <button type="submit" class="btn btn-dark btn btn-block mt-2">Search</button>
+                <div class="mb-2">
+                    <div id="brandHelp" class="form-text text-muted">Search by Brand.</div>
+                    <input type="text" name="brand" placeholder="Brand ..." class="form-control" id="brand"
+                        aria-describedby="brandHelp">
+                </div>
+                <div class="mb-2">
+                    <div id="brandHelp" class="form-text text-muted">Search by Name.</div>
+                    <input type="text" name="name" placeholder="Name ..." class="form-control" id="name"
+                        aria-describedby="nameHelp">
+                </div>
+                <div class="mb-2">
+                    <div id="priceHelp" class="form-text text-muted">Search by price.</div>
+                    <input type="text" name="price" placeholder="Price ..." class="form-control" id="price"
+                        aria-describedby="priceHelp">
+                </div>
+                <div class="mb-2 form-check">
+                    <input type="checkbox" name="enabled" value="checkedValue" class="form-check-input"
+                        id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Search for disabled products</label>
+                </div>
+                <button type="submit" class="btn btn-dark btn-block">Search</button>
             </form>
 
         </div>
@@ -51,7 +62,7 @@
 
                     {{---------------------- Admin buttons--------------------------}}
                     @auth
-                    @if (Auth::user()->admin or Auth::user()->main_admin)
+                    @if (Auth::user()->hasRole('main-admin'))
                     <div class="btn-group">
                         <a class="btn" href="{{ route('products.edit', $product)}}">
                             <i class="fas fa-pencil-alt text-primary"></i>

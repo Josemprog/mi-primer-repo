@@ -62,9 +62,9 @@ class LoginController extends Controller
      * @param  mixed  $user
      * @return mixed
      */
-    protected function authenticated($user)
+    protected function authenticated(Request $request, $user)
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('main-admin')) {
             $user->api_token = Str::random(60);
             $user->save();
         }

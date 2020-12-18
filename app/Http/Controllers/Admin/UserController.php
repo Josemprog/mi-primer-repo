@@ -64,7 +64,12 @@ class UserController extends Controller
      */
     public function edit(User $user): \Illuminate\View\View
     {
-        return view('admin.users.edit')->with('user', $user);
+        $roles = Role::pluck('name', 'id');
+
+        return view('admin.users.edit')->with([
+            'user' => $user,
+            'roles' => $roles,
+        ]);
     }
 
     /**

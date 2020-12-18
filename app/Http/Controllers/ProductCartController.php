@@ -71,9 +71,9 @@ class ProductCartController extends Controller
      *
      * @param  \App\Product  $product
      * @param  \App\Cart  $cart
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Product $product, Cart $cart)
+    public function destroy(Product $product, Cart $cart): \Illuminate\Http\RedirectResponse
     {
         $cart->products()->detach($product->id);
 

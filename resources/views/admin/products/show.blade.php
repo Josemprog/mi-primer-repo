@@ -9,7 +9,7 @@
     <div>
       <a class="btn btn-dark btn-lg mb-2" href="{{ route('home') }}">Back to products</a>
       @auth
-      @if (Auth::user()->admin or Auth::user()->main_admin)
+      @if (Auth::user()->hasRole('main-admin'))
       <a class="btn btn-dark mb-2" href="{{ route('products.index') }}">View admin panel</a>
       <a class="btn btn-dark mb-2" href="{{ route('users.index') }}">Manage Users</a>
       @endif

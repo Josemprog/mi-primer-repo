@@ -24,13 +24,9 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(): ProductCollection
     {
-        return response()->json(
-            new ProductCollection(
-                $this->product->orderBy('id', 'ASC')->get()
-            )
-        );
+        return new ProductCollection($this->product->latest()->paginate(4));
     }
 
     /**
@@ -41,8 +37,8 @@ class ProductController extends Controller
      */
     public function store(ProductsRequest $request): JsonResponse
     {
-        $product = $this->product->create($request->validated());
-        $product->image = $request->file('image')->store('images', 'public');
+        $product = $this->product->create($request->all());
+        // $product->image = $request->file('image')->store('images', 'public');
         $product->save();
 
         return response()->json(new ProductResources($product), 201);

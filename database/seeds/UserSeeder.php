@@ -18,15 +18,16 @@ class UserSeeder extends Seeder
     public function run()
     {
         Role::truncate();
+        User::truncate();
 
         // Roles
-        $adminRole = Role::create(['name'  => 'admin']);
+        $adminRole = Role::create(['name'  => 'main-admin']);
+        $supervisorRole = Role::create(['name'  => 'supervisor']);
 
-        // Permisos
-        $permisoShowArticles = Permission::create(['name' => 'show articles']);
-        $permisoStoreArticles = Permission::create(['name' => 'store articles']);
-        $permisoEditArticles = Permission::create(['name' => 'edit articles']);
-        $permisoDestroyArticles = Permission::create(['name' => 'destroy articles']);
+        // Permissions
+        $EditProducts = Permission::create(['name' => 'Edit Products']);
+        $CreateProducts = Permission::create(['name' => 'Create Products']);
+        $DestroyProducts = Permission::create(['name' => 'Destroy Products']);
 
         $admin = new User();
         $admin->name = 'JoseM';
@@ -38,15 +39,15 @@ class UserSeeder extends Seeder
         $admin->remember_token = Str::random(10);
         $admin->save();
         
-        // Asignando roles
+        // Assigning roles
         $admin->assignRole($adminRole);
         
-        // Asignando Permisos
-        $adminRole->givePermissionTo($permisoShowArticles);
-        $adminRole->givePermissionTo($permisoStoreArticles);
-        $adminRole->givePermissionTo($permisoEditArticles);
-        $adminRole->givePermissionTo($permisoDestroyArticles);
-
+        // Assigning permissions
+        $adminRole->givePermissionTo($EditProducts);
+        $adminRole->givePermissionTo($CreateProducts);
+        $adminRole->givePermissionTo($DestroyProducts);
+        $supervisorRole->givePermissionTo($EditProducts);
+        
         factory(App\User::class, 100)->create();
     }
 }

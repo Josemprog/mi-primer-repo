@@ -15,10 +15,9 @@
 
   <div class="col-10">
 
-
     <div class="container">
-      <div class=" justify-content-center">
-        <div class="col-md-10 p-edit-2">
+      <div class="d-flex col-md-10 p-edit-2">
+        <div class="container">
           <h1 class="text-dark">Editing User <span style="color:rgb(39, 86, 161)">{{ $user->name }}</span></h1>
           <form method="POST" action="{{ route('users.update', $user) }}" class="form-group">
             @csrf
@@ -52,7 +51,53 @@
 
           </form>
         </div>
+
+        {{-- Roles y permisos --}}
+        <div class="container border-left border-white">
+          <div class="box box-primary">
+            <div class="box-header">
+              <h1 class="box-title">Roles</h1>
+            </div>
+            <div class="box-body">
+              <form method="POST" action="{{ route('roles.update', $user) }}">
+                @csrf @method('PUT')
+                @foreach ($roles as $id => $name)
+                <div class="checkbox">
+                  <label>
+                    <input name="roles" type="checkbox" value="{{ $id }}"
+                      {{ $user->roles->contains($id) ? 'checked' : '' }}>
+                    {{ $name }}
+                  </label>
+                </div>
+                @endforeach
+                <button class="btn btn-primary btn-block">Edit Roles</button>
+              </form>
+            </div>
+          </div>
+          <hr>
+          <div class="box box-primary">
+            <div class="box-header">
+              <h1 class="box-title">Permisos</h1>
+            </div>
+            <div class="box-body">
+              <form method="POST" action="{{ route('roles.update', $user) }}">
+                @csrf @method('PUT')
+                @foreach ($roles as $id => $name)
+                <div class="checkbox">
+                  <label>
+                    <input name="roles" type="checkbox" value="{{ $id }}"
+                      {{ $user->roles->contains($id) ? 'checked' : '' }}>
+                    {{ $name }}
+                  </label>
+                </div>
+                @endforeach
+                <button class="btn btn-primary btn-block">Edit Roles</button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
   @endsection

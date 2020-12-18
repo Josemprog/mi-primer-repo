@@ -64,13 +64,16 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         @auth
-                        @if (Auth::user()->admin or Auth::user()->main_admin)
+                        @if (Auth::user()->hasRole('main-admin'))
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('panel.index') }}">{{ __('Panel API') }}</a>
                         </li>
+                        <hr class="border mr-3 ml-3">
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('users.index') }}">{{ __('Users') }}</a>
                         </li>
+                        @endif
+                        @if (Auth::user()->hasPermissionTo('Edit Products'))
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('products.index') }}">{{ __('Products') }}</a>
                         </li>
